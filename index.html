@@ -608,7 +608,24 @@ function importDataFile() {
 function initCloudSync() {
   var token = getGitHubToken();
   if (!token) {
-    updateSyncStatus('cloud-no-token');
+    // 即使没有Token，也尝试从Gist公开API拉取数据（Gist是公开的，读取不需要Token）
+    var hasLocalData = localStorage.getItem(LS_CACHE_KEY);
+    if (!hasLocalData || hasLocalData === '{}') {
+      updateSyncStatus('cloud-loading');
+      loadFromGist(function(cloudData, err) {
+        if (cloudData && cloudData.daily && cloudData.daily.length > 0) {
+          appData = cloudData;
+          localStorage.setItem(LS_CACHE_KEY, JSON.stringify(appData));
+          renderContent();
+          renderCalendar();
+          updateSyncStatus('cloud-no-token');
+        } else {
+          updateSyncStatus('cloud-no-token');
+        }
+      });
+    } else {
+      updateSyncStatus('cloud-no-token');
+    }
     return;
   }
   updateSyncStatus('cloud-loading');
