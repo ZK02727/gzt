@@ -565,9 +565,22 @@ function saveToken() {
   closeAddModal();
   if (token) {
     updateSyncStatus('cloud-loading');
-    // 立即尝试推送当前数据
-    syncToGist(appData);
-    alert('Token已保存！数据将自动同步到云端。');
+    // 保存Token后先从云端拉取数据，避免用本地空数据覆盖云端
+    loadFromGist(function(cloudData, err) {
+      if (cloudData && cloudData.daily && cloudData.daily.length > 0) {
+        // 云端有数据 → 用云端数据覆盖本地
+        appData = cloudData;
+        localStorage.setItem(LS_CACHE_KEY, JSON.stringify(appData));
+        renderContent();
+        renderCalendar();
+        updateSyncStatus('cloud-ok');
+        alert('Token已保存！已从云端同步数据（' + cloudData.daily.length + '条日常任务）。');
+      } else {
+        // 云端无数据 → 推送本地数据到云端
+        syncToGist(appData);
+        alert('Token已保存！本地数据已推送到云端。');
+      }
+    });
   } else {
     updateSyncStatus('cloud-no-token');
     alert('Token已清除，已切换到本地模式。');
