@@ -379,6 +379,8 @@ var DEFAULT_DATA = {
   lastResetDate: '' // 上次重置日期，用于每日自动重置
 };
 
+var STORAGE_KEY = 'workbench_v4'; // 旧版localStorage key（兼容迁移）
+
 function getTodayStr() {
   var d = new Date();
   return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
@@ -414,6 +416,8 @@ function loadData() {
   if (old) { try { var d = JSON.parse(old); localStorage.setItem(LS_CACHE_KEY, old); return d; } catch(e) {} }
   return JSON.parse(JSON.stringify(DEFAULT_DATA));
 }
+
+var appData = loadData();
 
 function saveData(data) {
   // 1. 写localStorage缓存（离线可用）
@@ -609,15 +613,20 @@ function initCloudSync() {
   var token = getGitHubToken();
   if (!token) {
     // 即使没有Token，也尝试从Gist公开API拉取数据（Gist是公开的，读取不需要Token）
+    // 判断是否需要拉取：本地无数据 或 数据仍是默认数据（未修改过）
     var hasLocalData = localStorage.getItem(LS_CACHE_KEY);
-    if (!hasLocalData || hasLocalData === '{}') {
+    var isDefaultData = !appData._lastModified && appData.daily && appData.daily.length === DEFAULT_DATA.daily.length;
+    if (!hasLocalData || hasLocalData === '{}' || isDefaultData) {
       updateSyncStatus('cloud-loading');
       loadFromGist(function(cloudData, err) {
         if (cloudData && cloudData.daily && cloudData.daily.length > 0) {
-          appData = cloudData;
-          localStorage.setItem(LS_CACHE_KEY, JSON.stringify(appData));
-          renderContent();
-          renderCalendar();
+          // 云端数据比默认数据更完整，使用云端数据
+          if (cloudData.daily.length > appData.daily.length || cloudData._lastModified) {
+            appData = cloudData;
+            localStorage.setItem(LS_CACHE_KEY, JSON.stringify(appData));
+            renderContent();
+            renderCalendar();
+          }
           updateSyncStatus('cloud-no-token');
         } else {
           updateSyncStatus('cloud-no-token');
