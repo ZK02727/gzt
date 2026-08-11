@@ -426,8 +426,11 @@ function loadData() {
 var appData = loadData();
 
 function saveData(data) {
+  // 写入时间戳
+  data._lastModified = new Date().toISOString();
   // 1. 写localStorage缓存（离线可用）
   localStorage.setItem(LS_CACHE_KEY, JSON.stringify(data));
+  localStorage.setItem('workbench_save_time', data._lastModified);
   // 2. 推送到Gist云端
   syncToGist(data);
   // 3. 推送到本地同步服务（如果可用，供邮件脚本读取）
@@ -617,51 +620,48 @@ function importDataFile() {
 /* ===== 首次打开拉取云端数据 ===== */
 function initCloudSync() {
   var token = getGitHubToken();
+  var localTime = appData._lastModified || localStorage.getItem('workbench_save_time') || '';
+
   if (!token) {
-    // 即使没有Token，也尝试从Gist公开API拉取数据（Gist是公开的，读取不需要Token）
-    // 判断是否需要拉取：本地无数据 或 数据仍是默认数据（未修改过）
-    var hasLocalData = localStorage.getItem(LS_CACHE_KEY);
-    var isDefaultData = !appData._lastModified && appData.daily && appData.daily.length === DEFAULT_DATA.daily.length;
-    if (!hasLocalData || hasLocalData === '{}' || isDefaultData) {
+    // 没有Token：仅当本地没有有效数据时才从Gist拉取
+    var hasRealData = localTime || (appData.daily && appData.daily.some(function(d){ return d.completed; }));
+    if (!hasRealData) {
       updateSyncStatus('cloud-loading');
       loadFromGist(function(cloudData, err) {
         if (cloudData && cloudData.daily && cloudData.daily.length > 0) {
-          // 云端数据比默认数据更完整，使用云端数据
-          if (cloudData.daily.length > appData.daily.length || cloudData._lastModified) {
-            appData = cloudData;
-            localStorage.setItem(LS_CACHE_KEY, JSON.stringify(appData));
-            renderContent();
-            renderCalendar();
-          }
-          updateSyncStatus('cloud-no-token');
-        } else {
-          updateSyncStatus('cloud-no-token');
+          appData = cloudData;
+          localStorage.setItem(LS_CACHE_KEY, JSON.stringify(appData));
+          renderContent();
+          renderCalendar();
         }
+        updateSyncStatus('cloud-no-token');
       });
     } else {
       updateSyncStatus('cloud-no-token');
     }
     return;
   }
+
+  // 有Token：从云端拉取，按时间戳比较谁更新
   updateSyncStatus('cloud-loading');
   loadFromGist(function(cloudData, err) {
-    if (cloudData) {
-      // 合并策略：如果云端数据比本地新，用云端数据
-      var localTime = localStorage.getItem('workbench_save_time') || '0';
-      var cloudIsNewer = !appData._lastModified || (cloudData._lastModified && cloudData._lastModified > appData._lastModified);
-      if (cloudIsNewer && cloudData.daily && cloudData.daily.length > 0) {
+    if (cloudData && cloudData.daily && cloudData.daily.length > 0) {
+      var cloudTime = cloudData._lastModified || '';
+      // 云端比本地新 → 用云端
+      if (cloudTime && (!localTime || cloudTime > localTime)) {
         appData = cloudData;
         localStorage.setItem(LS_CACHE_KEY, JSON.stringify(appData));
         renderContent();
         renderCalendar();
         updateSyncStatus('cloud-ok');
       } else {
-        // 本地更新，推送到云端
+        // 本地更新或一样新 → 推送本地到云端
         syncToGist(appData);
+        updateSyncStatus('cloud-ok');
       }
     } else {
+      // 云端无数据或拉取失败
       updateSyncStatus('cloud-error');
-      console.log('Cloud sync failed:', err);
     }
   });
 }
