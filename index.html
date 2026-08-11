@@ -361,7 +361,7 @@ var DEFAULT_DATA = {
     { id:'d16', title:'一字肩和拉伸练习', desc:'', priority:'routine', category:'training', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'' },
     { id:'d17', title:'腹肌训练', desc:'', priority:'routine', category:'training', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'' },
     { id:'d18', title:'吃鱼油等补剂', desc:'', priority:'routine', category:'health', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'' },
-    { id:'d19', title:'呼吸训练', desc:'跟随视频进行呼吸训练', priority:'routine', category:'health', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'', mediaFile:'呼吸训练.mp4' },
+    { id:'d19', title:'呼吸训练', desc:'跟随视频进行呼吸训练', priority:'routine', category:'health', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'', mediaFile:'breathing-training.mp4' },
     { id:'d20', title:'冥想10分钟', desc:'', priority:'routine', category:'health', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'' }
   ],
   tempTasks: [],
@@ -927,13 +927,24 @@ function createDailyCard(item, colType) {
   card.className = 'task-card '+pClass+(item.completed?' completed':'')+' fade-in';
   var descHtml = item.desc ? '<div class="detail-section"><div class="detail-label">说明</div><div class="detail-text">'+esc(item.desc)+'</div></div>' : '';
 
-  // 媒体播放器区域
+  // 媒体播放器区域 - 自动判断在线/本地路径
   var mediaHtml = '';
   if(item.mediaFile) {
+    var mediaUrl = item.mediaFile;
+    if(mediaUrl.indexOf('://')===-1) {
+      // 相对路径：根据当前页面URL判断基础路径
+      var pageHost = window.location.hostname;
+      if(pageHost && pageHost.indexOf('github.io')!==-1) {
+        // GitHub Pages在线版：视频在仓库根目录
+        var repoName = window.location.pathname.split('/')[1] || 'gzt';
+        mediaUrl = '/' + repoName + '/' + mediaUrl;
+      }
+      // 本地文件：相对路径直接使用同目录下的文件
+    }
     mediaHtml = '<div class="detail-section"><div class="detail-label">训练视频</div>' +
       '<video class="media-player" id="video-'+item.id+'" controls style="width:100%;max-width:400px;border-radius:8px;margin-top:6px;background:#000;" ' +
       'onended="onVideoEnd(\''+item.id+'\')">' +
-      '<source src="'+item.mediaFile+'" type="video/mp4">浏览器不支持视频播放</video>' +
+      '<source src="'+mediaUrl+'" type="video/mp4">浏览器不支持视频播放</video>' +
       '<div id="video-status-'+item.id+'" style="font-size:12px;color:#999;margin-top:4px;"></div></div>';
   }
 
