@@ -1080,28 +1080,29 @@ function createDailyCard(item, colType) {
   var isTennisTask = item.title && (item.title.indexOf('网球') !== -1 && item.title.indexOf('挥拍') !== -1);
   if(isTennisTask) {
     var tennisVideos = [
-      { bvid:'BV1x1tVzTEea', title:'100个正手居家挥拍跟练', dur:'3:40', plays:'2.9万' },
-      { bvid:'BV1rRtVzcEpF', title:'100个反手居家挥拍跟练', dur:'3:42', plays:'9569' },
-      { bvid:'BV1LAyQBEE3z', title:'8个居家网球脚步跟练', dur:'3:56', plays:'5252' },
-      { bvid:'BV1xi421v7Gd', title:'最常见的3个正手引拍错误', dur:'1:17', plays:'3.0万' },
-      { bvid:'BV13v421y7mq', title:'10个网球折返跑训练', dur:'1:27', plays:'6144' }
+      { bvid:'BV1x1tVzTEea', title:'100个正手居家挥拍跟练', dur:'3:40', plays:'2.9万', desc:'推荐首选' },
+      { bvid:'BV1rRtVzcEpF', title:'100个反手居家挥拍跟练', dur:'3:42', plays:'9569', desc:'巩固反手' },
+      { bvid:'BV1LAyQBEE3z', title:'8个居家网球脚步跟练', dur:'3:56', plays:'5252', desc:'脚下训练' },
+      { bvid:'BV1xi421v7Gd', title:'最常见的3个正手引拍错误', dur:'1:17', plays:'3.0万', desc:'纠错必看' },
+      { bvid:'BV13v421y7mq', title:'10个网球折返跑训练', dur:'1:27', plays:'6144', desc:'加强脚下' }
     ];
     tennisHtml = '<div class="detail-section" style="margin-top:8px;">' +
-      '<div class="detail-label" style="margin-bottom:8px;">网球居家跟练（Sara爱热汗 · 前职业网球运动员 / NCAA D1 / IMG尼克网校6年）</div>' +
-      '<div style="font-size:12px;color:#666;margin-bottom:10px;">选择视频直接跟练，推荐先从"正手挥拍"开始</div>';
+      '<div class="detail-label" style="margin-bottom:8px;">网球居家跟练（Sara爱热汗 · 前职业/NCAA D1/IMG网校6年）</div>' +
+      '<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;">';
     for(var ti=0;ti<tennisVideos.length;ti++) {
       var tv = tennisVideos[ti];
-      tennisHtml += '<div style="margin-bottom:12px;border:1px solid #e0e0e0;border-radius:8px;overflow:hidden;">' +
-        '<div style="background:#f8f8f8;padding:6px 10px;display:flex;justify-content:space-between;align-items:center;">' +
-          '<span style="font-size:13px;font-weight:600;color:#2b5797;">'+tv.title+'</span>' +
-          '<span style="font-size:12px;color:#999;">'+tv.dur+' · '+tv.plays+'播放</span>' +
-        '</div>' +
-        '<iframe src="//player.bilibili.com/player.html?bvid='+tv.bvid+'&autoplay=0&high_quality=1&danmaku=0" ' +
-          'style="width:100%;aspect-ratio:16/9;border:none;display:block;" ' +
-          'allowfullscreen scrolling="no" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>' +
-      '</div>';
+      tennisHtml += '<button onclick="loadTennisVideo(\''+tv.bvid+'\',this)" ' +
+        'style="padding:6px 10px;font-size:12px;border:1px solid #ddd;border-radius:6px;background:#f8f8f8;cursor:pointer;text-align:left;line-height:1.4;">' +
+        '<div style="font-weight:600;color:#2b5797;">'+tv.title+'</div>' +
+        '<div style="color:#999;font-size:11px;">'+tv.dur+' · '+tv.plays+'播放 · '+tv.desc+'</div>' +
+      '</button>';
     }
-    tennisHtml += '<div style="font-size:11px;color:#999;margin-top:4px;">视频来源：B站 Sara爱热汗（space.bilibili.com/358241838），点击全屏按钮可横屏跟练</div>' +
+    tennisHtml += '</div>' +
+      '<div id="tennis-player-'+item.id+'" style="display:none;border:1px solid #e0e0e0;border-radius:8px;overflow:hidden;">' +
+        '<div id="tennis-player-title-'+item.id+'" style="background:#f8f8f8;padding:6px 10px;display:flex;justify-content:space-between;align-items:center;"></div>' +
+        '<div id="tennis-player-wrap-'+item.id+'"></div>' +
+      '</div>' +
+      '<div style="font-size:11px;color:#999;margin-top:4px;">点击上方按钮选择视频跟练，点击全屏按钮可横屏跟练</div>' +
     '</div>';
   }
 
@@ -1128,6 +1129,35 @@ function createDailyCard(item, colType) {
 function onVideoEnd(itemId) {
   var statusEl = document.getElementById('video-status-'+itemId);
   if(statusEl) statusEl.innerHTML = '<span style="color:#27ae60;font-weight:600;">✓ 视频播放完成，请确认完成此任务</span>';
+}
+
+// 网球视频懒加载：点击按钮才加载B站iframe
+var _tennisVideoData = {
+  'BV1x1tVzTEea': { title:'100个正手居家挥拍跟练', dur:'3:40' },
+  'BV1rRtVzcEpF': { title:'100个反手居家挥拍跟练', dur:'3:42' },
+  'BV1LAyQBEE3z': { title:'8个居家网球脚步跟练', dur:'3:56' },
+  'BV1xi421v7Gd': { title:'最常见的3个正手引拍错误', dur:'1:17' },
+  'BV13v421y7mq': { title:'10个网球折返跑训练', dur:'1:27' }
+};
+function loadTennisVideo(bvid, btn) {
+  // 找到对应的player容器（在同一个detail-section里）
+  var section = btn.closest('.detail-section');
+  if(!section) return;
+  var playerDiv = section.querySelector('[id^="tennis-player-"]');
+  var titleDiv = section.querySelector('[id^="tennis-player-title-"]');
+  var wrapDiv = section.querySelector('[id^="tennis-player-wrap-"]');
+  if(!playerDiv || !wrapDiv) return;
+  var info = _tennisVideoData[bvid] || {};
+  titleDiv.innerHTML = '<span style="font-size:13px;font-weight:600;color:#2b5797;">'+(info.title||bvid)+'</span>' +
+    '<span style="font-size:12px;color:#999;">'+(info.dur||'')+'</span>';
+  wrapDiv.innerHTML = '<iframe src="//player.bilibili.com/player.html?bvid='+bvid+'&autoplay=1&high_quality=1&danmaku=0" ' +
+    'style="width:100%;aspect-ratio:16/9;border:none;display:block;" ' +
+    'allowfullscreen scrolling="no" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>';
+  playerDiv.style.display = 'block';
+  // 高亮选中按钮
+  var btns = section.querySelectorAll('button');
+  for(var i=0;i<btns.length;i++) { btns[i].style.borderColor='#ddd'; btns[i].style.background='#f8f8f8'; }
+  btn.style.borderColor='#2b5797'; btn.style.background='#e8f0fe';
 }
 
 function createTempCard(item) {
