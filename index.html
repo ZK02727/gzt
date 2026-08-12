@@ -640,7 +640,7 @@ function initCloudSync() {
   var localTime = appData._lastModified || localStorage.getItem('workbench_save_time') || '';
 
   if (!token) {
-    // 没有Token：仅当本地没有有效数据时才从Gist拉取
+    // 没有Token：仅当本地没有有效数据时才从Gist拉取；绝不推送（没Token也推不了）
     var hasRealData = localTime || (appData.daily && appData.daily.some(function(d){ return d.completed; }));
     if (!hasRealData) {
       updateSyncStatus('cloud-loading');
@@ -660,24 +660,40 @@ function initCloudSync() {
   }
 
   // 有Token：从云端拉取，按时间戳比较谁更新
+  // 关键安全规则：如果本地没有_lastModified，说明是DEFAULT_DATA初始状态，绝不推送
+  var localHasRealOps = !!localTime; // 本地是否有真实操作记录
   updateSyncStatus('cloud-loading');
   loadFromGist(function(cloudData, err) {
     if (cloudData && cloudData.daily && cloudData.daily.length > 0) {
       var cloudTime = cloudData._lastModified || '';
-      // 云端比本地新 → 用云端
-      if (cloudTime && (!localTime || cloudTime > localTime)) {
+      if (cloudTime) {
+        // 云端有有效时间戳
+        if (!localTime || cloudTime > localTime) {
+          // 云端更新 或 本地无时间戳(初始状态) → 用云端
+          appData = cloudData;
+          localStorage.setItem(LS_CACHE_KEY, JSON.stringify(appData));
+          renderContent();
+          renderCalendar();
+          updateSyncStatus('cloud-ok');
+        } else {
+          // 本地确实更新 → 推送本地到云端
+          syncToGist(appData);
+          updateSyncStatus('cloud-ok');
+        }
+      } else if (localHasRealOps) {
+        // 云端无时间戳但本地有操作记录 → 本地更可信，推送本地
+        syncToGist(appData);
+        updateSyncStatus('cloud-ok');
+      } else {
+        // 云端无时间戳且本地无操作记录 → 用云端（云端数据至少是用户历史数据）
         appData = cloudData;
         localStorage.setItem(LS_CACHE_KEY, JSON.stringify(appData));
         renderContent();
         renderCalendar();
         updateSyncStatus('cloud-ok');
-      } else {
-        // 本地更新或一样新 → 推送本地到云端
-        syncToGist(appData);
-        updateSyncStatus('cloud-ok');
       }
     } else {
-      // 云端无数据或拉取失败
+      // 云端无数据或拉取失败 → 不动本地数据，绝不推送空状态上去
       updateSyncStatus('cloud-error');
     }
   });
