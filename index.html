@@ -372,7 +372,7 @@ var DEFAULT_DATA = {
     { id:'d17', title:'腹肌训练', desc:'', priority:'routine', category:'training', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'' },
     { id:'d18', title:'吃鱼油等补剂', desc:'', priority:'routine', category:'health', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'' },
     { id:'d19', title:'呼吸训练', desc:'跟随视频进行呼吸训练', priority:'routine', category:'health', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'', mediaFile:'breathing-training.mp4' },
-    { id:'d20', title:'冥想10分钟', desc:'', priority:'routine', category:'health', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'', meditationAudio:true }
+    { id:'d20', title:'冥想10分钟', desc:'', priority:'routine', category:'health', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'' }
   ],
   tempTasks: [],
   midterm: [
@@ -1028,9 +1028,10 @@ function createDailyCard(item, colType) {
       '<div id="video-status-'+item.id+'" style="font-size:12px;color:#999;margin-top:4px;"></div></div>';
   }
 
-  // 冥想引导音频播放器
+  // 冥想引导音频播放器（根据任务标题包含"冥想"自动显示）
   var meditationHtml = '';
-  if(item.meditationAudio) {
+  var isMeditationTask = item.title && item.title.indexOf('冥想') !== -1;
+  if(isMeditationTask) {
     var baseUrl = '';
     var pageHost2 = window.location.hostname;
     if(pageHost2 && pageHost2.indexOf('github.io')!==-1) {
@@ -1080,7 +1081,7 @@ function createDailyCard(item, colType) {
         '<div class="task-title">'+esc(item.title)+'</div>' +
         '<div class="task-meta">' +
           (item.mediaFile?'<span style="font-size:11px;color:#8e44ad;">▶ 视频</span>':'') +
-          (item.meditationAudio?'<span style="font-size:11px;color:#2b5797;">♪ 音频</span>':'') +
+          (isMeditationTask?'<span style="font-size:11px;color:#2b5797;">♪ 音频</span>':'') +
           '<span class="priority-tag '+item.priority+'">'+pTag+'</span>' +
         '<span class="task-expand">▼</span>' +
       '</div>' +
