@@ -1075,6 +1075,36 @@ function createDailyCard(item, colType) {
     '</div>';
   }
 
+  // 网球挥拍练习视频（根据任务标题包含"网球"和"挥拍"自动显示）
+  var tennisHtml = '';
+  var isTennisTask = item.title && (item.title.indexOf('网球') !== -1 && item.title.indexOf('挥拍') !== -1);
+  if(isTennisTask) {
+    var tennisVideos = [
+      { bvid:'BV1x1tVzTEea', title:'100个正手居家挥拍跟练', dur:'3:40', plays:'2.9万' },
+      { bvid:'BV1rRtVzcEpF', title:'100个反手居家挥拍跟练', dur:'3:42', plays:'9569' },
+      { bvid:'BV1LAyQBEE3z', title:'8个居家网球脚步跟练', dur:'3:56', plays:'5252' },
+      { bvid:'BV1xi421v7Gd', title:'最常见的3个正手引拍错误', dur:'1:17', plays:'3.0万' },
+      { bvid:'BV13v421y7mq', title:'10个网球折返跑训练', dur:'1:27', plays:'6144' }
+    ];
+    tennisHtml = '<div class="detail-section" style="margin-top:8px;">' +
+      '<div class="detail-label" style="margin-bottom:8px;">网球居家跟练（Sara爱热汗 · 前职业网球运动员 / NCAA D1 / IMG尼克网校6年）</div>' +
+      '<div style="font-size:12px;color:#666;margin-bottom:10px;">选择视频直接跟练，推荐先从"正手挥拍"开始</div>';
+    for(var ti=0;ti<tennisVideos.length;ti++) {
+      var tv = tennisVideos[ti];
+      tennisHtml += '<div style="margin-bottom:12px;border:1px solid #e0e0e0;border-radius:8px;overflow:hidden;">' +
+        '<div style="background:#f8f8f8;padding:6px 10px;display:flex;justify-content:space-between;align-items:center;">' +
+          '<span style="font-size:13px;font-weight:600;color:#2b5797;">'+tv.title+'</span>' +
+          '<span style="font-size:12px;color:#999;">'+tv.dur+' · '+tv.plays+'播放</span>' +
+        '</div>' +
+        '<iframe src="//player.bilibili.com/player.html?bvid='+tv.bvid+'&autoplay=0&high_quality=1&danmaku=0" ' +
+          'style="width:100%;aspect-ratio:16/9;border:none;display:block;" ' +
+          'allowfullscreen scrolling="no" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>' +
+      '</div>';
+    }
+    tennisHtml += '<div style="font-size:11px;color:#999;margin-top:4px;">视频来源：B站 Sara爱热汗（space.bilibili.com/358241838），点击全屏按钮可横屏跟练</div>' +
+    '</div>';
+  }
+
   card.innerHTML =
       '<div class="task-header" onclick="toggleDetail(this)">' +
         '<div class="task-checkbox'+(item.completed?' checked':'')+'" onclick="event.stopPropagation();toggleDaily(\''+item.id+'\')"></div>' +
@@ -1082,12 +1112,13 @@ function createDailyCard(item, colType) {
         '<div class="task-meta">' +
           (item.mediaFile?'<span style="font-size:11px;color:#8e44ad;">▶ 视频</span>':'') +
           (isMeditationTask?'<span style="font-size:11px;color:#2b5797;">♪ 音频</span>':'') +
+          (isTennisTask?'<span style="font-size:11px;color:#e67e22;">▶ 跟练</span>':'') +
           '<span class="priority-tag '+item.priority+'">'+pTag+'</span>' +
         '<span class="task-expand">▼</span>' +
       '</div>' +
     '</div>' +
     '<div class="task-detail" id="detail-'+item.id+'">' +
-      descHtml + mediaHtml + meditationHtml +
+      descHtml + mediaHtml + meditationHtml + tennisHtml +
       '<div class="ai-assist"><div class="ai-assist-title">🤖 AI 辅助</div><div class="ai-assist-content">'+(item.aiAssist?esc(item.aiAssist):'<span class="ai-assist-empty">暂无辅助内容，可告知智能体添加</span>')+'</div></div>' +
       '<div class="task-actions"><button class="btn-sm" onclick="event.stopPropagation();openEditModal(\'daily\',\''+item.id+'\')">编辑</button><button class="btn-sm btn-danger" onclick="event.stopPropagation();deleteItem(\'daily\',\''+item.id+'\')">删除</button></div>' +
     '</div>';
