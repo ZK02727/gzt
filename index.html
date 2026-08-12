@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>个人工作台</title>
+<title>涓汉宸ヤ綔鍙?/title>
 <style>
-/* ===== 全局重置与基础 ===== */
+/* ===== 鍏ㄥ眬閲嶇疆涓庡熀纭€ ===== */
 * { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:"微软雅黑","Microsoft YaHei",sans-serif; font-size:14px; color:#333; background:#f0f2f5; height:100vh; overflow:hidden; display:flex; }
+body { font-family:"寰蒋闆呴粦","Microsoft YaHei",sans-serif; font-size:14px; color:#333; background:#f0f2f5; height:100vh; overflow:hidden; display:flex; }
 
-/* ===== 左侧导航栏 ===== */
+/* ===== 宸︿晶瀵艰埅鏍?===== */
 .sidebar { width:240px; min-width:240px; background:#1e2a3a; color:#fff; display:flex; flex-direction:column; height:100vh; }
 .sidebar-title { padding:24px 20px 8px; font-size:20px; font-weight:700; letter-spacing:1px; }
 .sidebar-subtitle { padding:0 20px 20px; font-size:12px; color:#8eaadb; }
@@ -22,18 +22,18 @@ body { font-family:"微软雅黑","Microsoft YaHei",sans-serif; font-size:14px; 
 .nav-badge { background:#e74c3c; color:#fff; font-size:11px; border-radius:10px; padding:2px 8px; min-width:20px; text-align:center; }
 .sidebar-footer { padding:16px 20px; font-size:12px; color:#6b8aaa; border-top:1px solid #263548; }
 
-/* ===== 右侧内容区 ===== */
+/* ===== 鍙充晶鍐呭鍖?===== */
 .main { flex:1; display:flex; flex-direction:column; overflow:hidden; }
 .main-header { padding:16px 32px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid #e0e0e0; background:#fff; }
 .main-header h2 { font-size:22px; color:#1e2a3a; }
 .main-stats { display:flex; gap:20px; font-size:13px; color:#666; margin-top:4px; }
 .main-stats span span { font-weight:700; color:#2b5797; }
 
-/* ===== 顶部面板（日历+时钟） ===== */
+/* ===== 椤堕儴闈㈡澘锛堟棩鍘?鏃堕挓锛?===== */
 .top-panel { background:#fff; border-bottom:1px solid #e0e0e0; }
 .top-panel-inner { display:flex; gap:16px; padding:12px 32px; }
 
-/* ===== 月历 ===== */
+/* ===== 鏈堝巻 ===== */
 .calendar-section { flex:1; min-width:0; }
 .calendar-nav { display:flex; align-items:center; gap:8px; margin-bottom:6px; }
 .calendar-nav-btn { background:none; border:1px solid #ddd; border-radius:4px; padding:2px 8px; cursor:pointer; font-size:12px; }
@@ -69,7 +69,7 @@ body { font-family:"微软雅黑","Microsoft YaHei",sans-serif; font-size:14px; 
 .cal-dot-indicator.dot-special { background:#f39c12; }
 .cal-day.today .cal-dot-indicator { background:#fff !important; }
 
-/* ===== 今日待办两列布局 ===== */
+/* ===== 浠婃棩寰呭姙涓ゅ垪甯冨眬 ===== */
 .daily-columns { display:flex; gap:20px; }
 .daily-col { flex:1; min-width:0; }
 .daily-col-header { display:flex; align-items:center; justify-content:space-between; padding:8px 0 12px; border-bottom:2px solid #e0e0e0; margin-bottom:12px; }
@@ -78,19 +78,19 @@ body { font-family:"微软雅黑","Microsoft YaHei",sans-serif; font-size:14px; 
 .btn-add-sm { background:#2b5797; color:#fff; border:none; padding:5px 14px; border-radius:5px; cursor:pointer; font-size:12px; transition:background .2s; }
 .btn-add-sm:hover { background:#1e3a6e; }
 
-/* 分类分组 */
+/* 鍒嗙被鍒嗙粍 */
 .category-group { margin-bottom:16px; }
 .category-header { display:flex; align-items:center; padding:4px 0 8px; border-bottom:1px solid #f0f0f0; margin-bottom:8px; }
 .category-icon { font-size:15px; margin-right:6px; }
 .category-name { font-size:14px; font-weight:600; color:#1e2a3a; flex:1; }
 .category-count { font-size:11px; color:#999; }
 
-/* 已完成折叠组 */
+/* 宸插畬鎴愭姌鍙犵粍 */
 .completed-group { margin-top:8px; padding-top:6px; border-top:1px dashed #e8e8e8; }
 .completed-toggle { user-select:none; }
 .completed-toggle:hover { color:#666 !important; }
 
-/* 任务卡片 */
+/* 浠诲姟鍗＄墖 */
 .content-area { flex:1; overflow-y:auto; padding:20px 32px; }
 .task-card { background:#fff; border-radius:8px; box-shadow:0 1px 4px rgba(0,0,0,.08); margin-bottom:8px; transition:box-shadow .2s; border-left:4px solid #2b5797; }
 .task-card:hover { box-shadow:0 2px 8px rgba(0,0,0,.12); }
@@ -125,7 +125,7 @@ body { font-family:"微软雅黑","Microsoft YaHei",sans-serif; font-size:14px; 
 .task-expand { margin-left:4px; color:#999; transition:transform .2s; font-size:11px; }
 .task-expand.open { transform:rotate(180deg); }
 
-/* 展开详情 */
+/* 灞曞紑璇︽儏 */
 .task-detail { display:none; padding:0 14px 14px; border-top:1px solid #f0f0f0; }
 .task-detail.show { display:block; }
 .detail-section { margin-top:10px; }
@@ -140,32 +140,32 @@ body { font-family:"微软雅黑","Microsoft YaHei",sans-serif; font-size:14px; 
 .progress-fill { height:100%; background:#2b5797; border-radius:3px; transition:width .3s; }
 .progress-text { font-size:11px; color:#999; margin-top:3px; }
 
-/* AI辅助区 */
+/* AI杈呭姪鍖?*/
 .ai-assist { margin-top:12px; background:#f8f9fb; border-radius:6px; padding:12px; border:1px dashed #8eaadb; }
 .ai-assist-title { font-size:12px; color:#2b5797; font-weight:600; margin-bottom:4px; }
 .ai-assist-content { font-size:12px; color:#666; line-height:1.5; min-height:20px; white-space:pre-wrap; }
 .ai-assist-empty { color:#bbb; font-style:italic; }
 
-/* 里程碑列表 */
+/* 閲岀▼纰戝垪琛?*/
 .milestone-list { list-style:none; margin-top:6px; }
 .milestone-item { display:flex; align-items:center; padding:3px 0; font-size:12px; }
 .milestone-check { width:14px; height:14px; border:1.5px solid #ccc; border-radius:3px; margin-right:8px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
 .milestone-check.checked { background:#27ae60; border-color:#27ae60; }
 .milestone-check.checked::after { content:"\2713"; color:#fff; font-size:9px; }
 
-/* OKR关键结果 */
+/* OKR鍏抽敭缁撴灉 */
 .kr-list { margin-top:8px; }
 .kr-item { background:#fff; border:1px solid #eee; border-radius:6px; padding:10px; margin-bottom:8px; }
 .kr-title { font-size:13px; font-weight:500; margin-bottom:6px; }
 
-/* 操作按钮 */
+/* 鎿嶄綔鎸夐挳 */
 .task-actions { margin-top:10px; display:flex; gap:6px; }
 .btn-sm { padding:4px 10px; border-radius:4px; border:1px solid #ddd; background:#fff; cursor:pointer; font-size:11px; transition:all .2s; }
 .btn-sm:hover { background:#f5f5f5; }
 .btn-sm.btn-danger { color:#e74c3c; border-color:#e74c3c; }
 .btn-sm.btn-danger:hover { background:#e74c3c; color:#fff; }
 
-/* 模态框 */
+/* 妯℃€佹 */
 .modal-overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,.4); z-index:1000; align-items:center; justify-content:center; }
 .modal-overlay.show { display:flex; }
 .modal-box { background:#fff; border-radius:10px; width:480px; max-height:80vh; overflow-y:auto; box-shadow:0 8px 32px rgba(0,0,0,.15); }
@@ -183,25 +183,25 @@ body { font-family:"微软雅黑","Microsoft YaHei",sans-serif; font-size:14px; 
 .btn-confirm { padding:7px 16px; border:none; border-radius:6px; background:#2b5797; color:#fff; cursor:pointer; }
 .btn-confirm:hover { background:#1e3a6e; }
 
-/* 确认弹窗 */
+/* 纭寮圭獥 */
 .confirm-box { width:360px; text-align:center; }
 .confirm-box .modal-body { font-size:15px; padding:24px; }
 
-/* 空状态 */
+/* 绌虹姸鎬?*/
 .empty-state { text-align:center; padding:40px 20px; color:#bbb; }
 .empty-state .empty-icon { font-size:40px; margin-bottom:8px; }
 .empty-state p { font-size:14px; }
 
-/* 过渡动画 */
+/* 杩囨浮鍔ㄧ敾 */
 .fade-in { animation:fadeIn .3s ease; }
 @keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
 
-/* 滚动条 */
+/* 婊氬姩鏉?*/
 .content-area::-webkit-scrollbar { width:6px; }
 .content-area::-webkit-scrollbar-thumb { background:#ccc; border-radius:3px; }
 .content-area::-webkit-scrollbar-thumb:hover { background:#aaa; }
 
-/* ===== 电子时钟 ===== */
+/* ===== 鐢靛瓙鏃堕挓 ===== */
 .clock-section { width:320px; flex-shrink:0; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:4px 0; }
 .clock-row { display:flex; align-items:center; gap:12px; }
 .clock-display { font-family:'Courier New','Consolas',monospace; font-size:36px; font-weight:700; color:#1e2a3a; letter-spacing:2px; line-height:1.1; text-align:center; }
@@ -218,71 +218,71 @@ body { font-family:"微软雅黑","Microsoft YaHei",sans-serif; font-size:14px; 
 </head>
 <body>
 
-<!-- 左侧导航 -->
+<!-- 宸︿晶瀵艰埅 -->
 <div class="sidebar">
-  <div class="sidebar-title">个人工作台</div>
+  <div class="sidebar-title">涓汉宸ヤ綔鍙?/div>
   <div class="sidebar-subtitle">DAILY WORKBENCH</div>
   <div class="nav-list">
     <div class="nav-item active" data-tab="daily" onclick="switchTab('daily')">
-      <span class="nav-icon">📋</span>
-      <span class="nav-label">今日待办</span>
+      <span class="nav-icon">馃搵</span>
+      <span class="nav-label">浠婃棩寰呭姙</span>
       <span class="nav-badge" id="badge-daily">0</span>
     </div>
     <div class="nav-item" data-tab="midterm" onclick="switchTab('midterm')">
-      <span class="nav-icon">📅</span>
-      <span class="nav-label">月度周期</span>
+      <span class="nav-icon">馃搮</span>
+      <span class="nav-label">鏈堝害鍛ㄦ湡</span>
       <span class="nav-badge" id="badge-midterm">0</span>
     </div>
     <div class="nav-item" data-tab="longterm" onclick="switchTab('longterm')">
-      <span class="nav-icon">🎯</span>
-      <span class="nav-label">长期事项</span>
+      <span class="nav-icon">馃幆</span>
+      <span class="nav-label">闀挎湡浜嬮」</span>
       <span class="nav-badge" id="badge-longterm">0</span>
     </div>
   </div>
   <div class="sidebar-footer">
     <div id="sidebar-date"></div>
-    <div id="sync-status" style="font-size:10px;color:#f39c12;margin-top:8px;">⏳ 检测中...</div>
+    <div id="sync-status" style="font-size:10px;color:#f39c12;margin-top:8px;">鈴?妫€娴嬩腑...</div>
     <div style="margin-top:6px;display:flex;flex-direction:column;gap:4px;">
-      <button class="btn-add-sm" style="width:100%;font-size:11px;padding:5px 0;" onclick="showTokenConfig()">☁️ 云端同步配置</button>
+      <button class="btn-add-sm" style="width:100%;font-size:11px;padding:5px 0;" onclick="showTokenConfig()">鈽侊笍 浜戠鍚屾閰嶇疆</button>
       <div style="display:flex;gap:4px;">
-        <button class="btn-add-sm" style="flex:1;font-size:10px;padding:4px 0;background:#27ae60;" onclick="exportDataFile()">📤 导出</button>
-        <button class="btn-add-sm" style="flex:1;font-size:10px;padding:4px 0;background:#8e44ad;" onclick="importDataFile()">📥 导入</button>
+        <button class="btn-add-sm" style="flex:1;font-size:10px;padding:4px 0;background:#27ae60;" onclick="exportDataFile()">馃摛 瀵煎嚭</button>
+        <button class="btn-add-sm" style="flex:1;font-size:10px;padding:4px 0;background:#8e44ad;" onclick="importDataFile()">馃摜 瀵煎叆</button>
       </div>
-      <div style="font-size:9px;color:#6b8aaa;line-height:1.3;">配置Token后数据自动云端同步<br>手机/电脑/平板 随时切换</div>
+      <div style="font-size:9px;color:#6b8aaa;line-height:1.3;">閰嶇疆Token鍚庢暟鎹嚜鍔ㄤ簯绔悓姝?br>鎵嬫満/鐢佃剳/骞虫澘 闅忔椂鍒囨崲</div>
     </div>
   </div>
 </div>
 
-<!-- 右侧内容区 -->
+<!-- 鍙充晶鍐呭鍖?-->
 <div class="main">
-  <!-- 顶部面板：日历+时钟 -->
+  <!-- 椤堕儴闈㈡澘锛氭棩鍘?鏃堕挓 -->
   <div class="top-panel" id="top-panel">
     <div class="top-panel-inner">
-      <!-- 月历 -->
+      <!-- 鏈堝巻 -->
       <div class="calendar-section">
         <div class="calendar-nav">
           <button class="calendar-nav-btn" onclick="calPrev()">&lt;</button>
           <span class="calendar-month" id="cal-month-label"></span>
           <button class="calendar-nav-btn" onclick="calNext()">&gt;</button>
-          <button class="calendar-nav-btn" onclick="calToday()">今天</button>
-          <button class="calendar-toggle" id="cal-toggle" onclick="toggleCalendar()" title="折叠/展开">▼</button>
+          <button class="calendar-nav-btn" onclick="calToday()">浠婂ぉ</button>
+          <button class="calendar-toggle" id="cal-toggle" onclick="toggleCalendar()" title="鎶樺彔/灞曞紑">鈻?/button>
           <div class="calendar-legend">
-            <span class="legend-item"><span class="legend-dot dot-month"></span>月度待办</span>
-            <span class="legend-item"><span class="legend-dot dot-temp"></span>临时截止</span>
-            <span class="legend-item"><span class="legend-dot dot-special"></span>特殊日期</span>
+            <span class="legend-item"><span class="legend-dot dot-month"></span>鏈堝害寰呭姙</span>
+            <span class="legend-item"><span class="legend-dot dot-temp"></span>涓存椂鎴</span>
+            <span class="legend-item"><span class="legend-dot dot-special"></span>鐗规畩鏃ユ湡</span>
           </div>
         </div>
         <div class="calendar-body" id="cal-body">
           <div class="calendar-grid" id="cal-grid"></div>
         </div>
       </div>
-      <!-- 电子时钟 -->
+      <!-- 鐢靛瓙鏃堕挓 -->
       <div class="clock-section">
         <div class="clock-row">
           <div class="clock-display" id="clock-display">00:00:00</div>
           <div class="clock-right">
             <div class="clock-date" id="clock-date"></div>
-            <div class="clock-mode-label" id="clock-mode-label" onclick="switchClockMode()">普通时钟</div>
+            <div class="clock-mode-label" id="clock-mode-label" onclick="switchClockMode()">鏅€氭椂閽?/div>
           </div>
         </div>
         <div class="clock-toolbar" id="clock-controls"></div>
@@ -290,10 +290,10 @@ body { font-family:"微软雅黑","Microsoft YaHei",sans-serif; font-size:14px; 
     </div>
   </div>
 
-  <!-- 标题栏 -->
+  <!-- 鏍囬鏍?-->
   <div class="main-header">
     <div>
-      <h2 id="main-title">今日待办</h2>
+      <h2 id="main-title">浠婃棩寰呭姙</h2>
       <div class="main-stats" id="main-stats"></div>
     </div>
   </div>
@@ -301,95 +301,93 @@ body { font-family:"微软雅黑","Microsoft YaHei",sans-serif; font-size:14px; 
   <div class="content-area" id="content-area"></div>
 </div>
 
-<!-- 添加/编辑模态框 -->
+<!-- 娣诲姞/缂栬緫妯℃€佹 -->
 <div class="modal-overlay" id="modal-add">
   <div class="modal-box">
     <div class="modal-header">
-      <h3 id="modal-title">添加事项</h3>
+      <h3 id="modal-title">娣诲姞浜嬮」</h3>
       <button class="modal-close" onclick="closeAddModal()">&times;</button>
     </div>
     <div class="modal-body" id="modal-body"></div>
     <div class="modal-footer">
-      <button class="btn-cancel" onclick="closeAddModal()">取消</button>
-      <button class="btn-confirm" id="modal-save" onclick="saveItem()">保存</button>
+      <button class="btn-cancel" onclick="closeAddModal()">鍙栨秷</button>
+      <button class="btn-confirm" id="modal-save" onclick="saveItem()">淇濆瓨</button>
     </div>
   </div>
 </div>
 
-<!-- 确认删除模态框 -->
+<!-- 纭鍒犻櫎妯℃€佹 -->
 <div class="modal-overlay" id="modal-confirm">
   <div class="modal-box confirm-box">
-    <div class="modal-body" id="confirm-text">确定删除此事项？</div>
+    <div class="modal-body" id="confirm-text">纭畾鍒犻櫎姝や簨椤癸紵</div>
     <div class="modal-footer">
-      <button class="btn-cancel" onclick="closeConfirm()">取消</button>
-      <button class="btn-confirm" style="background:#e74c3c" onclick="doConfirm()">删除</button>
+      <button class="btn-cancel" onclick="closeConfirm()">鍙栨秷</button>
+      <button class="btn-confirm" style="background:#e74c3c" onclick="doConfirm()">鍒犻櫎</button>
     </div>
   </div>
 </div>
 
 <script>
-/* ===== 数据层 ===== */
+/* ===== 鏁版嵁灞?===== */
 var STORAGE_KEY = 'workbench_v4';
 var currentTab = 'daily';
 var editingId = null;
 var confirmCallback = null;
-var calYear, calMonth; // 月历当前显示的年月
-
-/* ===== 每日待办分类 ===== */
+var calYear, calMonth; // 鏈堝巻褰撳墠鏄剧ず鐨勫勾鏈?
+/* ===== 姣忔棩寰呭姙鍒嗙被 ===== */
 var DAILY_CATEGORIES = [
-  { key:'info', name:'信息监控', icon:'📡', desc:'每日早/晚' },
-  { key:'checkin', name:'平台签到', icon:'✅', desc:'' },
-  { key:'arbitrage', name:'套利操作', icon:'💰', desc:'' },
-  { key:'training', name:'身体训练', icon:'💪', desc:'' },
-  { key:'health', name:'日常养生', icon:'🧘', desc:'' }
+  { key:'info', name:'淇℃伅鐩戞帶', icon:'馃摗', desc:'姣忔棩鏃?鏅? },
+  { key:'checkin', name:'骞冲彴绛惧埌', icon:'鉁?, desc:'' },
+  { key:'arbitrage', name:'濂楀埄鎿嶄綔', icon:'馃挵', desc:'' },
+  { key:'training', name:'韬綋璁粌', icon:'馃挭', desc:'' },
+  { key:'health', name:'鏃ュ父鍏荤敓', icon:'馃', desc:'' }
 ];
 
-/* ===== 特殊日期（可扩展） ===== */
+/* ===== 鐗规畩鏃ユ湡锛堝彲鎵╁睍锛?===== */
 var SPECIAL_DATES = {
-  '1-1':'元旦','2-14':'情人节','3-8':'妇女节','5-1':'劳动节','6-1':'儿童节',
-  '10-1':'国庆节','12-25':'圣诞节'
+  '1-1':'鍏冩棪','2-14':'鎯呬汉鑺?,'3-8':'濡囧コ鑺?,'5-1':'鍔冲姩鑺?,'6-1':'鍎跨鑺?,
+  '10-1':'鍥藉簡鑺?,'12-25':'鍦ｈ癁鑺?
 };
 
 var DEFAULT_DATA = {
   daily: [
-    { id:'d1a', title:'微博+X平台确认数字货币项目动态（早）', desc:'检查各项目最新公告、社区讨论', priority:'important', category:'info', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'' },
-    { id:'d1b', title:'微博+X平台确认数字货币项目动态（晚）', desc:'检查各项目最新公告、社区讨论', priority:'important', category:'info', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'' },
-    { id:'d2', title:'Discord确认最新动态', desc:'关注项目方Discord频道更新', priority:'important', category:'info', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'' },
-    { id:'d3', title:'A股/港股打新信息确认', desc:'硬性截止：每日上午9点前', priority:'urgent', category:'info', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'' },
-    { id:'d4', title:'币安平台打卡', desc:'', priority:'routine', category:'checkin', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'' },
-    { id:'d5', title:'Bybit平台打卡', desc:'', priority:'routine', category:'checkin', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'' },
-    { id:'d6', title:'OKX平台打卡', desc:'', priority:'routine', category:'checkin', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'' },
-    { id:'d7', title:'Bitget平台打卡', desc:'', priority:'routine', category:'checkin', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'' },
-    { id:'d8', title:'Gate平台签到', desc:'', priority:'routine', category:'checkin', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'' },
-    { id:'d9', title:'网商银行打卡签到', desc:'', priority:'routine', category:'checkin', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'' },
-    { id:'d10', title:'淘宝宝可梦签到', desc:'', priority:'routine', category:'checkin', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'' },
-    { id:'d11', title:'翼家人签到', desc:'', priority:'routine', category:'checkin', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'' },
-    { id:'d12', title:'知乎打卡', desc:'', priority:'routine', category:'checkin', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'' },
-    { id:'d13', title:'海妖平台USDG套利', desc:'', priority:'important', category:'arbitrage', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'' },
-    { id:'d14', title:'网球挥拍练习100次', desc:'', priority:'routine', category:'training', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'' },
-    { id:'d15', title:'唱歌练习', desc:'', priority:'routine', category:'training', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'' },
-    { id:'d16', title:'一字肩和拉伸练习', desc:'', priority:'routine', category:'training', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'' },
-    { id:'d17', title:'腹肌训练', desc:'', priority:'routine', category:'training', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'' },
-    { id:'d18', title:'吃鱼油等补剂', desc:'', priority:'routine', category:'health', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'' },
-    { id:'d19', title:'呼吸训练', desc:'跟随视频进行呼吸训练', priority:'routine', category:'health', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'', mediaFile:'breathing-training.mp4' },
-    { id:'d20', title:'冥想10分钟', desc:'', priority:'routine', category:'health', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'' }
+    { id:'d1a', title:'寰崥+X骞冲彴纭鏁板瓧璐у竵椤圭洰鍔ㄦ€侊紙鏃╋級', desc:'妫€鏌ュ悇椤圭洰鏈€鏂板叕鍛娿€佺ぞ鍖鸿璁?, priority:'important', category:'info', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'' },
+    { id:'d1b', title:'寰崥+X骞冲彴纭鏁板瓧璐у竵椤圭洰鍔ㄦ€侊紙鏅氾級', desc:'妫€鏌ュ悇椤圭洰鏈€鏂板叕鍛娿€佺ぞ鍖鸿璁?, priority:'important', category:'info', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'' },
+    { id:'d2', title:'Discord纭鏈€鏂板姩鎬?, desc:'鍏虫敞椤圭洰鏂笵iscord棰戦亾鏇存柊', priority:'important', category:'info', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'' },
+    { id:'d3', title:'A鑲?娓偂鎵撴柊淇℃伅纭', desc:'纭€ф埅姝細姣忔棩涓婂崍9鐐瑰墠', priority:'urgent', category:'info', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'' },
+    { id:'d4', title:'甯佸畨骞冲彴鎵撳崱', desc:'', priority:'routine', category:'checkin', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'' },
+    { id:'d5', title:'Bybit骞冲彴鎵撳崱', desc:'', priority:'routine', category:'checkin', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'' },
+    { id:'d6', title:'OKX骞冲彴鎵撳崱', desc:'', priority:'routine', category:'checkin', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'' },
+    { id:'d7', title:'Bitget骞冲彴鎵撳崱', desc:'', priority:'routine', category:'checkin', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'' },
+    { id:'d8', title:'Gate骞冲彴绛惧埌', desc:'', priority:'routine', category:'checkin', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'' },
+    { id:'d9', title:'缃戝晢閾惰鎵撳崱绛惧埌', desc:'', priority:'routine', category:'checkin', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'' },
+    { id:'d10', title:'娣樺疂瀹濆彲姊︾鍒?, desc:'', priority:'routine', category:'checkin', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'' },
+    { id:'d11', title:'缈煎浜虹鍒?, desc:'', priority:'routine', category:'checkin', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'' },
+    { id:'d12', title:'鐭ヤ箮鎵撳崱', desc:'', priority:'routine', category:'checkin', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'' },
+    { id:'d13', title:'娴峰骞冲彴USDG濂楀埄', desc:'', priority:'important', category:'arbitrage', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'' },
+    { id:'d14', title:'缃戠悆鎸ユ媿缁冧範100娆?, desc:'', priority:'routine', category:'training', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'' },
+    { id:'d15', title:'鍞辨瓕缁冧範', desc:'', priority:'routine', category:'training', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'' },
+    { id:'d16', title:'涓€瀛楄偐鍜屾媺浼哥粌涔?, desc:'', priority:'routine', category:'training', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'' },
+    { id:'d17', title:'鑵硅倢璁粌', desc:'', priority:'routine', category:'training', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'' },
+    { id:'d18', title:'鍚冮奔娌圭瓑琛ュ墏', desc:'', priority:'routine', category:'health', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'' },
+    { id:'d19', title:'鍛煎惛璁粌', desc:'璺熼殢瑙嗛杩涜鍛煎惛璁粌', priority:'routine', category:'health', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'', mediaFile:'breathing-training.mp4' },
+    { id:'d20', title:'鍐ユ兂10鍒嗛挓', desc:'', priority:'routine', category:'health', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'' }
   ],
   tempTasks: [],
   midterm: [
-    { id:'m1', title:'还浙商银行信用卡（尾号2038）', desc:'', priority:'urgent', status:'wait', progress:0, deadline:'', cycleDay:1, cycleLabel:'每月1日', milestones:[], aiAssist:'' },
-    { id:'m2', title:'付生活费', desc:'', priority:'important', status:'wait', progress:0, deadline:'', cycleDay:1, cycleLabel:'每月1日', milestones:[], aiAssist:'' },
-    { id:'m3', title:'确认期货账户利息到账（月度）', desc:'', priority:'important', status:'wait', progress:0, deadline:'', cycleDay:9, cycleLabel:'每月9日', milestones:[], aiAssist:'' },
-    { id:'m4', title:'工商银行领豆子', desc:'早上10点', priority:'routine', status:'wait', progress:0, deadline:'', cycleDay:10, cycleLabel:'每月10日', milestones:[], aiAssist:'' },
-    { id:'m5', title:'浙商银行立减金领取', desc:'', priority:'routine', status:'wait', progress:0, deadline:'', cycleDay:10, cycleLabel:'每月10日', milestones:[], aiAssist:'' },
-    { id:'m6', title:'还民生银行信用卡', desc:'', priority:'urgent', status:'wait', progress:0, deadline:'', cycleDay:22, cycleLabel:'每月22日', milestones:[], aiAssist:'' },
-    { id:'m7', title:'确认期货账户利息到账（季度）', desc:'3/6/9月27日', priority:'important', status:'wait', progress:0, deadline:'', cycleDay:27, cycleLabel:'3/6/9月27日', cycleMonths:[3,6,9], milestones:[], aiAssist:'' }
+    { id:'m1', title:'杩樻禉鍟嗛摱琛屼俊鐢ㄥ崱锛堝熬鍙?038锛?, desc:'', priority:'urgent', status:'wait', progress:0, deadline:'', cycleDay:1, cycleLabel:'姣忔湀1鏃?, milestones:[], aiAssist:'' },
+    { id:'m2', title:'浠樼敓娲昏垂', desc:'', priority:'important', status:'wait', progress:0, deadline:'', cycleDay:1, cycleLabel:'姣忔湀1鏃?, milestones:[], aiAssist:'' },
+    { id:'m3', title:'纭鏈熻揣璐︽埛鍒╂伅鍒拌处锛堟湀搴︼級', desc:'', priority:'important', status:'wait', progress:0, deadline:'', cycleDay:9, cycleLabel:'姣忔湀9鏃?, milestones:[], aiAssist:'' },
+    { id:'m4', title:'宸ュ晢閾惰棰嗚眴瀛?, desc:'鏃╀笂10鐐?, priority:'routine', status:'wait', progress:0, deadline:'', cycleDay:10, cycleLabel:'姣忔湀10鏃?, milestones:[], aiAssist:'' },
+    { id:'m5', title:'娴欏晢閾惰绔嬪噺閲戦鍙?, desc:'', priority:'routine', status:'wait', progress:0, deadline:'', cycleDay:10, cycleLabel:'姣忔湀10鏃?, milestones:[], aiAssist:'' },
+    { id:'m6', title:'杩樻皯鐢熼摱琛屼俊鐢ㄥ崱', desc:'', priority:'urgent', status:'wait', progress:0, deadline:'', cycleDay:22, cycleLabel:'姣忔湀22鏃?, milestones:[], aiAssist:'' },
+    { id:'m7', title:'纭鏈熻揣璐︽埛鍒╂伅鍒拌处锛堝搴︼級', desc:'3/6/9鏈?7鏃?, priority:'important', status:'wait', progress:0, deadline:'', cycleDay:27, cycleLabel:'3/6/9鏈?7鏃?, cycleMonths:[3,6,9], milestones:[], aiAssist:'' }
   ],
   longterm: [],
   monthlyCompleted: {}, // key: 'YYYY-MM-DD_itemId' -> true
-  lastResetDate: '' // 上次重置日期，用于每日自动重置
-};
+  lastResetDate: '' // 涓婃閲嶇疆鏃ユ湡锛岀敤浜庢瘡鏃ヨ嚜鍔ㄩ噸缃?};
 
-var STORAGE_KEY = 'workbench_v4'; // 旧版localStorage key（兼容迁移）
+var STORAGE_KEY = 'workbench_v4'; // 鏃х増localStorage key锛堝吋瀹硅縼绉伙級
 
 function getTodayStr() {
   var d = new Date();
@@ -398,14 +396,14 @@ function getTodayStr() {
 function genId() { return 'x'+Date.now()+Math.random().toString(36).slice(2,6); }
 
 /* ============================================================ */
-/* ===== 云端数据层（Gist + localStorage缓存） ===== */
+/* ===== 浜戠鏁版嵁灞傦紙Gist + localStorage缂撳瓨锛?===== */
 /* ============================================================ */
 var GIST_ID = '04314a171c59ab0c5e1d22e9858b4db1';
 var GIST_FILENAME = 'workbench_data.json';
 var GIST_API = 'https://api.github.com/gists/' + GIST_ID;
-var LS_CACHE_KEY = 'workbench_cloud_cache'; // localStorage缓存key
-var LS_TOKEN_KEY = 'workbench_github_token'; // Token存储key
-var SYNC_SERVICE_URL = 'http://127.0.0.1:8900/sync'; // 本地同步服务（备用）
+var LS_CACHE_KEY = 'workbench_cloud_cache'; // localStorage缂撳瓨key
+var LS_TOKEN_KEY = 'workbench_github_token'; // Token瀛樺偍key
+var SYNC_SERVICE_URL = 'http://127.0.0.1:8900/sync'; // 鏈湴鍚屾鏈嶅姟锛堝鐢級
 var cloudSyncing = false;
 var lastCloudSync = null;
 
@@ -418,10 +416,10 @@ function setGitHubToken(token) {
 }
 
 function loadData() {
-  // 优先读localStorage缓存
+  // 浼樺厛璇籰ocalStorage缂撳瓨
   var raw = localStorage.getItem(LS_CACHE_KEY);
   if (raw) { try { return JSON.parse(raw); } catch(e) {} }
-  // 兜底用旧key
+  // 鍏滃簳鐢ㄦ棫key
   var old = localStorage.getItem(STORAGE_KEY);
   if (old) { try { var d = JSON.parse(old); localStorage.setItem(LS_CACHE_KEY, old); return d; } catch(e) {} }
   return JSON.parse(JSON.stringify(DEFAULT_DATA));
@@ -430,26 +428,145 @@ function loadData() {
 var appData = loadData();
 
 function saveData(data) {
-  // 写入时间戳
-  data._lastModified = new Date().toISOString();
-  // 1. 写localStorage缓存（离线可用）
+  // 鍐欏叆鏃堕棿鎴?  data._lastModified = new Date().toISOString();
+  // 1. 鍐檒ocalStorage缂撳瓨锛堢绾垮彲鐢級
   localStorage.setItem(LS_CACHE_KEY, JSON.stringify(data));
   localStorage.setItem('workbench_save_time', data._lastModified);
-  // 2. 推送到Gist云端
-  syncToGist(data);
-  // 3. 推送到本地同步服务（如果可用，供邮件脚本读取）
+  // 2. 鎺ㄩ€佸埌Gist浜戠锛堟櫤鑳藉悎骞舵ā寮忥細鎺ㄩ€佸墠鍏堟媺鍙栦簯绔紝瀛楁绾у悎骞跺悗鍐嶆帹锛?  syncToGist(data);
+  // 3. 鎺ㄩ€佸埌鏈湴鍚屾鏈嶅姟锛堝鏋滃彲鐢紝渚涢偖浠惰剼鏈鍙栵級
   syncToLocalService(data);
 }
 
-/* ===== Gist 云端同步 ===== */
+/* ===== Gist 浜戠鍚屾 ===== */
+
+/* 鏅鸿兘鍚堝苟锛氬皢鏈湴鏁版嵁涓庝簯绔暟鎹瓧娈电骇鍚堝苟锛岀‘淇濅笉涓㈠け浠讳綍绔殑鏁版嵁 */
+function mergeData(local, cloud) {
+  if (!cloud || !cloud.daily) return local;
+  if (!local || !local.daily) return cloud;
+
+  var merged = JSON.parse(JSON.stringify(local)); // 浠ユ湰鍦颁负鍩哄簳
+
+  // --- 鍚堝苟 daily 浠诲姟锛堜互id涓簁ey锛?--
+  var cloudDailyMap = {};
+  for (var i = 0; i < cloud.daily.length; i++) cloudDailyMap[cloud.daily[i].id] = cloud.daily[i];
+
+  // 璺ㄦ棩閲嶇疆鍒ゆ柇锛氬鏋滄湰鍦板凡閲嶇疆鍒版柊鏃ユ湡锛屼簯绔殑瀹屾垚鐘舵€佷笉搴?澶嶆椿"
+  var localResetDate = local.lastResetDate || '';
+  var cloudResetDate = cloud.lastResetDate || '';
+  var sameDay = localResetDate === cloudResetDate && localResetDate !== '';
+
+  for (var i = 0; i < merged.daily.length; i++) {
+    var item = merged.daily[i];
+    var cloudItem = cloudDailyMap[item.id];
+    if (cloudItem) {
+      // 瀹屾垚鐘舵€佸悎骞讹細鍙湁鍚屼竴鏃ユ湡鍐呮墠鍚堝苟瀹屾垚鐘舵€侊紙闃叉璺ㄦ棩閲嶇疆琚簯绔棫鐘舵€佽鐩栵級
+      if (sameDay && cloudItem.completed && !item.completed) item.completed = true;
+      // aiAssist锛氫簯绔湁鍊间笖鏈湴涓虹┖鈫掍繚鐣欎簯绔紱鏈湴鏈夊€尖啋淇濈暀鏈湴
+      if (cloudItem.aiAssist && !item.aiAssist) item.aiAssist = cloudItem.aiAssist;
+      // desc/priority锛氫簯绔彲鑳借鍙︿竴璁惧淇敼杩囷紝鏈湴浼樺厛锛堢敤鎴锋渶鏂版搷浣滐級
+      // createdAt绛夊厓鏁版嵁淇濈暀鏈湴
+    }
+  }
+
+  // 浜戠鏈変絾鏈湴娌℃湁鐨勪换鍔★紙鍙︿竴璁惧鏂版坊鍔犵殑锛夆啋 杩藉姞鍒版湰鍦?  var localDailyIds = {};
+  for (var i = 0; i < merged.daily.length; i++) localDailyIds[merged.daily[i].id] = true;
+  for (var id in cloudDailyMap) {
+    if (!localDailyIds[id]) merged.daily.push(cloudDailyMap[id]);
+  }
+
+  // --- 鍚堝苟 tempTasks锛堜互id涓簁ey锛?--
+  var cloudTempMap = {};
+  for (var i = 0; i < (cloud.tempTasks||[]).length; i++) cloudTempMap[cloud.tempTasks[i].id] = cloud.tempTasks[i];
+  for (var i = 0; i < (merged.tempTasks||[]).length; i++) {
+    var t = merged.tempTasks[i];
+    var ct = cloudTempMap[t.id];
+    if (ct) {
+      if (ct.completed && !t.completed) t.completed = true;
+    }
+  }
+  var localTempIds = {};
+  for (var i = 0; i < (merged.tempTasks||[]).length; i++) localTempIds[merged.tempTasks[i].id] = true;
+  for (var id in cloudTempMap) {
+    if (!localTempIds[id]) (merged.tempTasks||(merged.tempTasks=[])).push(cloudTempMap[id]);
+  }
+
+  // --- 鍚堝苟 midterm锛堟湀搴﹀懆鏈熶换鍔★紝浠d涓簁ey锛?--
+  var cloudMidMap = {};
+  for (var i = 0; i < (cloud.midterm||[]).length; i++) cloudMidMap[cloud.midterm[i].id] = cloud.midterm[i];
+  for (var i = 0; i < (merged.midterm||[]).length; i++) {
+    var m = merged.midterm[i];
+    var cm = cloudMidMap[m.id];
+    if (cm) {
+      if (cm.status === 'done' && m.status !== 'done') m.status = 'done';
+    }
+  }
+  var localMidIds = {};
+  for (var i = 0; i < (merged.midterm||[]).length; i++) localMidIds[merged.midterm[i].id] = true;
+  for (var id in cloudMidMap) {
+    if (!localMidIds[id]) (merged.midterm||(merged.midterm=[])).push(cloudMidMap[id]);
+  }
+
+  // --- 鍚堝苟 longterm锛堥暱鏈熶簨椤癸紝浠d涓簁ey锛?--
+  var cloudLtMap = {};
+  for (var i = 0; i < (cloud.longterm||[]).length; i++) cloudLtMap[cloud.longterm[i].id] = cloud.longterm[i];
+  for (var id in cloudLtMap) {
+    var found = false;
+    for (var i = 0; i < (merged.longterm||[]).length; i++) {
+      if (merged.longterm[i].id === id) { found = true; break; }
+    }
+    if (!found) (merged.longterm||(merged.longterm=[])).push(cloudLtMap[id]);
+  }
+
+  // --- 鍚堝苟 monthlyCompleted锛堟湀搴︿换鍔″畬鎴愯褰曪紝骞堕泦锛?--
+  if (cloud.monthlyCompleted) {
+    merged.monthlyCompleted = merged.monthlyCompleted || {};
+    for (var key in cloud.monthlyCompleted) {
+      if (!merged.monthlyCompleted[key]) merged.monthlyCompleted[key] = cloud.monthlyCompleted[key];
+    }
+  }
+
+  // --- lastResetDate锛氬彇杈冩柊鐨勬棩鏈?---
+  if (cloud.lastResetDate && cloud.lastResetDate > (merged.lastResetDate || '')) {
+    merged.lastResetDate = cloud.lastResetDate;
+  }
+
+  // --- 鏃堕棿鎴筹細鍙栬緝鏂拌€咃紝鍐嶆洿鏂颁负褰撳墠鏃堕棿 ---
+  var now = new Date().toISOString();
+  var cloudTime = cloud._lastModified || '';
+  var localTime = local._lastModified || '';
+  merged._lastModified = now;
+
+  return merged;
+}
+
+/* syncToGist: 鎺ㄩ€佸墠鍏堟媺鍙栦簯绔暟鎹紝鏅鸿兘鍚堝苟鍚庡啀鎺ㄩ€侊紙鏍规不鏁版嵁瑕嗙洊闂锛?*/
 function syncToGist(data) {
   var token = getGitHubToken();
   if (!token) {
     updateSyncStatus('cloud-no-token');
     return;
   }
-  if (cloudSyncing) return; // 防止并发
+  if (cloudSyncing) return; // 闃叉骞跺彂
   cloudSyncing = true;
+
+  // 姝ラ1锛氬厛鎷夊彇浜戠鏈€鏂版暟鎹?  loadFromGist(function(cloudData, err) {
+    if (cloudData && cloudData.daily) {
+      // 姝ラ2锛氭櫤鑳藉悎骞舵湰鍦颁笌浜戠
+      var merged = mergeData(data, cloudData);
+      // 鏇存柊鏈湴appData涓哄悎骞剁粨鏋滐紙杩欐牱鏈湴涔熸湁浜戠鐨勬柊鏁版嵁锛?      appData = merged;
+      localStorage.setItem(LS_CACHE_KEY, JSON.stringify(appData));
+      // 姝ラ3锛氭帹閫佸悎骞跺悗鐨勬暟鎹?      _doGistPush(merged);
+    } else {
+      // 浜戠鎷夊彇澶辫触鈫掍笉鎺ㄤ簡锛岄伩鍏嶇敤鏈湴鏁版嵁鐩茶鐩?      cloudSyncing = false;
+      updateSyncStatus('cloud-error');
+      console.log('syncToGist: 浜戠鎷夊彇澶辫触锛屾斁寮冩帹閫佷互閬垮厤瑕嗙洊');
+    }
+  });
+}
+
+/* 瀹為檯鎵цGist PATCH鎺ㄩ€?*/
+function _doGistPush(data) {
+  var token = getGitHubToken();
   var payload = {
     description: 'GZT Workbench Data',
     files: {}
@@ -493,7 +610,7 @@ function loadFromGist(callback) {
           var cloudData = JSON.parse(content);
           callback(cloudData, null);
         } catch(e) {
-          callback(null, '解析失败');
+          callback(null, '瑙ｆ瀽澶辫触');
         }
       } else {
         callback(null, 'HTTP ' + xhr.status);
@@ -503,30 +620,30 @@ function loadFromGist(callback) {
   xhr.send();
 }
 
-/* ===== 同步状态显示 ===== */
+/* ===== 鍚屾鐘舵€佹樉绀?===== */
 function updateSyncStatus(state) {
   var el = document.getElementById('sync-status');
   if (!el) return;
   switch(state) {
     case 'cloud-ok':
-      el.textContent = '☁️ 云端已同步 ' + new Date().toLocaleTimeString('zh-CN');
+      el.textContent = '鈽侊笍 浜戠宸插悓姝?' + new Date().toLocaleTimeString('zh-CN');
       el.style.color = '#27ae60'; break;
     case 'cloud-no-token':
-      el.textContent = '⚠️ 未配置Token，仅本地';
+      el.textContent = '鈿狅笍 鏈厤缃甌oken锛屼粎鏈湴';
       el.style.color = '#f39c12'; break;
     case 'cloud-error':
-      el.textContent = '☁️ 云端同步失败';
+      el.textContent = '鈽侊笍 浜戠鍚屾澶辫触';
       el.style.color = '#e74c3c'; break;
     case 'cloud-loading':
-      el.textContent = '☁️ 正在同步...';
+      el.textContent = '鈽侊笍 姝ｅ湪鍚屾...';
       el.style.color = '#2b5797'; break;
     case 'local-only':
-      el.textContent = '本地模式';
+      el.textContent = '鏈湴妯″紡';
       el.style.color = '#999'; break;
   }
 }
 
-/* ===== 本地同步服务（备用） ===== */
+/* ===== 鏈湴鍚屾鏈嶅姟锛堝鐢級 ===== */
 function syncToLocalService(data) {
   var exportPayload = {
     lastSync: new Date().toISOString(),
@@ -543,21 +660,21 @@ function syncToLocalService(data) {
   } catch(e) {}
 }
 
-/* ===== Token配置界面 ===== */
+/* ===== Token閰嶇疆鐣岄潰 ===== */
 function showTokenConfig() {
   var current = getGitHubToken();
-  var masked = current ? current.substring(0,8) + '...' : '未配置';
+  var masked = current ? current.substring(0,8) + '...' : '鏈厤缃?;
   var html = '<div style="padding:16px;">' +
-    '<h3 style="margin-bottom:12px;">☁️ 云端同步配置</h3>' +
-    '<p style="font-size:13px;color:#666;margin-bottom:12px;">配置GitHub Token后，数据将自动同步到云端，任何设备都能访问。</p>' +
+    '<h3 style="margin-bottom:12px;">鈽侊笍 浜戠鍚屾閰嶇疆</h3>' +
+    '<p style="font-size:13px;color:#666;margin-bottom:12px;">閰嶇疆GitHub Token鍚庯紝鏁版嵁灏嗚嚜鍔ㄥ悓姝ュ埌浜戠锛屼换浣曡澶囬兘鑳借闂€?/p>' +
     '<div class="form-group"><label>GitHub Token</label>' +
     '<input id="f-github-token" type="password" value="' + (current||'') + '" placeholder="ghp_..." style="width:100%;padding:7px 10px;border:1px solid #ddd;border-radius:6px;font-size:14px;font-family:monospace;"></div>' +
-    '<p style="font-size:11px;color:#999;margin-top:8px;">当前: ' + masked + '<br>Token只存储在你的浏览器本地，不会泄露。</p>' +
+    '<p style="font-size:11px;color:#999;margin-top:8px;">褰撳墠: ' + masked + '<br>Token鍙瓨鍌ㄥ湪浣犵殑娴忚鍣ㄦ湰鍦帮紝涓嶄細娉勯湶銆?/p>' +
     '<div style="margin-top:12px;display:flex;gap:8px;justify-content:flex-end;">' +
-    '<button class="btn-cancel" onclick="closeAddModal()">取消</button>' +
-    '<button class="btn-confirm" onclick="saveToken()">保存</button>' +
+    '<button class="btn-cancel" onclick="closeAddModal()">鍙栨秷</button>' +
+    '<button class="btn-confirm" onclick="saveToken()">淇濆瓨</button>' +
     '</div></div>';
-  document.getElementById('modal-title').textContent = '云端同步配置';
+  document.getElementById('modal-title').textContent = '浜戠鍚屾閰嶇疆';
   document.getElementById('modal-body').innerHTML = html;
   document.getElementById('modal-save').style.display = 'none';
   document.getElementById('modal-add').classList.add('show');
@@ -569,29 +686,28 @@ function saveToken() {
   closeAddModal();
   if (token) {
     updateSyncStatus('cloud-loading');
-    // 保存Token后先从云端拉取数据，避免用本地空数据覆盖云端
+    // 淇濆瓨Token鍚庡厛浠庝簯绔媺鍙栨暟鎹紝閬垮厤鐢ㄦ湰鍦扮┖鏁版嵁瑕嗙洊浜戠
     loadFromGist(function(cloudData, err) {
       if (cloudData && cloudData.daily && cloudData.daily.length > 0) {
-        // 云端有数据 → 用云端数据覆盖本地
-        appData = cloudData;
+        // 浜戠鏈夋暟鎹?鈫?鐢ㄤ簯绔暟鎹鐩栨湰鍦?        appData = cloudData;
         localStorage.setItem(LS_CACHE_KEY, JSON.stringify(appData));
         renderContent();
         renderCalendar();
         updateSyncStatus('cloud-ok');
-        alert('Token已保存！已从云端同步数据（' + cloudData.daily.length + '条日常任务）。');
+        alert('Token宸蹭繚瀛橈紒宸蹭粠浜戠鍚屾鏁版嵁锛? + cloudData.daily.length + '鏉℃棩甯镐换鍔★級銆?);
       } else {
-        // 云端无数据 → 推送本地数据到云端
+        // 浜戠鏃犳暟鎹?鈫?鎺ㄩ€佹湰鍦版暟鎹埌浜戠
         syncToGist(appData);
-        alert('Token已保存！本地数据已推送到云端。');
+        alert('Token宸蹭繚瀛橈紒鏈湴鏁版嵁宸叉帹閫佸埌浜戠銆?);
       }
     });
   } else {
     updateSyncStatus('cloud-no-token');
-    alert('Token已清除，已切换到本地模式。');
+    alert('Token宸叉竻闄わ紝宸插垏鎹㈠埌鏈湴妯″紡銆?);
   }
 }
 
-/* ===== 导出/导入数据 ===== */
+/* ===== 瀵煎嚭/瀵煎叆鏁版嵁 ===== */
 function exportDataFile() {
   var jsonStr = JSON.stringify(appData, null, 2);
   var blob = new Blob([jsonStr], { type: 'application/json' });
@@ -615,18 +731,18 @@ function importDataFile() {
       try {
         var imported = JSON.parse(ev.target.result);
         if (imported.daily) {
-          if (confirm('确定导入数据？当前数据将被替换！（共' + (imported.daily.length||0) + '条日常+' + (imported.midterm.length||0) + '条月度）')) {
+          if (confirm('纭畾瀵煎叆鏁版嵁锛熷綋鍓嶆暟鎹皢琚浛鎹紒锛堝叡' + (imported.daily.length||0) + '鏉℃棩甯?' + (imported.midterm.length||0) + '鏉℃湀搴︼級')) {
             appData = imported;
             saveData(appData);
             renderContent();
             renderCalendar();
-            alert('数据导入成功！');
+            alert('鏁版嵁瀵煎叆鎴愬姛锛?);
           }
         } else {
-          alert('文件格式不正确，请选择工作台导出的JSON文件。');
+          alert('鏂囦欢鏍煎紡涓嶆纭紝璇烽€夋嫨宸ヤ綔鍙板鍑虹殑JSON鏂囦欢銆?);
         }
       } catch(err) {
-        alert('文件解析失败: ' + err.message);
+        alert('鏂囦欢瑙ｆ瀽澶辫触: ' + err.message);
       }
     };
     reader.readAsText(file);
@@ -634,14 +750,13 @@ function importDataFile() {
   input.click();
 }
 
-/* ===== 首次打开拉取云端数据 ===== */
+/* ===== 棣栨鎵撳紑鎷夊彇浜戠鏁版嵁 ===== */
 function initCloudSync() {
   var token = getGitHubToken();
   var localTime = appData._lastModified || localStorage.getItem('workbench_save_time') || '';
 
   if (!token) {
-    // 没有Token：仅当本地没有有效数据时才从Gist拉取；绝不推送（没Token也推不了）
-    var hasRealData = localTime || (appData.daily && appData.daily.some(function(d){ return d.completed; }));
+    // 娌℃湁Token锛氫粎褰撴湰鍦版病鏈夋湁鏁堟暟鎹椂鎵嶄粠Gist鎷夊彇锛涚粷涓嶆帹閫侊紙娌oken涔熸帹涓嶄簡锛?    var hasRealData = localTime || (appData.daily && appData.daily.some(function(d){ return d.completed; }));
     if (!hasRealData) {
       updateSyncStatus('cloud-loading');
       loadFromGist(function(cloudData, err) {
@@ -659,47 +774,24 @@ function initCloudSync() {
     return;
   }
 
-  // 有Token：从云端拉取，按时间戳比较谁更新
-  // 关键安全规则：如果本地没有_lastModified，说明是DEFAULT_DATA初始状态，绝不推送
-  var localHasRealOps = !!localTime; // 本地是否有真实操作记录
+  // 鏈塗oken锛氫粠浜戠鎷夊彇锛屼娇鐢ㄦ櫤鑳藉悎骞讹紙涓嶅啀鍋?璋佽鐩栬皝"鐨勭畝鍗曞垽鏂級
   updateSyncStatus('cloud-loading');
   loadFromGist(function(cloudData, err) {
     if (cloudData && cloudData.daily && cloudData.daily.length > 0) {
-      var cloudTime = cloudData._lastModified || '';
-      if (cloudTime) {
-        // 云端有有效时间戳
-        if (!localTime || cloudTime > localTime) {
-          // 云端更新 或 本地无时间戳(初始状态) → 用云端
-          appData = cloudData;
-          localStorage.setItem(LS_CACHE_KEY, JSON.stringify(appData));
-          renderContent();
-          renderCalendar();
-          updateSyncStatus('cloud-ok');
-        } else {
-          // 本地确实更新 → 推送本地到云端
-          syncToGist(appData);
-          updateSyncStatus('cloud-ok');
-        }
-      } else if (localHasRealOps) {
-        // 云端无时间戳但本地有操作记录 → 本地更可信，推送本地
-        syncToGist(appData);
-        updateSyncStatus('cloud-ok');
-      } else {
-        // 云端无时间戳且本地无操作记录 → 用云端（云端数据至少是用户历史数据）
-        appData = cloudData;
-        localStorage.setItem(LS_CACHE_KEY, JSON.stringify(appData));
-        renderContent();
-        renderCalendar();
-        updateSyncStatus('cloud-ok');
-      }
+      // 鏅鸿兘鍚堝苟锛氫繚鐣欎袱绔殑瀹屾垚鐘舵€併€乤iAssist銆佹柊澧炰换鍔★紝涓嶄涪浠讳綍鏁版嵁
+      appData = mergeData(appData, cloudData);
+      localStorage.setItem(LS_CACHE_KEY, JSON.stringify(appData));
+      renderContent();
+      renderCalendar();
+      // 鎺ㄩ€佸悎骞跺悗鐨勬暟鎹埌浜戠锛堜繚鎸佷簯绔篃鏄渶鏂扮殑鍚堝苟缁撴灉锛?      _doGistPush(appData);
+      updateSyncStatus('cloud-ok');
     } else {
-      // 云端无数据或拉取失败 → 不动本地数据，绝不推送空状态上去
-      updateSyncStatus('cloud-error');
+      // 浜戠鏃犳暟鎹垨鎷夊彇澶辫触 鈫?涓嶅姩鏈湴鏁版嵁锛岀粷涓嶆帹閫佺┖鐘舵€佷笂鍘?      updateSyncStatus('cloud-error');
     }
   });
 }
 
-/* ===== 月历 ===== */
+/* ===== 鏈堝巻 ===== */
 function initCalendar() {
   var now = new Date();
   calYear = now.getFullYear();
@@ -712,12 +804,12 @@ function calNext() { calMonth++; if(calMonth>11){calMonth=0;calYear++;} renderCa
 function calToday() { var now=new Date(); calYear=now.getFullYear(); calMonth=now.getMonth(); renderCalendar(); }
 
 function renderCalendar() {
-  document.getElementById('cal-month-label').textContent = calYear+'年'+(calMonth+1)+'月';
+  document.getElementById('cal-month-label').textContent = calYear+'骞?+(calMonth+1)+'鏈?;
   var grid = document.getElementById('cal-grid');
   grid.innerHTML = '';
 
-  // 星期标题
-  var weekLabels = ['一','二','三','四','五','六','日'];
+  // 鏄熸湡鏍囬
+  var weekLabels = ['涓€','浜?,'涓?,'鍥?,'浜?,'鍏?,'鏃?];
   for(var w=0;w<7;w++){
     var wd = document.createElement('div');
     wd.className = 'cal-weekday';
@@ -726,20 +818,18 @@ function renderCalendar() {
   }
 
   var firstDay = new Date(calYear, calMonth, 1);
-  var startWeekday = firstDay.getDay(); // 0=日
-  startWeekday = startWeekday === 0 ? 6 : startWeekday - 1; // 转为0=一
+  var startWeekday = firstDay.getDay(); // 0=鏃?  startWeekday = startWeekday === 0 ? 6 : startWeekday - 1; // 杞负0=涓€
   var daysInMonth = new Date(calYear, calMonth+1, 0).getDate();
   var prevDays = new Date(calYear, calMonth, 0).getDate();
 
   var today = new Date();
   var todayY = today.getFullYear(), todayM = today.getMonth(), todayD = today.getDate();
 
-  // 获取本月有月度待办的日期
+  // 鑾峰彇鏈湀鏈夋湀搴﹀緟鍔炵殑鏃ユ湡
   var monthlyDays = getMonthlyTaskDays(calYear, calMonth+1);
-  // 获取临时任务截止日
-  var tempDeadlineDays = getTempDeadlineDays(calYear, calMonth+1);
+  // 鑾峰彇涓存椂浠诲姟鎴鏃?  var tempDeadlineDays = getTempDeadlineDays(calYear, calMonth+1);
 
-  // 上月填充
+  // 涓婃湀濉厖
   for(var i=startWeekday-1;i>=0;i--){
     var d = document.createElement('div');
     d.className = 'cal-day other-month';
@@ -747,7 +837,7 @@ function renderCalendar() {
     grid.appendChild(d);
   }
 
-  // 本月
+  // 鏈湀
   for(var day=1;day<=daysInMonth;day++){
     var d = document.createElement('div');
     var isToday = (calYear===todayY && calMonth===todayM && day===todayD);
@@ -766,7 +856,7 @@ function renderCalendar() {
     grid.appendChild(d);
   }
 
-  // 下月填充（补满6行）
+  // 涓嬫湀濉厖锛堣ˉ婊?琛岋級
   var totalCells = startWeekday + daysInMonth;
   var remaining = (7 - totalCells%7)%7;
   for(var i=1;i<=remaining;i++){
@@ -782,7 +872,7 @@ function getMonthlyTaskDays(year, month) {
   for(var i=0;i<appData.midterm.length;i++){
     var item = appData.midterm[i];
     if(item.cycleMonths && item.cycleMonths.length){
-      // 季度任务
+      // 瀛ｅ害浠诲姟
       for(var j=0;j<item.cycleMonths.length;j++){
         if(item.cycleMonths[j]===month && item.cycleDay) days.push(item.cycleDay);
       }
@@ -790,7 +880,7 @@ function getMonthlyTaskDays(year, month) {
       days.push(item.cycleDay);
     }
   }
-  // 去重
+  // 鍘婚噸
   var unique = [];
   for(var i=0;i<days.length;i++){ if(unique.indexOf(days[i])<0) unique.push(days[i]); }
   unique.sort(function(a,b){return a-b;});
@@ -814,7 +904,7 @@ function getTempDeadlineDays(year, month) {
   return unique;
 }
 
-/* ===== 判断月度任务今天是否触发 ===== */
+/* ===== 鍒ゆ柇鏈堝害浠诲姟浠婂ぉ鏄惁瑙﹀彂 ===== */
 function getTodayMonthlyItems() {
   var today = new Date();
   var day = today.getDate();
@@ -833,7 +923,7 @@ function getTodayMonthlyItems() {
   return result;
 }
 
-/* ===== 导航切换 ===== */
+/* ===== 瀵艰埅鍒囨崲 ===== */
 function switchTab(tab) {
   currentTab = tab;
   var items = document.querySelectorAll('.nav-item');
@@ -841,12 +931,12 @@ function switchTab(tab) {
     if(items[i].getAttribute('data-tab')===tab) items[i].classList.add('active');
     else items[i].classList.remove('active');
   }
-  var titles = {daily:'今日待办', midterm:'月度周期', longterm:'长期事项'};
+  var titles = {daily:'浠婃棩寰呭姙', midterm:'鏈堝害鍛ㄦ湡', longterm:'闀挎湡浜嬮」'};
   document.getElementById('main-title').textContent = titles[tab];
   renderContent();
 }
 
-/* ===== 徽标更新 ===== */
+/* ===== 寰芥爣鏇存柊 ===== */
 function updateBadges() {
   var dailyUnfin = 0;
   for(var i=0;i<appData.daily.length;i++){ if(!appData.daily[i].completed) dailyUnfin++; }
@@ -864,7 +954,7 @@ function updateBadges() {
   document.getElementById('badge-longterm').textContent = appData.longterm.length;
 }
 
-/* ===== 统计信息 ===== */
+/* ===== 缁熻淇℃伅 ===== */
 function renderStats() {
   var el = document.getElementById('main-stats');
   if(currentTab === 'daily'){
@@ -877,18 +967,18 @@ function renderStats() {
       var key = getTodayStr()+'_'+todayMonthly[i].id;
       if(appData.monthlyCompleted[key]) done++;
     }
-    el.innerHTML = '<span>今日总计 <span>'+total+'</span></span><span>已完成 <span style="color:#27ae60">'+done+'</span></span><span>未完成 <span style="color:#e74c3c">'+(total-done)+'</span></span>';
+    el.innerHTML = '<span>浠婃棩鎬昏 <span>'+total+'</span></span><span>宸插畬鎴?<span style="color:#27ae60">'+done+'</span></span><span>鏈畬鎴?<span style="color:#e74c3c">'+(total-done)+'</span></span>';
   } else if(currentTab === 'midterm'){
     var total = appData.midterm.length;
     var done = 0;
     for(var i=0;i<appData.midterm.length;i++){ if(appData.midterm[i].status==='done') done++; }
-    el.innerHTML = '<span>月度事项 <span>'+total+'</span></span><span>已完成 <span style="color:#27ae60">'+done+'</span></span>';
+    el.innerHTML = '<span>鏈堝害浜嬮」 <span>'+total+'</span></span><span>宸插畬鎴?<span style="color:#27ae60">'+done+'</span></span>';
   } else {
-    el.innerHTML = '<span>目标数 <span>'+appData.longterm.length+'</span></span>';
+    el.innerHTML = '<span>鐩爣鏁?<span>'+appData.longterm.length+'</span></span>';
   }
 }
 
-/* ===== 渲染主内容 ===== */
+/* ===== 娓叉煋涓诲唴瀹?===== */
 function renderContent() {
   var area = document.getElementById('content-area');
   area.innerHTML = '';
@@ -901,20 +991,19 @@ function renderContent() {
 
 function esc(str) { if(!str) return ''; var d=document.createElement('div'); d.textContent=str; return d.innerHTML; }
 
-/* ===== 今日待办：两列（日常+临时） ===== */
+/* ===== 浠婃棩寰呭姙锛氫袱鍒楋紙鏃ュ父+涓存椂锛?===== */
 function renderDaily(area) {
   var container = document.createElement('div');
   container.className = 'daily-columns';
 
-  // === 左列：日常任务 ===
+  // === 宸﹀垪锛氭棩甯镐换鍔?===
   var leftCol = document.createElement('div');
   leftCol.className = 'daily-col';
   var leftDone = 0;
   for(var i=0;i<appData.daily.length;i++){ if(appData.daily[i].completed) leftDone++; }
-  leftCol.innerHTML = '<div class="daily-col-header"><div class="daily-col-title">🔄 日常任务 <span class="daily-col-count">('+leftDone+'/'+appData.daily.length+')</span></div><button class="btn-add-sm" onclick="openAddModal(\'routine\')">+ 新任务</button></div>';
+  leftCol.innerHTML = '<div class="daily-col-header"><div class="daily-col-title">馃攧 鏃ュ父浠诲姟 <span class="daily-col-count">('+leftDone+'/'+appData.daily.length+')</span></div><button class="btn-add-sm" onclick="openAddModal(\'routine\')">+ 鏂颁换鍔?/button></div>';
 
-  // 按分类分组，未完成排前面、已完成排后面
-  var groups = {};
+  // 鎸夊垎绫诲垎缁勶紝鏈畬鎴愭帓鍓嶉潰銆佸凡瀹屾垚鎺掑悗闈?  var groups = {};
   for(var i=0;i<appData.daily.length;i++){
     var cat = appData.daily[i].category || 'info';
     if(!groups[cat]) groups[cat] = {todo:[], done:[]};
@@ -932,15 +1021,13 @@ function renderDaily(area) {
     var catDone = catGroup.done.length;
     var catTotal = catGroup.todo.length + catGroup.done.length;
     group.innerHTML = '<div class="category-header"><span class="category-icon">'+catDef.icon+'</span><span class="category-name">'+esc(catDef.name)+'</span><span class="category-count">'+catDone+'/'+catTotal+'</span></div>';
-    // 未完成任务
-    for(var idx=0;idx<catGroup.todo.length;idx++){
+    // 鏈畬鎴愪换鍔?    for(var idx=0;idx<catGroup.todo.length;idx++){
       group.appendChild(createDailyCard(catGroup.todo[idx], 'routine'));
     }
-    // 已完成分组（折叠）
-    if(catGroup.done.length > 0){
+    // 宸插畬鎴愬垎缁勶紙鎶樺彔锛?    if(catGroup.done.length > 0){
       var doneGroup = document.createElement('div');
       doneGroup.className = 'completed-group';
-      doneGroup.innerHTML = '<div class="completed-toggle" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display===\'none\'?\'block\':\'none\'; this.querySelector(\'.arrow\').textContent=this.nextElementSibling.style.display===\'none\'?\'▶\':\'▼\'" style="cursor:pointer;padding:4px 0;font-size:12px;color:#999;display:flex;align-items:center;gap:4px;"><span class="arrow">▶</span> 已完成 ('+catGroup.done.length+')</div><div style="display:none;">';
+      doneGroup.innerHTML = '<div class="completed-toggle" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display===\'none\'?\'block\':\'none\'; this.querySelector(\'.arrow\').textContent=this.nextElementSibling.style.display===\'none\'?\'鈻禱':\'鈻糪'" style="cursor:pointer;padding:4px 0;font-size:12px;color:#999;display:flex;align-items:center;gap:4px;"><span class="arrow">鈻?/span> 宸插畬鎴?('+catGroup.done.length+')</div><div style="display:none;">';
       for(var idx=0;idx<catGroup.done.length;idx++){
         doneGroup.children[1].appendChild(createDailyCard(catGroup.done[idx], 'routine'));
       }
@@ -952,11 +1039,11 @@ function renderDaily(area) {
 
   container.appendChild(leftCol);
 
-  // === 右列：临时任务 + 今日月度任务 ===
+  // === 鍙冲垪锛氫复鏃朵换鍔?+ 浠婃棩鏈堝害浠诲姟 ===
   var rightCol = document.createElement('div');
   rightCol.className = 'daily-col';
 
-  // 今日月度任务
+  // 浠婃棩鏈堝害浠诲姟
   var todayMonthly = getTodayMonthlyItems();
   var rightTotal = appData.tempTasks.length + todayMonthly.length;
   var rightDone = 0;
@@ -966,10 +1053,9 @@ function renderDaily(area) {
     if(appData.monthlyCompleted[key]) rightDone++;
   }
 
-  rightCol.innerHTML = '<div class="daily-col-header"><div class="daily-col-title">⚡ 零散任务 <span class="daily-col-count">('+rightDone+'/'+rightTotal+')</span></div><button class="btn-add-sm" onclick="openAddModal(\'temp\')">+ 新任务</button></div>';
+  rightCol.innerHTML = '<div class="daily-col-header"><div class="daily-col-title">鈿?闆舵暎浠诲姟 <span class="daily-col-count">('+rightDone+'/'+rightTotal+')</span></div><button class="btn-add-sm" onclick="openAddModal(\'temp\')">+ 鏂颁换鍔?/button></div>';
 
-  // 今日月度任务卡片（未完成在前，已完成折叠在后）
-  if(todayMonthly.length){
+  // 浠婃棩鏈堝害浠诲姟鍗＄墖锛堟湭瀹屾垚鍦ㄥ墠锛屽凡瀹屾垚鎶樺彔鍦ㄥ悗锛?  if(todayMonthly.length){
     var mGroup = document.createElement('div');
     mGroup.className = 'category-group fade-in';
     var mTodo = [], mDone = [];
@@ -977,12 +1063,12 @@ function renderDaily(area) {
       var mk = getTodayStr()+'_'+todayMonthly[i].id;
       if(appData.monthlyCompleted[mk]) mDone.push(todayMonthly[i]); else mTodo.push(todayMonthly[i]);
     }
-    mGroup.innerHTML = '<div class="category-header"><span class="category-icon">📅</span><span class="category-name">今日月度到期</span><span class="category-count">'+mDone.length+'/'+todayMonthly.length+'</span></div>';
+    mGroup.innerHTML = '<div class="category-header"><span class="category-icon">馃搮</span><span class="category-name">浠婃棩鏈堝害鍒版湡</span><span class="category-count">'+mDone.length+'/'+todayMonthly.length+'</span></div>';
     for(var i=0;i<mTodo.length;i++) mGroup.appendChild(createMonthlyTodayCard(mTodo[i]));
     if(mDone.length > 0){
       var mDoneDiv = document.createElement('div');
       mDoneDiv.className = 'completed-group';
-      mDoneDiv.innerHTML = '<div class="completed-toggle" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display===\'none\'?\'block\':\'none\'; this.querySelector(\'.arrow\').textContent=this.nextElementSibling.style.display===\'none\'?\'▶\':\'▼\'" style="cursor:pointer;padding:4px 0;font-size:12px;color:#999;display:flex;align-items:center;gap:4px;"><span class="arrow">▶</span> 已完成 ('+mDone.length+')</div><div style="display:none;">';
+      mDoneDiv.innerHTML = '<div class="completed-toggle" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display===\'none\'?\'block\':\'none\'; this.querySelector(\'.arrow\').textContent=this.nextElementSibling.style.display===\'none\'?\'鈻禱':\'鈻糪'" style="cursor:pointer;padding:4px 0;font-size:12px;color:#999;display:flex;align-items:center;gap:4px;"><span class="arrow">鈻?/span> 宸插畬鎴?('+mDone.length+')</div><div style="display:none;">';
       for(var i=0;i<mDone.length;i++) mDoneDiv.children[1].appendChild(createMonthlyTodayCard(mDone[i]));
       mDoneDiv.innerHTML += '</div>';
       mGroup.appendChild(mDoneDiv);
@@ -990,20 +1076,19 @@ function renderDaily(area) {
     rightCol.appendChild(mGroup);
   }
 
-  // 临时任务卡片（未完成在前，已完成折叠在后）
-  if(appData.tempTasks.length){
+  // 涓存椂浠诲姟鍗＄墖锛堟湭瀹屾垚鍦ㄥ墠锛屽凡瀹屾垚鎶樺彔鍦ㄥ悗锛?  if(appData.tempTasks.length){
     var tGroup = document.createElement('div');
     tGroup.className = 'category-group fade-in';
     var tTodo = [], tDone = [];
     for(var i=0;i<appData.tempTasks.length;i++){
       if(appData.tempTasks[i].completed) tDone.push(appData.tempTasks[i]); else tTodo.push(appData.tempTasks[i]);
     }
-    tGroup.innerHTML = '<div class="category-header"><span class="category-icon">⚡</span><span class="category-name">临时任务</span><span class="category-count">'+tDone.length+'/'+appData.tempTasks.length+'</span></div>';
+    tGroup.innerHTML = '<div class="category-header"><span class="category-icon">鈿?/span><span class="category-name">涓存椂浠诲姟</span><span class="category-count">'+tDone.length+'/'+appData.tempTasks.length+'</span></div>';
     for(var i=0;i<tTodo.length;i++) tGroup.appendChild(createTempCard(tTodo[i]));
     if(tDone.length > 0){
       var tDoneDiv = document.createElement('div');
       tDoneDiv.className = 'completed-group';
-      tDoneDiv.innerHTML = '<div class="completed-toggle" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display===\'none\'?\'block\':\'none\'; this.querySelector(\'.arrow\').textContent=this.nextElementSibling.style.display===\'none\'?\'▶\':\'▼\'" style="cursor:pointer;padding:4px 0;font-size:12px;color:#999;display:flex;align-items:center;gap:4px;"><span class="arrow">▶</span> 已完成 ('+tDone.length+')</div><div style="display:none;">';
+      tDoneDiv.innerHTML = '<div class="completed-toggle" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display===\'none\'?\'block\':\'none\'; this.querySelector(\'.arrow\').textContent=this.nextElementSibling.style.display===\'none\'?\'鈻禱':\'鈻糪'" style="cursor:pointer;padding:4px 0;font-size:12px;color:#999;display:flex;align-items:center;gap:4px;"><span class="arrow">鈻?/span> 宸插畬鎴?('+tDone.length+')</div><div style="display:none;">';
       for(var i=0;i<tDone.length;i++) tDoneDiv.children[1].appendChild(createTempCard(tDone[i]));
       tDoneDiv.innerHTML += '</div>';
       tGroup.appendChild(tDoneDiv);
@@ -1012,7 +1097,7 @@ function renderDaily(area) {
   }
 
   if(!rightTotal){
-    rightCol.innerHTML += '<div class="empty-state" style="padding:30px 10px"><div class="empty-icon">⚡</div><p>暂无临时任务</p></div>';
+    rightCol.innerHTML += '<div class="empty-state" style="padding:30px 10px"><div class="empty-icon">鈿?/div><p>鏆傛棤涓存椂浠诲姟</p></div>';
   }
 
   container.appendChild(rightCol);
@@ -1021,12 +1106,12 @@ function renderDaily(area) {
 
 function createDailyCard(item, colType) {
   var pClass = item.priority==='urgent'?'priority-urgent':(item.priority==='important'?'priority-important':'priority-routine');
-  var pTag = item.priority==='urgent'?'紧急':(item.priority==='important'?'重要':'日常');
+  var pTag = item.priority==='urgent'?'绱ф€?:(item.priority==='important'?'閲嶈':'鏃ュ父');
   var card = document.createElement('div');
   card.className = 'task-card '+pClass+(item.completed?' completed':'')+' fade-in';
-  var descHtml = item.desc ? '<div class="detail-section"><div class="detail-label">说明</div><div class="detail-text">'+esc(item.desc)+'</div></div>' : '';
+  var descHtml = item.desc ? '<div class="detail-section"><div class="detail-label">璇存槑</div><div class="detail-text">'+esc(item.desc)+'</div></div>' : '';
 
-  // 媒体播放器区域 - 自动判断在线/本地路径
+  // 濯掍綋鎾斁鍣ㄥ尯鍩?- 鑷姩鍒ゆ柇鍦ㄧ嚎/鏈湴璺緞
   var mediaHtml = '';
   if(item.mediaFile) {
     var mediaUrl = item.mediaFile;
@@ -1037,16 +1122,15 @@ function createDailyCard(item, colType) {
         mediaUrl = '/' + repoName + '/' + mediaUrl;
       }
     }
-    mediaHtml = '<div class="detail-section"><div class="detail-label">训练视频</div>' +
+    mediaHtml = '<div class="detail-section"><div class="detail-label">璁粌瑙嗛</div>' +
       '<video class="media-player" id="video-'+item.id+'" controls style="width:100%;max-width:400px;border-radius:8px;margin-top:6px;background:#000;" ' +
       'onended="onVideoEnd(\''+item.id+'\')">' +
-      '<source src="'+mediaUrl+'" type="video/mp4">浏览器不支持视频播放</video>' +
+      '<source src="'+mediaUrl+'" type="video/mp4">娴忚鍣ㄤ笉鏀寔瑙嗛鎾斁</video>' +
       '<div id="video-status-'+item.id+'" style="font-size:12px;color:#999;margin-top:4px;"></div></div>';
   }
 
-  // 冥想引导音频播放器（根据任务标题包含"冥想"自动显示）
-  var meditationHtml = '';
-  var isMeditationTask = item.title && item.title.indexOf('冥想') !== -1;
+  // 鍐ユ兂寮曞闊抽鎾斁鍣紙鏍规嵁浠诲姟鏍囬鍖呭惈"鍐ユ兂"鑷姩鏄剧ず锛?  var meditationHtml = '';
+  var isMeditationTask = item.title && item.title.indexOf('鍐ユ兂') !== -1;
   if(isMeditationTask) {
     var baseUrl = '';
     var pageHost2 = window.location.hostname;
@@ -1057,11 +1141,11 @@ function createDailyCard(item, colType) {
       baseUrl = 'audio/';
     }
     meditationHtml = '<div class="detail-section" style="margin-top:8px;">' +
-      '<div class="detail-label" style="margin-bottom:8px;">冥想引导音频（IMC Insight Meditation Center）</div>' +
+      '<div class="detail-label" style="margin-bottom:8px;">鍐ユ兂寮曞闊抽锛圛MC Insight Meditation Center锛?/div>' +
       '<div class="meditation-tracks">' +
         '<div class="meditation-track">' +
           '<div class="meditation-track-info">' +
-            '<span class="meditation-track-name">呼吸观照</span>' +
+            '<span class="meditation-track-name">鍛煎惛瑙傜収</span>' +
             '<span class="meditation-track-dur">5:14</span>' +
           '</div>' +
           '<audio controls preload="none" style="width:100%;height:32px;margin-top:4px;">' +
@@ -1070,7 +1154,7 @@ function createDailyCard(item, colType) {
         '</div>' +
         '<div class="meditation-track" style="margin-top:10px;">' +
           '<div class="meditation-track-info">' +
-            '<span class="meditation-track-name">身体扫描</span>' +
+            '<span class="meditation-track-name">韬綋鎵弿</span>' +
             '<span class="meditation-track-dur">25:05</span>' +
           '</div>' +
           '<audio controls preload="none" style="width:100%;height:32px;margin-top:4px;">' +
@@ -1079,7 +1163,7 @@ function createDailyCard(item, colType) {
         '</div>' +
         '<div class="meditation-track" style="margin-top:10px;">' +
           '<div class="meditation-track-info">' +
-            '<span class="meditation-track-name">慈心冥想</span>' +
+            '<span class="meditation-track-name">鎱堝績鍐ユ兂</span>' +
             '<span class="meditation-track-dur">28:04</span>' +
           '</div>' +
           '<audio controls preload="none" style="width:100%;height:32px;margin-top:4px;">' +
@@ -1087,30 +1171,29 @@ function createDailyCard(item, colType) {
           '</audio>' +
         '</div>' +
       '</div>' +
-      '<div style="font-size:11px;color:#999;margin-top:6px;">音频来源：Insight Meditation Center (AudioDharma.org)，Creative Commons 授权</div>' +
+      '<div style="font-size:11px;color:#999;margin-top:6px;">闊抽鏉ユ簮锛欼nsight Meditation Center (AudioDharma.org)锛孋reative Commons 鎺堟潈</div>' +
     '</div>';
   }
 
-  // 网球挥拍练习视频（根据任务标题包含"网球"和"挥拍"自动显示）
-  var tennisHtml = '';
-  var isTennisTask = item.title && (item.title.indexOf('网球') !== -1 && item.title.indexOf('挥拍') !== -1);
+  // 缃戠悆鎸ユ媿缁冧範瑙嗛锛堟牴鎹换鍔℃爣棰樺寘鍚?缃戠悆"鍜?鎸ユ媿"鑷姩鏄剧ず锛?  var tennisHtml = '';
+  var isTennisTask = item.title && (item.title.indexOf('缃戠悆') !== -1 && item.title.indexOf('鎸ユ媿') !== -1);
   if(isTennisTask) {
     var tennisVideos = [
-      { bvid:'BV1x1tVzTEea', title:'100个正手居家挥拍跟练', dur:'3:40', plays:'2.9万', desc:'推荐首选' },
-      { bvid:'BV1rRtVzcEpF', title:'100个反手居家挥拍跟练', dur:'3:42', plays:'9569', desc:'巩固反手' },
-      { bvid:'BV1LAyQBEE3z', title:'8个居家网球脚步跟练', dur:'3:56', plays:'5252', desc:'脚下训练' },
-      { bvid:'BV1xi421v7Gd', title:'最常见的3个正手引拍错误', dur:'1:17', plays:'3.0万', desc:'纠错必看' },
-      { bvid:'BV13v421y7mq', title:'10个网球折返跑训练', dur:'1:27', plays:'6144', desc:'加强脚下' }
+      { bvid:'BV1x1tVzTEea', title:'100涓鎵嬪眳瀹舵尌鎷嶈窡缁?, dur:'3:40', plays:'2.9涓?, desc:'鎺ㄨ崘棣栭€? },
+      { bvid:'BV1rRtVzcEpF', title:'100涓弽鎵嬪眳瀹舵尌鎷嶈窡缁?, dur:'3:42', plays:'9569', desc:'宸╁浐鍙嶆墜' },
+      { bvid:'BV1LAyQBEE3z', title:'8涓眳瀹剁綉鐞冭剼姝ヨ窡缁?, dur:'3:56', plays:'5252', desc:'鑴氫笅璁粌' },
+      { bvid:'BV1xi421v7Gd', title:'鏈€甯歌鐨?涓鎵嬪紩鎷嶉敊璇?, dur:'1:17', plays:'3.0涓?, desc:'绾犻敊蹇呯湅' },
+      { bvid:'BV13v421y7mq', title:'10涓綉鐞冩姌杩旇窇璁粌', dur:'1:27', plays:'6144', desc:'鍔犲己鑴氫笅' }
     ];
     tennisHtml = '<div class="detail-section" style="margin-top:8px;">' +
-      '<div class="detail-label" style="margin-bottom:8px;">网球居家跟练（Sara爱热汗 · 前职业/NCAA D1/IMG网校6年）</div>' +
+      '<div class="detail-label" style="margin-bottom:8px;">缃戠悆灞呭璺熺粌锛圫ara鐖辩儹姹?路 鍓嶈亴涓?NCAA D1/IMG缃戞牎6骞达級</div>' +
       '<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;">';
     for(var ti=0;ti<tennisVideos.length;ti++) {
       var tv = tennisVideos[ti];
       tennisHtml += '<button onclick="loadTennisVideo(\''+tv.bvid+'\',this)" ' +
         'style="padding:6px 10px;font-size:12px;border:1px solid #ddd;border-radius:6px;background:#f8f8f8;cursor:pointer;text-align:left;line-height:1.4;">' +
         '<div style="font-weight:600;color:#2b5797;">'+tv.title+'</div>' +
-        '<div style="color:#999;font-size:11px;">'+tv.dur+' · '+tv.plays+'播放 · '+tv.desc+'</div>' +
+        '<div style="color:#999;font-size:11px;">'+tv.dur+' 路 '+tv.plays+'鎾斁 路 '+tv.desc+'</div>' +
       '</button>';
     }
     tennisHtml += '</div>' +
@@ -1118,7 +1201,7 @@ function createDailyCard(item, colType) {
         '<div id="tennis-player-title-'+item.id+'" style="background:#f8f8f8;padding:6px 10px;display:flex;justify-content:space-between;align-items:center;"></div>' +
         '<div id="tennis-player-wrap-'+item.id+'"></div>' +
       '</div>' +
-      '<div style="font-size:11px;color:#999;margin-top:4px;">点击上方按钮选择视频跟练，点击全屏按钮可横屏跟练</div>' +
+      '<div style="font-size:11px;color:#999;margin-top:4px;">鐐瑰嚮涓婃柟鎸夐挳閫夋嫨瑙嗛璺熺粌锛岀偣鍑诲叏灞忔寜閽彲妯睆璺熺粌</div>' +
     '</div>';
   }
 
@@ -1127,37 +1210,37 @@ function createDailyCard(item, colType) {
         '<div class="task-checkbox'+(item.completed?' checked':'')+'" onclick="event.stopPropagation();toggleDaily(\''+item.id+'\')"></div>' +
         '<div class="task-title">'+esc(item.title)+'</div>' +
         '<div class="task-meta">' +
-          (item.mediaFile?'<span style="font-size:11px;color:#8e44ad;">▶ 视频</span>':'') +
-          (isMeditationTask?'<span style="font-size:11px;color:#2b5797;">♪ 音频</span>':'') +
-          (isTennisTask?'<span style="font-size:11px;color:#e67e22;">▶ 跟练</span>':'') +
-          (item.aiAssist?'<span style="font-size:11px;color:#16a085;">🤖 AI</span>':'') +
+          (item.mediaFile?'<span style="font-size:11px;color:#8e44ad;">鈻?瑙嗛</span>':'') +
+          (isMeditationTask?'<span style="font-size:11px;color:#2b5797;">鈾?闊抽</span>':'') +
+          (isTennisTask?'<span style="font-size:11px;color:#e67e22;">鈻?璺熺粌</span>':'') +
+          (item.aiAssist?'<span style="font-size:11px;color:#16a085;">馃 AI</span>':'') +
           '<span class="priority-tag '+item.priority+'">'+pTag+'</span>' +
-        '<span class="task-expand">▼</span>' +
+        '<span class="task-expand">鈻?/span>' +
       '</div>' +
     '</div>' +
     '<div class="task-detail" id="detail-'+item.id+'">' +
       descHtml + mediaHtml + meditationHtml + tennisHtml +
-      '<div class="ai-assist"><div class="ai-assist-title">🤖 AI 辅助</div><div class="ai-assist-content">'+(item.aiAssist?esc(item.aiAssist):'<span class="ai-assist-empty">暂无辅助内容，可告知智能体添加</span>')+'</div></div>' +
-      '<div class="task-actions"><button class="btn-sm" onclick="event.stopPropagation();openEditModal(\'daily\',\''+item.id+'\')">编辑</button><button class="btn-sm btn-danger" onclick="event.stopPropagation();deleteItem(\'daily\',\''+item.id+'\')">删除</button></div>' +
+      '<div class="ai-assist"><div class="ai-assist-title">馃 AI 杈呭姪</div><div class="ai-assist-content">'+(item.aiAssist?esc(item.aiAssist):'<span class="ai-assist-empty">鏆傛棤杈呭姪鍐呭锛屽彲鍛婄煡鏅鸿兘浣撴坊鍔?/span>')+'</div></div>' +
+      '<div class="task-actions"><button class="btn-sm" onclick="event.stopPropagation();openEditModal(\'daily\',\''+item.id+'\')">缂栬緫</button><button class="btn-sm btn-danger" onclick="event.stopPropagation();deleteItem(\'daily\',\''+item.id+'\')">鍒犻櫎</button></div>' +
     '</div>';
   return card;
 }
 
 function onVideoEnd(itemId) {
   var statusEl = document.getElementById('video-status-'+itemId);
-  if(statusEl) statusEl.innerHTML = '<span style="color:#27ae60;font-weight:600;">✓ 视频播放完成，请确认完成此任务</span>';
+  if(statusEl) statusEl.innerHTML = '<span style="color:#27ae60;font-weight:600;">鉁?瑙嗛鎾斁瀹屾垚锛岃纭瀹屾垚姝や换鍔?/span>';
 }
 
-// 网球视频懒加载：点击按钮才加载B站iframe
+// 缃戠悆瑙嗛鎳掑姞杞斤細鐐瑰嚮鎸夐挳鎵嶅姞杞紹绔檌frame
 var _tennisVideoData = {
-  'BV1x1tVzTEea': { title:'100个正手居家挥拍跟练', dur:'3:40' },
-  'BV1rRtVzcEpF': { title:'100个反手居家挥拍跟练', dur:'3:42' },
-  'BV1LAyQBEE3z': { title:'8个居家网球脚步跟练', dur:'3:56' },
-  'BV1xi421v7Gd': { title:'最常见的3个正手引拍错误', dur:'1:17' },
-  'BV13v421y7mq': { title:'10个网球折返跑训练', dur:'1:27' }
+  'BV1x1tVzTEea': { title:'100涓鎵嬪眳瀹舵尌鎷嶈窡缁?, dur:'3:40' },
+  'BV1rRtVzcEpF': { title:'100涓弽鎵嬪眳瀹舵尌鎷嶈窡缁?, dur:'3:42' },
+  'BV1LAyQBEE3z': { title:'8涓眳瀹剁綉鐞冭剼姝ヨ窡缁?, dur:'3:56' },
+  'BV1xi421v7Gd': { title:'鏈€甯歌鐨?涓鎵嬪紩鎷嶉敊璇?, dur:'1:17' },
+  'BV13v421y7mq': { title:'10涓綉鐞冩姌杩旇窇璁粌', dur:'1:27' }
 };
 function loadTennisVideo(bvid, btn) {
-  // 找到对应的player容器（在同一个detail-section里）
+  // 鎵惧埌瀵瑰簲鐨刾layer瀹瑰櫒锛堝湪鍚屼竴涓猟etail-section閲岋級
   var section = btn.closest('.detail-section');
   if(!section) return;
   var playerDiv = section.querySelector('[id^="tennis-player-"]');
@@ -1171,7 +1254,7 @@ function loadTennisVideo(bvid, btn) {
     'style="width:100%;aspect-ratio:16/9;border:none;display:block;" ' +
     'allowfullscreen scrolling="no" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>';
   playerDiv.style.display = 'block';
-  // 高亮选中按钮
+  // 楂樹寒閫変腑鎸夐挳
   var btns = section.querySelectorAll('button');
   for(var i=0;i<btns.length;i++) { btns[i].style.borderColor='#ddd'; btns[i].style.background='#f8f8f8'; }
   btn.style.borderColor='#2b5797'; btn.style.background='#e8f0fe';
@@ -1179,11 +1262,11 @@ function loadTennisVideo(bvid, btn) {
 
 function createTempCard(item) {
   var pClass = item.priority==='urgent'?'priority-urgent':(item.priority==='important'?'priority-important':'priority-routine');
-  var pTag = item.priority==='urgent'?'紧急':(item.priority==='important'?'重要':'日常');
+  var pTag = item.priority==='urgent'?'绱ф€?:(item.priority==='important'?'閲嶈':'鏃ュ父');
   var card = document.createElement('div');
   card.className = 'task-card from-temp '+pClass+(item.completed?' completed':'')+' fade-in';
-  var deadlineHtml = item.tempDeadline ? '<div class="detail-section"><div class="detail-label">截止日期</div><div class="detail-text">'+esc(item.tempDeadline)+'</div></div>' : '';
-  var descHtml = item.desc ? '<div class="detail-section"><div class="detail-label">说明</div><div class="detail-text">'+esc(item.desc)+'</div></div>' : '';
+  var deadlineHtml = item.tempDeadline ? '<div class="detail-section"><div class="detail-label">鎴鏃ユ湡</div><div class="detail-text">'+esc(item.tempDeadline)+'</div></div>' : '';
+  var descHtml = item.desc ? '<div class="detail-section"><div class="detail-label">璇存槑</div><div class="detail-text">'+esc(item.desc)+'</div></div>' : '';
   card.innerHTML =
     '<div class="task-header" onclick="toggleDetail(this)">' +
       '<div class="task-checkbox'+(item.completed?' checked':'')+'" onclick="event.stopPropagation();toggleTemp(\''+item.id+'\')"></div>' +
@@ -1191,13 +1274,13 @@ function createTempCard(item) {
       '<div class="task-meta">' +
         (item.tempDeadline?'<span class="source-tag temp">'+esc(item.tempDeadline)+'</span>':'') +
         '<span class="priority-tag '+item.priority+'">'+pTag+'</span>' +
-        '<span class="task-expand">▼</span>' +
+        '<span class="task-expand">鈻?/span>' +
       '</div>' +
     '</div>' +
     '<div class="task-detail" id="detail-'+item.id+'">' +
       descHtml + deadlineHtml +
-      '<div class="ai-assist"><div class="ai-assist-title">🤖 AI 辅助</div><div class="ai-assist-content">'+(item.aiAssist?esc(item.aiAssist):'<span class="ai-assist-empty">暂无辅助内容</span>')+'</div></div>' +
-      '<div class="task-actions"><button class="btn-sm" onclick="event.stopPropagation();openEditModal(\'temp\',\''+item.id+'\')">编辑</button><button class="btn-sm btn-danger" onclick="event.stopPropagation();deleteItem(\'temp\',\''+item.id+'\')">删除</button></div>' +
+      '<div class="ai-assist"><div class="ai-assist-title">馃 AI 杈呭姪</div><div class="ai-assist-content">'+(item.aiAssist?esc(item.aiAssist):'<span class="ai-assist-empty">鏆傛棤杈呭姪鍐呭</span>')+'</div></div>' +
+      '<div class="task-actions"><button class="btn-sm" onclick="event.stopPropagation();openEditModal(\'temp\',\''+item.id+'\')">缂栬緫</button><button class="btn-sm btn-danger" onclick="event.stopPropagation();deleteItem(\'temp\',\''+item.id+'\')">鍒犻櫎</button></div>' +
     '</div>';
   return card;
 }
@@ -1205,7 +1288,7 @@ function createTempCard(item) {
 function createMonthlyTodayCard(item) {
   var key = getTodayStr()+'_'+item.id;
   var isDone = !!appData.monthlyCompleted[key];
-  var pTag = item.priority==='urgent'?'紧急':(item.priority==='important'?'重要':'日常');
+  var pTag = item.priority==='urgent'?'绱ф€?:(item.priority==='important'?'閲嶈':'鏃ュ父');
   var card = document.createElement('div');
   card.className = 'task-card from-monthly priority-'+(item.priority==='urgent'?'urgent':'important')+(isDone?' completed':'')+' fade-in';
   card.innerHTML =
@@ -1215,49 +1298,49 @@ function createMonthlyTodayCard(item) {
       '<div class="task-meta">' +
         '<span class="source-tag monthly">'+esc(item.cycleLabel)+'</span>' +
         '<span class="priority-tag '+item.priority+'">'+pTag+'</span>' +
-        '<span class="task-expand">▼</span>' +
+        '<span class="task-expand">鈻?/span>' +
       '</div>' +
     '</div>' +
     '<div class="task-detail" id="detail-mt-'+item.id+'">' +
-      (item.desc?'<div class="detail-section"><div class="detail-label">说明</div><div class="detail-text">'+esc(item.desc)+'</div></div>':'') +
-      '<div class="ai-assist"><div class="ai-assist-title">🤖 AI 辅助</div><div class="ai-assist-content">'+(item.aiAssist?esc(item.aiAssist):'<span class="ai-assist-empty">暂无辅助内容</span>')+'</div></div>' +
+      (item.desc?'<div class="detail-section"><div class="detail-label">璇存槑</div><div class="detail-text">'+esc(item.desc)+'</div></div>':'') +
+      '<div class="ai-assist"><div class="ai-assist-title">馃 AI 杈呭姪</div><div class="ai-assist-content">'+(item.aiAssist?esc(item.aiAssist):'<span class="ai-assist-empty">鏆傛棤杈呭姪鍐呭</span>')+'</div></div>' +
     '</div>';
   return card;
 }
 
-/* ===== 月度周期渲染 ===== */
+/* ===== 鏈堝害鍛ㄦ湡娓叉煋 ===== */
 function renderMidterm(area) {
   var items = appData.midterm;
-  if(!items.length){ area.innerHTML='<div class="empty-state"><div class="empty-icon">📅</div><p>暂无月度事项</p></div>'; return; }
+  if(!items.length){ area.innerHTML='<div class="empty-state"><div class="empty-icon">馃搮</div><p>鏆傛棤鏈堝害浜嬮」</p></div>'; return; }
   var sorted = items.slice().sort(function(a,b){ return (a.cycleDay||0)-(b.cycleDay||0); });
   for(var idx=0;idx<sorted.length;idx++){
     var item = sorted[idx];
     var card = document.createElement('div');
     card.className = 'task-card priority-'+(item.priority==='urgent'?'urgent':(item.priority==='important'?'important':'routine'))+(item.status==='done'?' completed':'')+' fade-in';
-    var descHtml = item.desc ? '<div class="detail-section"><div class="detail-label">说明</div><div class="detail-text">'+esc(item.desc)+'</div></div>' : '';
+    var descHtml = item.desc ? '<div class="detail-section"><div class="detail-label">璇存槑</div><div class="detail-text">'+esc(item.desc)+'</div></div>' : '';
     card.innerHTML =
       '<div class="task-header" onclick="toggleDetail(this)">' +
         '<div class="task-checkbox'+(item.status==='done'?' checked':'')+'" onclick="event.stopPropagation();toggleMidtermStatus(\''+item.id+'\')"></div>' +
         '<div class="task-title">'+esc(item.title)+'</div>' +
         '<div class="task-meta">' +
           '<span class="cycle-tag">'+esc(item.cycleLabel||'')+'</span>' +
-          '<span class="priority-tag '+item.priority+'">'+(item.priority==='urgent'?'紧急':(item.priority==='important'?'重要':'日常'))+'</span>' +
-          '<span class="task-expand">▼</span>' +
+          '<span class="priority-tag '+item.priority+'">'+(item.priority==='urgent'?'绱ф€?:(item.priority==='important'?'閲嶈':'鏃ュ父'))+'</span>' +
+          '<span class="task-expand">鈻?/span>' +
         '</div>' +
       '</div>' +
       '<div class="task-detail" id="detail-'+item.id+'">' +
         descHtml +
-        '<div class="ai-assist"><div class="ai-assist-title">🤖 AI 辅助</div><div class="ai-assist-content">'+(item.aiAssist?esc(item.aiAssist):'<span class="ai-assist-empty">暂无辅助内容</span>')+'</div></div>' +
-        '<div class="task-actions"><button class="btn-sm" onclick="event.stopPropagation();openEditModal(\'midterm\',\''+item.id+'\')">编辑</button><button class="btn-sm btn-danger" onclick="event.stopPropagation();deleteItem(\'midterm\',\''+item.id+'\')">删除</button></div>' +
+        '<div class="ai-assist"><div class="ai-assist-title">馃 AI 杈呭姪</div><div class="ai-assist-content">'+(item.aiAssist?esc(item.aiAssist):'<span class="ai-assist-empty">鏆傛棤杈呭姪鍐呭</span>')+'</div></div>' +
+        '<div class="task-actions"><button class="btn-sm" onclick="event.stopPropagation();openEditModal(\'midterm\',\''+item.id+'\')">缂栬緫</button><button class="btn-sm btn-danger" onclick="event.stopPropagation();deleteItem(\'midterm\',\''+item.id+'\')">鍒犻櫎</button></div>' +
       '</div>';
     area.appendChild(card);
   }
 }
 
-/* ===== 长期事项渲染 ===== */
+/* ===== 闀挎湡浜嬮」娓叉煋 ===== */
 function renderLongterm(area) {
   var items = appData.longterm;
-  if(!items.length){ area.innerHTML='<div class="empty-state"><div class="empty-icon">🎯</div><p>暂无长期事项</p></div>'; return; }
+  if(!items.length){ area.innerHTML='<div class="empty-state"><div class="empty-icon">馃幆</div><p>鏆傛棤闀挎湡浜嬮」</p></div>'; return; }
   for(var idx=0;idx<items.length;idx++){
     var item = items[idx];
     var card = document.createElement('div');
@@ -1274,19 +1357,19 @@ function renderLongterm(area) {
     card.innerHTML =
       '<div class="task-header" onclick="toggleDetail(this)">' +
         '<div class="task-title">'+esc(item.title)+'</div>' +
-        '<div class="task-meta"><span class="status-tag wait">'+(item.quarter||'')+'</span><span class="task-expand">▼</span></div>' +
+        '<div class="task-meta"><span class="status-tag wait">'+(item.quarter||'')+'</span><span class="task-expand">鈻?/span></div>' +
       '</div>' +
       '<div class="task-detail" id="detail-'+item.id+'">' +
-        '<div class="detail-section"><div class="detail-label">目标描述</div><div class="detail-text">'+esc(item.desc||'暂无描述')+'</div></div>' +
-        (krHtml?'<div class="detail-section"><div class="detail-label">关键结果</div>'+krHtml+'</div>':'') +
-        '<div class="ai-assist"><div class="ai-assist-title">🤖 AI 辅助</div><div class="ai-assist-content">'+(item.aiAssist?esc(item.aiAssist):'<span class="ai-assist-empty">暂无辅助内容</span>')+'</div></div>' +
-        '<div class="task-actions"><button class="btn-sm" onclick="event.stopPropagation();openEditModal(\'longterm\',\''+item.id+'\')">编辑</button><button class="btn-sm btn-danger" onclick="event.stopPropagation();deleteItem(\'longterm\',\''+item.id+'\')">删除</button></div>' +
+        '<div class="detail-section"><div class="detail-label">鐩爣鎻忚堪</div><div class="detail-text">'+esc(item.desc||'鏆傛棤鎻忚堪')+'</div></div>' +
+        (krHtml?'<div class="detail-section"><div class="detail-label">鍏抽敭缁撴灉</div>'+krHtml+'</div>':'') +
+        '<div class="ai-assist"><div class="ai-assist-title">馃 AI 杈呭姪</div><div class="ai-assist-content">'+(item.aiAssist?esc(item.aiAssist):'<span class="ai-assist-empty">鏆傛棤杈呭姪鍐呭</span>')+'</div></div>' +
+        '<div class="task-actions"><button class="btn-sm" onclick="event.stopPropagation();openEditModal(\'longterm\',\''+item.id+'\')">缂栬緫</button><button class="btn-sm btn-danger" onclick="event.stopPropagation();deleteItem(\'longterm\',\''+item.id+'\')">鍒犻櫎</button></div>' +
       '</div>';
     area.appendChild(card);
   }
 }
 
-/* ===== 交互：展开/折叠 ===== */
+/* ===== 浜や簰锛氬睍寮€/鎶樺彔 ===== */
 function toggleDetail(headerEl) {
   var card = headerEl.parentElement;
   var detailEl = card.querySelector('.task-detail');
@@ -1294,7 +1377,7 @@ function toggleDetail(headerEl) {
   if(detailEl){ detailEl.classList.toggle('show'); if(expandIcon) expandIcon.classList.toggle('open'); }
 }
 
-/* ===== 交互：勾选完成 ===== */
+/* ===== 浜や簰锛氬嬀閫夊畬鎴?===== */
 function toggleDaily(id) {
   for(var i=0;i<appData.daily.length;i++){
     if(appData.daily[i].id===id){ appData.daily[i].completed=!appData.daily[i].completed; break; }
@@ -1326,13 +1409,13 @@ function toggleMidtermStatus(id) {
   saveData(appData); renderContent();
 }
 
-/* ===== 添加/编辑模态框 ===== */
-var addModalType = 'routine'; // 'routine' 或 'temp'
+/* ===== 娣诲姞/缂栬緫妯℃€佹 ===== */
+var addModalType = 'routine'; // 'routine' 鎴?'temp'
 
 function openAddModal(type) {
   editingId = null;
   addModalType = type || 'routine';
-  document.getElementById('modal-title').textContent = type==='temp'?'新建临时任务':'新建日常任务';
+  document.getElementById('modal-title').textContent = type==='temp'?'鏂板缓涓存椂浠诲姟':'鏂板缓鏃ュ父浠诲姟';
   renderForm(type, null);
   document.getElementById('modal-save').style.display = '';
   document.getElementById('modal-add').classList.add('show');
@@ -1354,7 +1437,7 @@ function openEditModal(tab, id) {
     for(var i=0;i<appData.longterm.length;i++){ if(appData.longterm[i].id===id){ item=appData.longterm[i]; break; } }
     addModalType = 'longterm';
   }
-  document.getElementById('modal-title').textContent = '编辑事项';
+  document.getElementById('modal-title').textContent = '缂栬緫浜嬮」';
   renderForm(addModalType, item);
   document.getElementById('modal-save').style.display = '';
   document.getElementById('modal-add').classList.add('show');
@@ -1370,50 +1453,50 @@ function renderForm(type, item) {
       catOptions += '<option value="'+DAILY_CATEGORIES[c].key+'"'+(item&&item.category===DAILY_CATEGORIES[c].key?' selected':'')+'>'+DAILY_CATEGORIES[c].name+'</option>';
     }
     body.innerHTML =
-      '<div class="form-group"><label>标题</label><input id="f-title" value="'+(item?esc(item.title):'')+'"></div>' +
-      '<div class="form-group"><label>说明</label><textarea id="f-desc">'+(item?esc(item.desc):'')+'</textarea></div>' +
-      '<div class="form-group"><label>分类</label><select id="f-category">'+catOptions+'</select></div>' +
-      '<div class="form-group"><label>优先级</label><select id="f-priority">' +
-        '<option value="urgent"'+(item&&item.priority==='urgent'?' selected':'')+'>紧急</option>' +
-        '<option value="important"'+(item&&item.priority==='important'?' selected':'')+'>重要</option>' +
-        '<option value="routine"'+(item&&(!item.priority||item.priority==='routine')?' selected':'')+'>日常</option>' +
+      '<div class="form-group"><label>鏍囬</label><input id="f-title" value="'+(item?esc(item.title):'')+'"></div>' +
+      '<div class="form-group"><label>璇存槑</label><textarea id="f-desc">'+(item?esc(item.desc):'')+'</textarea></div>' +
+      '<div class="form-group"><label>鍒嗙被</label><select id="f-category">'+catOptions+'</select></div>' +
+      '<div class="form-group"><label>浼樺厛绾?/label><select id="f-priority">' +
+        '<option value="urgent"'+(item&&item.priority==='urgent'?' selected':'')+'>绱ф€?/option>' +
+        '<option value="important"'+(item&&item.priority==='important'?' selected':'')+'>閲嶈</option>' +
+        '<option value="routine"'+(item&&(!item.priority||item.priority==='routine')?' selected':'')+'>鏃ュ父</option>' +
       '</select></div>';
   } else if(type === 'temp'){
     body.innerHTML =
-      '<div class="form-group"><label>标题</label><input id="f-title" value="'+(item?esc(item.title):'')+'"></div>' +
-      '<div class="form-group"><label>说明</label><textarea id="f-desc">'+(item?esc(item.desc):'')+'</textarea></div>' +
-      '<div class="form-group"><label>截止日期</label><input id="f-deadline" type="date" value="'+(item?item.tempDeadline||'':'')+'"></div>' +
-      '<div class="form-group"><label>优先级</label><select id="f-priority">' +
-        '<option value="urgent"'+(item&&item.priority==='urgent'?' selected':'')+'>紧急</option>' +
-        '<option value="important"'+(item&&item.priority==='important'?' selected':'')+'>重要</option>' +
-        '<option value="routine"'+(item&&item.priority==='routine'?' selected':'')+'>日常</option>' +
+      '<div class="form-group"><label>鏍囬</label><input id="f-title" value="'+(item?esc(item.title):'')+'"></div>' +
+      '<div class="form-group"><label>璇存槑</label><textarea id="f-desc">'+(item?esc(item.desc):'')+'</textarea></div>' +
+      '<div class="form-group"><label>鎴鏃ユ湡</label><input id="f-deadline" type="date" value="'+(item?item.tempDeadline||'':'')+'"></div>' +
+      '<div class="form-group"><label>浼樺厛绾?/label><select id="f-priority">' +
+        '<option value="urgent"'+(item&&item.priority==='urgent'?' selected':'')+'>绱ф€?/option>' +
+        '<option value="important"'+(item&&item.priority==='important'?' selected':'')+'>閲嶈</option>' +
+        '<option value="routine"'+(item&&item.priority==='routine'?' selected':'')+'>鏃ュ父</option>' +
       '</select></div>';
   } else if(type === 'midterm'){
     body.innerHTML =
-      '<div class="form-group"><label>标题</label><input id="f-title" value="'+(item?esc(item.title):'')+'"></div>' +
-      '<div class="form-group"><label>说明</label><textarea id="f-desc">'+(item?esc(item.desc):'')+'</textarea></div>' +
-      '<div class="form-group"><label>周期标签（如：每月1日、3/6/9月27日）</label><input id="f-cycleLabel" value="'+(item?esc(item.cycleLabel):'')+'"></div>' +
-      '<div class="form-group"><label>触发日（月几号）</label><input id="f-cycleDay" type="number" min="1" max="31" value="'+(item?item.cycleDay||1:1)+'"></div>' +
-      '<div class="form-group"><label>优先级</label><select id="f-priority">' +
-        '<option value="urgent"'+(item&&item.priority==='urgent'?' selected':'')+'>紧急</option>' +
-        '<option value="important"'+(item&&item.priority==='important'?' selected':'')+'>重要</option>' +
-        '<option value="routine"'+(item&&item.priority==='routine'?' selected':'')+'>日常</option>' +
+      '<div class="form-group"><label>鏍囬</label><input id="f-title" value="'+(item?esc(item.title):'')+'"></div>' +
+      '<div class="form-group"><label>璇存槑</label><textarea id="f-desc">'+(item?esc(item.desc):'')+'</textarea></div>' +
+      '<div class="form-group"><label>鍛ㄦ湡鏍囩锛堝锛氭瘡鏈?鏃ャ€?/6/9鏈?7鏃ワ級</label><input id="f-cycleLabel" value="'+(item?esc(item.cycleLabel):'')+'"></div>' +
+      '<div class="form-group"><label>瑙﹀彂鏃ワ紙鏈堝嚑鍙凤級</label><input id="f-cycleDay" type="number" min="1" max="31" value="'+(item?item.cycleDay||1:1)+'"></div>' +
+      '<div class="form-group"><label>浼樺厛绾?/label><select id="f-priority">' +
+        '<option value="urgent"'+(item&&item.priority==='urgent'?' selected':'')+'>绱ф€?/option>' +
+        '<option value="important"'+(item&&item.priority==='important'?' selected':'')+'>閲嶈</option>' +
+        '<option value="routine"'+(item&&item.priority==='routine'?' selected':'')+'>鏃ュ父</option>' +
       '</select></div>';
   } else {
     body.innerHTML =
-      '<div class="form-group"><label>标题</label><input id="f-title" value="'+(item?esc(item.title):'')+'"></div>' +
-      '<div class="form-group"><label>描述</label><textarea id="f-desc">'+(item?esc(item.desc):'')+'</textarea></div>' +
-      '<div class="form-group"><label>周期</label><select id="f-quarter">' +
-        '<option value="2026H2"'+(item&&item.quarter==='2026H2'?' selected':'')+'>2026下半年</option>' +
-        '<option value="2027H1"'+(item&&item.quarter==='2027H1'?' selected':'')+'>2027上半年</option>' +
-        '<option value="2027H2"'+(item&&item.quarter==='2027H2'?' selected':'')+'>2027下半年</option>' +
+      '<div class="form-group"><label>鏍囬</label><input id="f-title" value="'+(item?esc(item.title):'')+'"></div>' +
+      '<div class="form-group"><label>鎻忚堪</label><textarea id="f-desc">'+(item?esc(item.desc):'')+'</textarea></div>' +
+      '<div class="form-group"><label>鍛ㄦ湡</label><select id="f-quarter">' +
+        '<option value="2026H2"'+(item&&item.quarter==='2026H2'?' selected':'')+'>2026涓嬪崐骞?/option>' +
+        '<option value="2027H1"'+(item&&item.quarter==='2027H1'?' selected':'')+'>2027涓婂崐骞?/option>' +
+        '<option value="2027H2"'+(item&&item.quarter==='2027H2'?' selected':'')+'>2027涓嬪崐骞?/option>' +
       '</select></div>';
   }
 }
 
 function saveItem() {
   var title = document.getElementById('f-title').value.trim();
-  if(!title){ alert('请输入标题'); return; }
+  if(!title){ alert('璇疯緭鍏ユ爣棰?); return; }
   var desc = (document.getElementById('f-desc')||{}).value || '';
 
   if(addModalType === 'routine'){
@@ -1458,7 +1541,7 @@ function saveItem() {
   renderCalendar();
 }
 
-/* ===== 删除 ===== */
+/* ===== 鍒犻櫎 ===== */
 function deleteItem(tab, id) {
   confirmCallback = function(){
     if(tab==='temp'){
@@ -1472,14 +1555,14 @@ function deleteItem(tab, id) {
     }
     saveData(appData); renderContent(); renderCalendar();
   };
-  document.getElementById('confirm-text').textContent = '确定删除此事项？';
+  document.getElementById('confirm-text').textContent = '纭畾鍒犻櫎姝や簨椤癸紵';
   document.getElementById('modal-confirm').classList.add('show');
 }
 
 function closeConfirm() { document.getElementById('modal-confirm').classList.remove('show'); confirmCallback=null; }
 function doConfirm() { if(confirmCallback) confirmCallback(); closeConfirm(); }
 
-/* ===== 日历折叠 ===== */
+/* ===== 鏃ュ巻鎶樺彔 ===== */
 var calCollapsed = false;
 function toggleCalendar() {
   calCollapsed = !calCollapsed;
@@ -1489,20 +1572,17 @@ function toggleCalendar() {
   else { body.classList.remove('collapsed'); btn.classList.remove('collapsed'); }
 }
 
-/* ===== 电子时钟 ===== */
+/* ===== 鐢靛瓙鏃堕挓 ===== */
 var clockMode = 'clock'; // 'clock' | 'countdown' | 'stopwatch'
 var clockModes = ['clock','countdown','stopwatch'];
-var clockModeLabels = { clock:'普通时钟', countdown:'倒计时', stopwatch:'正计时' };
+var clockModeLabels = { clock:'鏅€氭椂閽?, countdown:'鍊掕鏃?, stopwatch:'姝ｈ鏃? };
 
-// 倒计时状态
-var countdownTotal = 0; // 总秒数
-var countdownRemain = 0; // 剩余秒数
+// 鍊掕鏃剁姸鎬?var countdownTotal = 0; // 鎬荤鏁?var countdownRemain = 0; // 鍓╀綑绉掓暟
 var countdownRunning = false;
 var countdownTimer = null;
 var countdownInputH = 0, countdownInputM = 5, countdownInputS = 0;
 
-// 正计时状态
-var stopwatchElapsed = 0; // 已过毫秒
+// 姝ｈ鏃剁姸鎬?var stopwatchElapsed = 0; // 宸茶繃姣
 var stopwatchRunning = false;
 var stopwatchTimer = null;
 var stopwatchStart = 0;
@@ -1522,18 +1602,18 @@ function updateClockUI() {
   } else if(clockMode === 'countdown') {
     if(!countdownRunning && countdownRemain <= 0) {
       controls.innerHTML = '<div class="clock-toolbar">' +
-        '<input class="clock-input" id="cd-h" type="number" min="0" max="23" value="'+countdownInputH+'"><span class="clock-input-label">时</span>' +
-        '<input class="clock-input" id="cd-m" type="number" min="0" max="59" value="'+countdownInputM+'"><span class="clock-input-label">分</span>' +
-        '<input class="clock-input" id="cd-s" type="number" min="0" max="59" value="'+countdownInputS+'"><span class="clock-input-label">秒</span>' +
-        '<button class="clock-ctrl-btn" onclick="startCountdown()">开始</button>' +
+        '<input class="clock-input" id="cd-h" type="number" min="0" max="23" value="'+countdownInputH+'"><span class="clock-input-label">鏃?/span>' +
+        '<input class="clock-input" id="cd-m" type="number" min="0" max="59" value="'+countdownInputM+'"><span class="clock-input-label">鍒?/span>' +
+        '<input class="clock-input" id="cd-s" type="number" min="0" max="59" value="'+countdownInputS+'"><span class="clock-input-label">绉?/span>' +
+        '<button class="clock-ctrl-btn" onclick="startCountdown()">寮€濮?/button>' +
         '</div>';
     } else {
-      var pauseLabel = countdownRunning ? '暂停' : (countdownRemain > 0 ? '继续' : '重新');
-      controls.innerHTML = '<div class="clock-toolbar"><button class="clock-ctrl-btn" onclick="pauseCountdown()">'+pauseLabel+'</button><button class="clock-ctrl-btn" onclick="resetCountdown()">重置</button></div>';
+      var pauseLabel = countdownRunning ? '鏆傚仠' : (countdownRemain > 0 ? '缁х画' : '閲嶆柊');
+      controls.innerHTML = '<div class="clock-toolbar"><button class="clock-ctrl-btn" onclick="pauseCountdown()">'+pauseLabel+'</button><button class="clock-ctrl-btn" onclick="resetCountdown()">閲嶇疆</button></div>';
     }
   } else if(clockMode === 'stopwatch') {
-    var startLabel = stopwatchRunning ? '暂停' : (stopwatchElapsed > 0 ? '继续' : '开始');
-    controls.innerHTML = '<div class="clock-toolbar"><button class="clock-ctrl-btn" onclick="toggleStopwatch()">'+startLabel+'</button><button class="clock-ctrl-btn" onclick="resetStopwatch()">重置</button></div>';
+    var startLabel = stopwatchRunning ? '鏆傚仠' : (stopwatchElapsed > 0 ? '缁х画' : '寮€濮?);
+    controls.innerHTML = '<div class="clock-toolbar"><button class="clock-ctrl-btn" onclick="toggleStopwatch()">'+startLabel+'</button><button class="clock-ctrl-btn" onclick="resetStopwatch()">閲嶇疆</button></div>';
   }
 }
 
@@ -1559,7 +1639,7 @@ function tickCountdown() {
     countdownRunning = false;
     clearInterval(countdownTimer);
     countdownTimer = null;
-    // 闪炼提醒
+    // 闂偧鎻愰啋
     var disp = document.getElementById('clock-display');
     disp.style.color = '#e74c3c';
     setTimeout(function(){ disp.style.color = ''; }, 3000);
@@ -1598,7 +1678,7 @@ function toggleStopwatch() {
 }
 
 function tickStopwatch() {
-  // 渲染由clockLoop统一处理
+  // 娓叉煋鐢眂lockLoop缁熶竴澶勭悊
 }
 
 function resetStopwatch() {
@@ -1631,34 +1711,33 @@ function clockLoop() {
 
   if(clockMode === 'clock') {
     display.textContent = String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0')+':'+String(now.getSeconds()).padStart(2,'0');
-    var weekDays2 = ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'];
-    dateEl.textContent = now.getFullYear()+'年'+(now.getMonth()+1)+'月'+now.getDate()+'日 '+weekDays2[now.getDay()];
+    var weekDays2 = ['鏄熸湡鏃?,'鏄熸湡涓€','鏄熸湡浜?,'鏄熸湡涓?,'鏄熸湡鍥?,'鏄熸湡浜?,'鏄熸湡鍏?];
+    dateEl.textContent = now.getFullYear()+'骞?+(now.getMonth()+1)+'鏈?+now.getDate()+'鏃?'+weekDays2[now.getDay()];
   } else if(clockMode === 'countdown') {
     var remain = countdownRemain;
     if(countdownRunning) {
-      // 实时显示
+      // 瀹炴椂鏄剧ず
     }
     display.textContent = formatTime(remain);
     var totalMin = Math.floor(countdownTotal/60);
-    dateEl.textContent = '总计 '+formatTime(countdownTotal);
+    dateEl.textContent = '鎬昏 '+formatTime(countdownTotal);
   } else if(clockMode === 'stopwatch') {
     var elapsed = stopwatchElapsed;
     if(stopwatchRunning) elapsed += Date.now() - stopwatchStart;
     display.textContent = formatMs(elapsed);
-    dateEl.textContent = '正计时';
+    dateEl.textContent = '姝ｈ鏃?;
   }
 }
 
-/* ===== 每日自动重置 ===== */
+/* ===== 姣忔棩鑷姩閲嶇疆 ===== */
 function checkDailyReset() {
   var today = getTodayStr();
   if(appData.lastResetDate !== today) {
-    // 新的一天：日常任务全部恢复为未完成
+    // 鏂扮殑涓€澶╋細鏃ュ父浠诲姟鍏ㄩ儴鎭㈠涓烘湭瀹屾垚
     for(var i=0;i<appData.daily.length;i++){
       appData.daily[i].completed = false;
     }
-    // 清理过期的月度完成记录（只保留今天的）
-    var newMC = {};
+    // 娓呯悊杩囨湡鐨勬湀搴﹀畬鎴愯褰曪紙鍙繚鐣欎粖澶╃殑锛?    var newMC = {};
     for(var key in appData.monthlyCompleted){
       if(key.indexOf(today+'_') === 0) newMC[key] = appData.monthlyCompleted[key];
     }
@@ -1668,11 +1747,11 @@ function checkDailyReset() {
   }
 }
 
-/* ===== 导出模式：供 PowerShell 邮件脚本读取未完成任务 ===== */
+/* ===== 瀵煎嚭妯″紡锛氫緵 PowerShell 閭欢鑴氭湰璇诲彇鏈畬鎴愪换鍔?===== */
 function getUncompletedTasks() {
   var today = getTodayStr();
   var result = [];
-  // 日常任务
+  // 鏃ュ父浠诲姟
   for(var i=0;i<appData.daily.length;i++){
     if(!appData.daily[i].completed){
       result.push({
@@ -1683,7 +1762,7 @@ function getUncompletedTasks() {
       });
     }
   }
-  // 临时任务
+  // 涓存椂浠诲姟
   for(var i=0;i<appData.tempTasks.length;i++){
     if(!appData.tempTasks[i].completed){
       result.push({
@@ -1694,7 +1773,7 @@ function getUncompletedTasks() {
       });
     }
   }
-  // 今日月度到期任务
+  // 浠婃棩鏈堝害鍒版湡浠诲姟
   var now = new Date();
   var day = now.getDate();
   var month = now.getMonth()+1;
@@ -1721,19 +1800,18 @@ function getUncompletedTasks() {
   return result;
 }
 
-/* ===== 初始化 ===== */
+/* ===== 鍒濆鍖?===== */
 function init() {
   checkDailyReset();
   var now = new Date();
-  var weekDays = ['日','一','二','三','四','五','六'];
-  document.getElementById('sidebar-date').textContent = now.getFullYear()+'年'+(now.getMonth()+1)+'月'+now.getDate()+'日 星期'+weekDays[now.getDay()];
+  var weekDays = ['鏃?,'涓€','浜?,'涓?,'鍥?,'浜?,'鍏?];
+  document.getElementById('sidebar-date').textContent = now.getFullYear()+'骞?+(now.getMonth()+1)+'鏈?+now.getDate()+'鏃?鏄熸湡'+weekDays[now.getDay()];
   initCalendar();
   renderContent();
   updateClockUI();
   clockLoop();
-  setInterval(clockLoop, 100); // 100ms刷新
-  // 每分钟检查一次是否跨日（长时间不关页面时）
-  setInterval(function(){
+  setInterval(clockLoop, 100); // 100ms鍒锋柊
+  // 姣忓垎閽熸鏌ヤ竴娆℃槸鍚﹁法鏃ワ紙闀挎椂闂翠笉鍏抽〉闈㈡椂锛?  setInterval(function(){
     var today = getTodayStr();
     if(appData.lastResetDate !== today){
       checkDailyReset();
@@ -1741,14 +1819,13 @@ function init() {
       renderCalendar();
     }
   }, 60000);
-  // 云端同步初始化
-  initCloudSync();
+  // 浜戠鍚屾鍒濆鍖?  initCloudSync();
 }
 
-/* ===== 启动：导出模式 vs 正常模式 ===== */
+/* ===== 鍚姩锛氬鍑烘ā寮?vs 姝ｅ父妯″紡 ===== */
 var urlSearch = window.location.search;
 if(urlSearch.indexOf('export=1') >= 0) {
-  // 导出模式：输出未完成任务JSON
+  // 瀵煎嚭妯″紡锛氳緭鍑烘湭瀹屾垚浠诲姟JSON
   checkDailyReset();
   var uncompleted = getUncompletedTasks();
   var exportData = { date: getTodayStr(), time: new Date().toLocaleString('zh-CN'), uncompleted: uncompleted, count: uncompleted.length };
