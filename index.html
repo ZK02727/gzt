@@ -130,6 +130,10 @@ body { font-family:"微软雅黑","Microsoft YaHei",sans-serif; font-size:14px; 
 .task-detail.show { display:block; }
 .detail-section { margin-top:10px; }
 .detail-label { font-size:12px; color:#999; margin-bottom:3px; }
+.meditation-track-info { display:flex; justify-content:space-between; align-items:center; }
+.meditation-track-name { font-size:13px; font-weight:600; color:#2b5797; }
+.meditation-track-dur { font-size:12px; color:#999; background:#f0f0f0; padding:2px 8px; border-radius:10px; }
+.meditation-tracks audio { border-radius:6px; }
 .detail-text { font-size:13px; line-height:1.5; color:#555; }
 .detail-progress { margin-top:6px; }
 .progress-bar { height:6px; background:#e0e0e0; border-radius:3px; overflow:hidden; }
@@ -368,7 +372,7 @@ var DEFAULT_DATA = {
     { id:'d17', title:'腹肌训练', desc:'', priority:'routine', category:'training', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'' },
     { id:'d18', title:'吃鱼油等补剂', desc:'', priority:'routine', category:'health', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'' },
     { id:'d19', title:'呼吸训练', desc:'跟随视频进行呼吸训练', priority:'routine', category:'health', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'', mediaFile:'breathing-training.mp4' },
-    { id:'d20', title:'冥想10分钟', desc:'', priority:'routine', category:'health', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'' }
+    { id:'d20', title:'冥想10分钟', desc:'', priority:'routine', category:'health', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'', meditationAudio:true }
   ],
   tempTasks: [],
   midterm: [
@@ -1011,14 +1015,11 @@ function createDailyCard(item, colType) {
   if(item.mediaFile) {
     var mediaUrl = item.mediaFile;
     if(mediaUrl.indexOf('://')===-1) {
-      // 相对路径：根据当前页面URL判断基础路径
       var pageHost = window.location.hostname;
       if(pageHost && pageHost.indexOf('github.io')!==-1) {
-        // GitHub Pages在线版：视频在仓库根目录
         var repoName = window.location.pathname.split('/')[1] || 'gzt';
         mediaUrl = '/' + repoName + '/' + mediaUrl;
       }
-      // 本地文件：相对路径直接使用同目录下的文件
     }
     mediaHtml = '<div class="detail-section"><div class="detail-label">训练视频</div>' +
       '<video class="media-player" id="video-'+item.id+'" controls style="width:100%;max-width:400px;border-radius:8px;margin-top:6px;background:#000;" ' +
@@ -1027,18 +1028,65 @@ function createDailyCard(item, colType) {
       '<div id="video-status-'+item.id+'" style="font-size:12px;color:#999;margin-top:4px;"></div></div>';
   }
 
+  // 冥想引导音频播放器
+  var meditationHtml = '';
+  if(item.meditationAudio) {
+    var baseUrl = '';
+    var pageHost2 = window.location.hostname;
+    if(pageHost2 && pageHost2.indexOf('github.io')!==-1) {
+      var repoName2 = window.location.pathname.split('/')[1] || 'gzt';
+      baseUrl = '/' + repoName2 + '/audio/';
+    } else {
+      baseUrl = 'audio/';
+    }
+    meditationHtml = '<div class="detail-section" style="margin-top:8px;">' +
+      '<div class="detail-label" style="margin-bottom:8px;">冥想引导音频（IMC Insight Meditation Center）</div>' +
+      '<div class="meditation-tracks">' +
+        '<div class="meditation-track">' +
+          '<div class="meditation-track-info">' +
+            '<span class="meditation-track-name">呼吸观照</span>' +
+            '<span class="meditation-track-dur">5:14</span>' +
+          '</div>' +
+          '<audio controls preload="none" style="width:100%;height:32px;margin-top:4px;">' +
+            '<source src="'+baseUrl+'meditation_5min.mp3" type="audio/mpeg">' +
+          '</audio>' +
+        '</div>' +
+        '<div class="meditation-track" style="margin-top:10px;">' +
+          '<div class="meditation-track-info">' +
+            '<span class="meditation-track-name">身体扫描</span>' +
+            '<span class="meditation-track-dur">25:05</span>' +
+          '</div>' +
+          '<audio controls preload="none" style="width:100%;height:32px;margin-top:4px;">' +
+            '<source src="'+baseUrl+'meditation_25min.mp3" type="audio/mpeg">' +
+          '</audio>' +
+        '</div>' +
+        '<div class="meditation-track" style="margin-top:10px;">' +
+          '<div class="meditation-track-info">' +
+            '<span class="meditation-track-name">慈心冥想</span>' +
+            '<span class="meditation-track-dur">28:04</span>' +
+          '</div>' +
+          '<audio controls preload="none" style="width:100%;height:32px;margin-top:4px;">' +
+            '<source src="'+baseUrl+'meditation_28min.mp3" type="audio/mpeg">' +
+          '</audio>' +
+        '</div>' +
+      '</div>' +
+      '<div style="font-size:11px;color:#999;margin-top:6px;">音频来源：Insight Meditation Center (AudioDharma.org)，Creative Commons 授权</div>' +
+    '</div>';
+  }
+
   card.innerHTML =
-    '<div class="task-header" onclick="toggleDetail(this)">' +
-      '<div class="task-checkbox'+(item.completed?' checked':'')+'" onclick="event.stopPropagation();toggleDaily(\''+item.id+'\')"></div>' +
-      '<div class="task-title">'+esc(item.title)+'</div>' +
-      '<div class="task-meta">' +
-        (item.mediaFile?'<span style="font-size:11px;color:#8e44ad;">▶ 视频</span>':'') +
-        '<span class="priority-tag '+item.priority+'">'+pTag+'</span>' +
+      '<div class="task-header" onclick="toggleDetail(this)">' +
+        '<div class="task-checkbox'+(item.completed?' checked':'')+'" onclick="event.stopPropagation();toggleDaily(\''+item.id+'\')"></div>' +
+        '<div class="task-title">'+esc(item.title)+'</div>' +
+        '<div class="task-meta">' +
+          (item.mediaFile?'<span style="font-size:11px;color:#8e44ad;">▶ 视频</span>':'') +
+          (item.meditationAudio?'<span style="font-size:11px;color:#2b5797;">♪ 音频</span>':'') +
+          '<span class="priority-tag '+item.priority+'">'+pTag+'</span>' +
         '<span class="task-expand">▼</span>' +
       '</div>' +
     '</div>' +
     '<div class="task-detail" id="detail-'+item.id+'">' +
-      descHtml + mediaHtml +
+      descHtml + mediaHtml + meditationHtml +
       '<div class="ai-assist"><div class="ai-assist-title">🤖 AI 辅助</div><div class="ai-assist-content">'+(item.aiAssist?esc(item.aiAssist):'<span class="ai-assist-empty">暂无辅助内容，可告知智能体添加</span>')+'</div></div>' +
       '<div class="task-actions"><button class="btn-sm" onclick="event.stopPropagation();openEditModal(\'daily\',\''+item.id+'\')">编辑</button><button class="btn-sm btn-danger" onclick="event.stopPropagation();deleteItem(\'daily\',\''+item.id+'\')">删除</button></div>' +
     '</div>';
