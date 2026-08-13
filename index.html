@@ -193,6 +193,57 @@ body { font-family:"微软雅黑","Microsoft YaHei",sans-serif; font-size:14px; 
 .note-group-title { font-size:13px; color:#888; font-weight:600; margin:16px 0 8px; padding-left:4px; border-bottom:1px solid #eee; padding-bottom:4px; }
 .star { display:inline-block; }
 
+/* 笔记弹窗优化 */
+.nm-overlay { display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.45); z-index:1000; align-items:center; justify-content:center; animation:nmFadeIn .2s; }
+.nm-overlay.show { display:flex; }
+@keyframes nmFadeIn { from{opacity:0} to{opacity:1} }
+.nm-dialog { background:#fff; border-radius:16px; width:90%; max-width:500px; max-height:88vh; overflow-y:auto; box-shadow:0 8px 32px rgba(0,0,0,0.15); animation:nmSlideUp .25s; }
+@keyframes nmSlideUp { from{transform:translateY(20px);opacity:0} to{transform:translateY(0);opacity:1} }
+.nm-header { display:flex; justify-content:space-between; align-items:center; padding:20px 24px 12px; }
+.nm-header h3 { margin:0; font-size:18px; font-weight:600; }
+.nm-close { background:none; border:none; font-size:24px; cursor:pointer; color:#999; line-height:1; padding:0; width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; transition:background .15s; }
+.nm-close:hover { background:#f0f0f0; color:#333; }
+.nm-body { padding:0 24px 8px; }
+.nm-field { margin-bottom:18px; }
+.nm-label { display:block; font-size:13px; color:#666; margin-bottom:6px; font-weight:500; }
+.nm-input { width:100%; padding:10px 14px; border:1px solid #e0e0e0; border-radius:8px; font-size:14px; box-sizing:border-box; transition:border-color .15s; background:#fafafa; }
+.nm-input:focus { outline:none; border-color:#2b5797; background:#fff; }
+.nm-textarea { width:100%; padding:10px 14px; border:1px solid #e0e0e0; border-radius:8px; font-size:14px; box-sizing:border-box; resize:vertical; line-height:1.6; background:#fafafa; font-family:inherit; }
+.nm-textarea:focus { outline:none; border-color:#2b5797; background:#fff; }
+
+/* 状态分段选择 */
+.nm-status-group { display:flex; gap:0; border:1px solid #e0e0e0; border-radius:8px; overflow:hidden; }
+.nm-status-btn { flex:1; padding:9px 0; text-align:center; font-size:13px; cursor:pointer; background:#fafafa; color:#888; border:none; transition:all .15s; font-family:inherit; }
+.nm-status-btn:hover { background:#f0f0f0; }
+.nm-status-btn.active { background:#2b5797; color:#fff; }
+.nm-status-btn+.nm-status-btn { border-left:1px solid #e0e0e0; }
+
+/* 分类标签chips */
+.nm-chips { display:flex; flex-wrap:wrap; gap:6px; }
+.nm-chip { padding:6px 14px; border:1px solid #e0e0e0; border-radius:20px; font-size:12px; cursor:pointer; color:#666; background:#fafafa; transition:all .15s; user-select:none; }
+.nm-chip:hover { border-color:#2b5797; color:#2b5797; }
+.nm-chip.active { background:#e8f0fe; border-color:#2b5797; color:#2b5797; font-weight:500; }
+
+/* 评分星星 */
+.nm-rating-row { display:flex; align-items:center; gap:8px; }
+.nm-stars { display:flex; gap:2px; }
+.nm-star { font-size:28px; cursor:pointer; color:#e0e0e0; transition:color .1s; user-select:none; line-height:1; }
+.nm-star.active { color:#FFAC2D; }
+.nm-star:hover { color:#FFAC2D; }
+.nm-rating-text { font-size:13px; color:#999; margin-left:6px; }
+
+/* 日期并排 */
+.nm-date-row { display:flex; gap:12px; }
+.nm-date-row .nm-field { flex:1; margin-bottom:18px; }
+
+/* 底部按钮 */
+.nm-footer { display:flex; gap:10px; justify-content:flex-end; padding:12px 24px 20px; }
+.nm-btn { padding:10px 24px; border-radius:8px; font-size:14px; cursor:pointer; font-family:inherit; transition:all .15s; }
+.nm-btn-cancel { border:1px solid #e0e0e0; background:#fff; color:#666; }
+.nm-btn-cancel:hover { background:#f5f5f5; }
+.nm-btn-save { border:none; background:#2b5797; color:#fff; }
+.nm-btn-save:hover { background:#1e3a5f; }
+
 /* 操作按钮 */
 .task-actions { margin-top:10px; display:flex; gap:6px; }
 .btn-sm { padding:4px 10px; border-radius:4px; border:1px solid #ddd; background:#fff; cursor:pointer; font-size:11px; transition:all .2s; }
@@ -1615,6 +1666,131 @@ function openNoteModal(type, editId) {
     for(var i=0;i<arr.length;i++){
       if(arr[i].id===noteEditId){ item=arr[i]; break; }
     }
+  }
+
+  var isBook = type==='book';
+  var categories = isBook ? BOOK_CATEGORIES : MOVIE_CATEGORIES;
+  var statusMap = isBook ? BOOK_STATUS : MOVIE_STATUS;
+  var currentStatus = item ? (item.status || 'want') : 'want';
+  var currentCategory = item ? (item.category || '') : '';
+  var rating = item ? (item.rating || 0) : 0;
+
+  // 分类标签chips
+  var chipsHtml = '<div class="nm-chips">';
+  for(var i=0;i<categories.length;i++){
+    var cls = currentCategory===categories[i] ? ' active' : '';
+    chipsHtml += '<span class="nm-chip'+cls+'" onclick="selectNoteChip(this,\''+categories[i]+'\')">'+categories[i]+'</span>';
+  }
+  chipsHtml += '</div><input type="hidden" id="nm-category" value="'+currentCategory+'">';
+
+  // 状态分段按钮
+  var statusKeys = ['want','doing','done'];
+  var statusHtml = '<div class="nm-status-group">';
+  for(var i=0;i<statusKeys.length;i++){
+    var key = statusKeys[i];
+    var cls = currentStatus===key ? ' active' : '';
+    statusHtml += '<button class="nm-status-btn'+cls+'" onclick="selectNoteStatus(this,\''+key+'\')" type="button">'+statusMap[key]+'</button>';
+  }
+  statusHtml += '</div><input type="hidden" id="nm-status" value="'+currentStatus+'">';
+
+  // 评分星星
+  var ratingLabels = ['','很差','较差','还行','推荐','力荐'];
+  var starsHtml = '<div class="nm-rating-row"><div class="nm-stars">';
+  for(var s=1;s<=5;s++){
+    starsHtml += '<span class="nm-star'+(s<=rating?' active':'')+'" data-val="'+s+'" onclick="setNoteRating('+s+')" onmouseover="hoverNoteRating('+s+')" onmouseout="hoverNoteRating(0)">&#9733;</span>';
+  }
+  starsHtml += '</div><span class="nm-rating-text" id="nm-rating-text">'+(rating>0?ratingLabels[rating]:'点击评分')+'</span></div><input type="hidden" id="nm-rating" value="'+rating+'">';
+
+  var title = isBook ? (noteEditId?'编辑读书笔记':'添加读书笔记') : (noteEditId?'编辑影视笔记':'添加影视笔记');
+  var nameLabel = isBook ? '书名' : '片名';
+
+  var modal = document.getElementById('note-modal');
+  if(!modal){
+    modal = document.createElement('div');
+    modal.id = 'note-modal';
+    modal.className = 'nm-overlay';
+    document.body.appendChild(modal);
+  }
+  modal.className = 'nm-overlay show';
+  modal.innerHTML =
+    '<div class="nm-dialog">' +
+      '<div class="nm-header">' +
+        '<h3>'+title+'</h3>' +
+        '<button class="nm-close" onclick="closeNoteModal()">&times;</button>' +
+      '</div>' +
+      '<div class="nm-body">' +
+        '<div class="nm-field"><label class="nm-label">'+nameLabel+'</label><input class="nm-input" id="nm-title" value="'+(item?esc(item.title):'')+'" placeholder="请输入'+nameLabel+'"></div>' +
+        (isBook ? '<div class="nm-field"><label class="nm-label">作者</label><input class="nm-input" id="nm-author" value="'+(item?esc(item.author||''):'' )+'" placeholder="请输入作者名"></div>' : '') +
+        '<div class="nm-field"><label class="nm-label">分类</label>'+chipsHtml+'</div>' +
+        '<div class="nm-field"><label class="nm-label">状态</label>'+statusHtml+'</div>' +
+        '<div class="nm-field"><label class="nm-label">评分</label>'+starsHtml+'</div>' +
+        '<div class="nm-date-row">' +
+          '<div class="nm-field"><label class="nm-label">开始日期</label><input class="nm-input" id="nm-startDate" type="date" value="'+(item?item.startDate||'':'')+'"></div>' +
+          '<div class="nm-field"><label class="nm-label">完成日期</label><input class="nm-input" id="nm-finishDate" type="date" value="'+(item?item.finishDate||'':'')+'"></div>' +
+        '</div>' +
+        '<div class="nm-field"><label class="nm-label">笔记内容</label><textarea class="nm-textarea" id="nm-notes" rows="6" placeholder="写下你的读书/观影感受...">'+(item?esc(item.notes||''):'' )+'</textarea></div>' +
+      '</div>' +
+      '<div class="nm-footer">' +
+        '<button class="nm-btn nm-btn-cancel" onclick="closeNoteModal()">取消</button>' +
+        '<button class="nm-btn nm-btn-save" onclick="saveNote()">保存</button>' +
+      '</div>' +
+    '</div>';
+}
+
+function closeNoteModal() {
+  var modal = document.getElementById('note-modal');
+  if(modal) modal.classList.remove('show');
+  noteEditId = null;
+}
+
+function selectNoteStatus(btn, val) {
+  var siblings = btn.parentNode.querySelectorAll('.nm-status-btn');
+  for(var i=0;i<siblings.length;i++) siblings[i].classList.remove('active');
+  btn.classList.add('active');
+  document.getElementById('nm-status').value = val;
+}
+
+function selectNoteChip(el, val) {
+  var siblings = el.parentNode.querySelectorAll('.nm-chip');
+  for(var i=0;i<siblings.length;i++) siblings[i].classList.remove('active');
+  el.classList.add('active');
+  document.getElementById('nm-category').value = val;
+}
+
+function setNoteRating(val) {
+  document.getElementById('nm-rating').value = val;
+  var stars = document.querySelectorAll('#nm-rating-stars .nm-star, .nm-stars .nm-star');
+  var labels = ['','很差','较差','还行','推荐','力荐'];
+  for(var i=0;i<stars.length;i++){
+    if(i<val) stars[i].classList.add('active');
+    else stars[i].classList.remove('active');
+  }
+  var textEl = document.getElementById('nm-rating-text');
+  if(textEl) textEl.textContent = val>0 ? labels[val] : '点击评分';
+}
+
+function hoverNoteRating(val) {
+  var stars = document.querySelectorAll('.nm-stars .nm-star');
+  var labels = ['','很差','较差','还行','推荐','力荐'];
+  var currentVal = parseInt(document.getElementById('nm-rating').value) || 0;
+  var displayVal = val > 0 ? val : currentVal;
+  for(var i=0;i<stars.length;i++){
+    if(i<displayVal) stars[i].style.color = '#FFAC2D';
+    else if(i<currentVal) stars[i].style.color = '#FFAC2D';
+    else stars[i].style.color = '#e0e0e0';
+  }
+  // 临时文字
+  var textEl = document.getElementById('nm-rating-text');
+  if(textEl) {
+    if(val > 0) textEl.textContent = labels[val];
+    else if(currentVal > 0) textEl.textContent = labels[currentVal];
+    else textEl.textContent = '点击评分';
+  }
+  // 移开时清除inline样式，恢复class控制
+  if(val === 0) {
+    for(var i=0;i<stars.length;i++) stars[i].style.color = '';
+  }
+}
   }
 
   var isBook = type==='book';
