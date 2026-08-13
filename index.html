@@ -197,48 +197,48 @@ body { font-family:"微软雅黑","Microsoft YaHei",sans-serif; font-size:14px; 
 .nm-overlay { display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.45); z-index:1000; align-items:center; justify-content:center; animation:nmFadeIn .2s; }
 .nm-overlay.show { display:flex; }
 @keyframes nmFadeIn { from{opacity:0} to{opacity:1} }
-.nm-dialog { background:#fff; border-radius:16px; width:90%; max-width:500px; max-height:88vh; overflow-y:auto; box-shadow:0 8px 32px rgba(0,0,0,0.15); animation:nmSlideUp .25s; }
+.nm-dialog { background:#fff; border-radius:16px; width:92%; max-width:680px; max-height:90vh; overflow-y:auto; box-shadow:0 8px 32px rgba(0,0,0,0.15); animation:nmSlideUp .25s; }
 @keyframes nmSlideUp { from{transform:translateY(20px);opacity:0} to{transform:translateY(0);opacity:1} }
-.nm-header { display:flex; justify-content:space-between; align-items:center; padding:20px 24px 12px; }
-.nm-header h3 { margin:0; font-size:18px; font-weight:600; }
-.nm-close { background:none; border:none; font-size:24px; cursor:pointer; color:#999; line-height:1; padding:0; width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; transition:background .15s; }
+.nm-header { display:flex; justify-content:space-between; align-items:center; padding:24px 32px 14px; }
+.nm-header h3 { margin:0; font-size:20px; font-weight:600; }
+.nm-close { background:none; border:none; font-size:26px; cursor:pointer; color:#999; line-height:1; padding:0; width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; transition:background .15s; }
 .nm-close:hover { background:#f0f0f0; color:#333; }
-.nm-body { padding:0 24px 8px; }
-.nm-field { margin-bottom:18px; }
-.nm-label { display:block; font-size:13px; color:#666; margin-bottom:6px; font-weight:500; }
-.nm-input { width:100%; padding:10px 14px; border:1px solid #e0e0e0; border-radius:8px; font-size:14px; box-sizing:border-box; transition:border-color .15s; background:#fafafa; }
+.nm-body { padding:0 32px 8px; }
+.nm-field { margin-bottom:20px; }
+.nm-label { display:block; font-size:14px; color:#555; margin-bottom:8px; font-weight:500; }
+.nm-input { width:100%; padding:12px 16px; border:1px solid #e0e0e0; border-radius:8px; font-size:15px; box-sizing:border-box; transition:border-color .15s; background:#fafafa; }
 .nm-input:focus { outline:none; border-color:#2b5797; background:#fff; }
-.nm-textarea { width:100%; padding:10px 14px; border:1px solid #e0e0e0; border-radius:8px; font-size:14px; box-sizing:border-box; resize:vertical; line-height:1.6; background:#fafafa; font-family:inherit; }
+.nm-textarea { width:100%; padding:12px 16px; border:1px solid #e0e0e0; border-radius:8px; font-size:15px; box-sizing:border-box; resize:vertical; line-height:1.7; background:#fafafa; font-family:inherit; }
 .nm-textarea:focus { outline:none; border-color:#2b5797; background:#fff; }
 
 /* 状态分段选择 */
 .nm-status-group { display:flex; gap:0; border:1px solid #e0e0e0; border-radius:8px; overflow:hidden; }
-.nm-status-btn { flex:1; padding:9px 0; text-align:center; font-size:13px; cursor:pointer; background:#fafafa; color:#888; border:none; transition:all .15s; font-family:inherit; }
+.nm-status-btn { flex:1; padding:11px 0; text-align:center; font-size:14px; cursor:pointer; background:#fafafa; color:#888; border:none; transition:all .15s; font-family:inherit; }
 .nm-status-btn:hover { background:#f0f0f0; }
 .nm-status-btn.active { background:#2b5797; color:#fff; }
 .nm-status-btn+.nm-status-btn { border-left:1px solid #e0e0e0; }
 
 /* 分类标签chips */
 .nm-chips { display:flex; flex-wrap:wrap; gap:6px; }
-.nm-chip { padding:6px 14px; border:1px solid #e0e0e0; border-radius:20px; font-size:12px; cursor:pointer; color:#666; background:#fafafa; transition:all .15s; user-select:none; }
+.nm-chip { padding:8px 16px; border:1px solid #e0e0e0; border-radius:20px; font-size:13px; cursor:pointer; color:#666; background:#fafafa; transition:all .15s; user-select:none; }
 .nm-chip:hover { border-color:#2b5797; color:#2b5797; }
 .nm-chip.active { background:#e8f0fe; border-color:#2b5797; color:#2b5797; font-weight:500; }
 
 /* 评分星星 */
 .nm-rating-row { display:flex; align-items:center; gap:8px; }
 .nm-stars { display:flex; gap:2px; }
-.nm-star { font-size:28px; cursor:pointer; color:#e0e0e0; transition:color .1s; user-select:none; line-height:1; }
+.nm-star { font-size:32px; cursor:pointer; color:#e0e0e0; transition:color .1s; user-select:none; line-height:1; }
 .nm-star.active { color:#FFAC2D; }
 .nm-star:hover { color:#FFAC2D; }
-.nm-rating-text { font-size:13px; color:#999; margin-left:6px; }
+.nm-rating-text { font-size:14px; color:#999; margin-left:8px; }
 
 /* 日期并排 */
 .nm-date-row { display:flex; gap:12px; }
 .nm-date-row .nm-field { flex:1; margin-bottom:18px; }
 
 /* 底部按钮 */
-.nm-footer { display:flex; gap:10px; justify-content:flex-end; padding:12px 24px 20px; }
-.nm-btn { padding:10px 24px; border-radius:8px; font-size:14px; cursor:pointer; font-family:inherit; transition:all .15s; }
+.nm-footer { display:flex; gap:12px; justify-content:flex-end; padding:14px 32px 24px; }
+.nm-btn { padding:11px 28px; border-radius:8px; font-size:15px; cursor:pointer; font-family:inherit; transition:all .15s; }
 .nm-btn-cancel { border:1px solid #e0e0e0; background:#fff; color:#666; }
 .nm-btn-cancel:hover { background:#f5f5f5; }
 .nm-btn-save { border:none; background:#2b5797; color:#fff; }
@@ -1728,7 +1728,7 @@ function openNoteModal(type, editId) {
           '<div class="nm-field"><label class="nm-label">开始日期</label><input class="nm-input" id="nm-startDate" type="date" value="'+(item?item.startDate||'':'')+'"></div>' +
           '<div class="nm-field"><label class="nm-label">完成日期</label><input class="nm-input" id="nm-finishDate" type="date" value="'+(item?item.finishDate||'':'')+'"></div>' +
         '</div>' +
-        '<div class="nm-field"><label class="nm-label">笔记内容</label><textarea class="nm-textarea" id="nm-notes" rows="6" placeholder="写下你的读书/观影感受...">'+(item?esc(item.notes||''):'' )+'</textarea></div>' +
+        '<div class="nm-field"><label class="nm-label">笔记内容</label><textarea class="nm-textarea" id="nm-notes" rows="8" placeholder="写下你的读书/观影感受...">'+(item?esc(item.notes||''):'' )+'</textarea></div>' +
       '</div>' +
       '<div class="nm-footer">' +
         '<button class="nm-btn nm-btn-cancel" onclick="closeNoteModal()">取消</button>' +
@@ -1836,7 +1836,7 @@ function hoverNoteRating(val) {
       '<div class="form-group"><label>评分</label><div id="nm-rating-stars" style="margin-top:4px;">'+ratingStars+'</div><input type="hidden" id="nm-rating" value="'+rating+'"></div>' +
       '<div style="display:flex;gap:10px;"><div class="form-group" style="flex:1;"><label>开始日期</label><input id="nm-startDate" type="date" value="'+(item?item.startDate||'':'')+'" style="width:100%;padding:8px 12px;border:1px solid #ddd;border-radius:6px;font-size:14px;box-sizing:border-box;"></div>' +
       '<div class="form-group" style="flex:1;"><label>完成日期</label><input id="nm-finishDate" type="date" value="'+(item?item.finishDate||'':'')+'" style="width:100%;padding:8px 12px;border:1px solid #ddd;border-radius:6px;font-size:14px;box-sizing:border-box;"></div></div>' +
-      '<div class="form-group"><label>笔记内容</label><textarea id="nm-notes" rows="6" style="width:100%;padding:8px 12px;border:1px solid #ddd;border-radius:6px;font-size:14px;box-sizing:border-box;resize:vertical;">'+(item?esc(item.notes||''):'' )+'</textarea></div>' +
+      '<div class="form-group"><label>笔记内容</label><textarea id="nm-notes" rows="8" style="width:100%;padding:8px 12px;border:1px solid #ddd;border-radius:6px;font-size:14px;box-sizing:border-box;resize:vertical;">'+(item?esc(item.notes||''):'' )+'</textarea></div>' +
       '<div style="display:flex;gap:10px;justify-content:flex-end;margin-top:8px;">' +
         '<button onclick="closeNoteModal()" style="padding:8px 20px;border:1px solid #ddd;border-radius:6px;background:#fff;cursor:pointer;">取消</button>' +
         '<button onclick="saveNote()" style="padding:8px 20px;border:none;border-radius:6px;background:#2b5797;color:#fff;cursor:pointer;">保存</button>' +
