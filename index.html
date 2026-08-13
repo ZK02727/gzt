@@ -405,7 +405,7 @@ body { font-family:"Segoe UI","微软雅黑","Microsoft YaHei",system-ui,sans-se
     </div>
     <div class="nav-item" data-tab="longterm" onclick="switchTab('longterm')">
       <span class="nav-icon">🎯</span>
-      <span class="nav-label">长期事项</span>
+      <span class="nav-label">专项任务</span>
       <span class="nav-badge" id="badge-longterm">0</span>
     </div>
     <div class="nav-divider"></div>
@@ -1768,7 +1768,7 @@ function switchTab(tab) {
     if(items[i].getAttribute('data-tab')===tab) items[i].classList.add('active');
     else items[i].classList.remove('active');
   }
-  var titles = {daily:'今日待办', midterm:'月度周期', longterm:'长期事项', booknotes:'读书笔记', movienotes:'影视笔记', memos:'快捷便签', countdown:'纪念日', journal:'每日心语'};
+  var titles = {daily:'今日待办', midterm:'月度周期', longterm:'专项任务', booknotes:'读书笔记', movienotes:'影视笔记', memos:'快捷便签', countdown:'纪念日', journal:'每日心语'};
   document.getElementById('main-title').textContent = titles[tab];
   renderContent();
 }
@@ -2212,10 +2212,10 @@ function renderMidterm(area) {
   }
 }
 
-/* ===== 长期事项渲染 ===== */
+/* ===== 专项任务渲染 ===== */
 function renderLongterm(area) {
   var items = appData.longterm;
-  if(!items.length){ area.innerHTML='<div class="empty-state"><div class="empty-icon">🎯</div><p>暂无长期事项</p></div>'; return; }
+  if(!items.length){ area.innerHTML='<div class="empty-state"><div class="empty-icon">🎯</div><p>暂无专项任务</p></div>'; return; }
   for(var idx=0;idx<items.length;idx++){
     var item = items[idx];
     var card = document.createElement('div');
