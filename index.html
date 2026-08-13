@@ -426,8 +426,8 @@ body { font-family:"Segoe UI","微软雅黑","Microsoft YaHei",system-ui,sans-se
       <span class="nav-badge" id="badge-memos">0</span>
     </div>
     <div class="nav-item" data-tab="countdown" onclick="switchTab('countdown')">
-      <span class="nav-icon">⏳</span>
-      <span class="nav-label">倒计时日</span>
+      <span class="nav-icon">💝</span>
+      <span class="nav-label">纪念日</span>
       <span class="nav-badge" id="badge-countdown">0</span>
     </div>
     <div class="nav-item" data-tab="journal" onclick="switchTab('journal')">
@@ -587,8 +587,9 @@ var DEFAULT_DATA = {
   bookNotes: [],  // 读书笔记 {id, title, author, category, rating, status, startDate, finishDate, notes, createdAt}
   movieNotes: [],  // 影视笔记 {id, title, category, rating, status, startDate, finishDate, notes, createdAt}
   memos: [],       // 快捷便签 {id, content, color, createdAt, pinned}
-  countdowns: [],  // 倒计时日 {id, title, date, icon, createdAt}
-  journal: {}      // 每日心语 {'YYYY-MM-DD': {date, mood, content, savedAt}}
+  countdowns: [],  // 纪念日 {id, title, date, icon, repeat, createdAt}
+  journal: {},     // 每日心语 {'YYYY-MM-DD': {date, mood, content, savedAt}}
+  deletedIds: []   // 已删除条目的id集合（防云端合并复活）
 };
 
 var STORAGE_KEY = 'workbench_v4'; // 旧版localStorage key（兼容迁移）
@@ -788,6 +789,34 @@ function mergeData(local, cloud) {
       if (!merged.journal[dateKey]) merged.journal[dateKey] = cloud.journal[dateKey];
     }
   }
+
+  // --- 合并 deletedIds（并集，用于过滤已删除条目）---
+  merged.deletedIds = merged.deletedIds || [];
+  if (cloud.deletedIds && cloud.deletedIds.length) {
+    for (var i = 0; i < cloud.deletedIds.length; i++) {
+      if (merged.deletedIds.indexOf(cloud.deletedIds[i]) < 0) merged.deletedIds.push(cloud.deletedIds[i]);
+    }
+  }
+  // 用 deletedIds 过滤所有数组类型，防止已删除条目被云端旧数据复活
+  var _deletedSet = {};
+  for (var i = 0; i < (merged.deletedIds||[]).length; i++) _deletedSet[merged.deletedIds[i]] = true;
+  function _filterDeleted(arr) {
+    if (!arr || !arr.length) return arr;
+    var out = [];
+    for (var i = 0; i < arr.length; i++) {
+      if (arr[i] && arr[i].id && !_deletedSet[arr[i].id]) out.push(arr[i]);
+      else if (arr[i] && !arr[i].id) out.push(arr[i]); // 无id的保留
+    }
+    return out;
+  }
+  merged.daily = _filterDeleted(merged.daily);
+  merged.tempTasks = _filterDeleted(merged.tempTasks);
+  merged.midterm = _filterDeleted(merged.midterm);
+  merged.longterm = _filterDeleted(merged.longterm);
+  merged.bookNotes = _filterDeleted(merged.bookNotes);
+  merged.movieNotes = _filterDeleted(merged.movieNotes);
+  merged.memos = _filterDeleted(merged.memos);
+  merged.countdowns = _filterDeleted(merged.countdowns);
 
   // --- 时间戳：取较新者，再更新为当前时间 ---
   var now = new Date().toISOString();
@@ -1158,6 +1187,7 @@ function deleteMemo(id) {
       if (appData.memos[i].id !== id) newArr.push(appData.memos[i]);
     }
     appData.memos = newArr;
+    recordDeleted(id);
     saveData(appData);
     renderContent();
   };
@@ -1167,9 +1197,9 @@ function deleteMemo(id) {
 
 
 /* ============================================================ */
-/* ===== 倒计时日 ===== */
+/* ===== 纪念日计算器 ===== */
 /* ============================================================ */
-var COUNTDOWN_ICONS = ['🎉','🎂','📅','💼','✈️','🏖️','🎯','💰','📚','🎄','🎁','⭐','🔖','💡'];
+var COUNTDOWN_ICONS = ['🎂','💕','💍','👶','🏠','✈️','🏖️','🎓','🎉','📅','💼','💰','📚','🎄','🎁','⭐'];
 
 function renderCountdowns(area) {
   if (!appData.countdowns) appData.countdowns = [];
@@ -1178,20 +1208,25 @@ function renderCountdowns(area) {
   // 添加按钮
   var header = document.createElement('div');
   header.style.cssText = 'display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;';
-  header.innerHTML = '<div style="font-size:13px;color:#888;">共 <b>' + appData.countdowns.length + '</b> 个</div><button class="note-add-btn" onclick="openCountdownModal()">+ 添加倒计时</button>';
+  header.innerHTML = '<div style="font-size:13px;color:#888;">共 <b>' + appData.countdowns.length + '</b> 个</div><button class="note-add-btn" onclick="openCountdownModal()">+ 添加纪念日</button>';
   area.appendChild(header);
 
   if (!appData.countdowns.length) {
-    area.innerHTML += '<div class="countdown-empty"><div class="countdown-empty-icon">⏳</div><p>还没有倒计时</p><p style="font-size:12px;color:#bbb;margin-top:4px;">添加生日、纪念日、截止日等重要日期</p></div>';
+    area.innerHTML += '<div class="countdown-empty"><div class="countdown-empty-icon">💝</div><p>还没有纪念日</p><p style="font-size:12px;color:#bbb;margin-top:4px;">添加生日、恋爱纪念日、孩子出生日等重要日期</p></div>';
     return;
   }
 
   var now = new Date();
   now.setHours(0, 0, 0, 0);
 
-  // 按距离日期排序
+  // 排序：将来的排前面（按天数升序），过去的排后面（按天数降序）
   var sorted = appData.countdowns.slice().sort(function(a, b) {
-    return (a.date || '').localeCompare(b.date || '');
+    var aInfo = calcAnniversary(a, now);
+    var bInfo = calcAnniversary(b, now);
+    if (aInfo.isFuture && !bInfo.isFuture) return -1;
+    if (!aInfo.isFuture && bInfo.isFuture) return 1;
+    if (aInfo.isFuture) return aInfo.displayDays - bInfo.displayDays;
+    return bInfo.displayDays - aInfo.displayDays;
   });
 
   var grid = document.createElement('div');
@@ -1202,44 +1237,90 @@ function renderCountdowns(area) {
   area.appendChild(grid);
 }
 
+/* 计算纪念日的显示信息 */
+function calcAnniversary(item, now) {
+  var origDate = new Date(item.date + 'T00:00:00');
+  var diffMs = origDate - now;
+  var diffDays = Math.round(diffMs / (1000 * 60 * 60 * 24));
+
+  var result = {
+    diffDays: diffDays,
+    isFuture: diffDays > 0,
+    isToday: diffDays === 0,
+    isPast: diffDays < 0,
+    displayDays: Math.abs(diffDays),
+    origDate: origDate,
+    nextAnniversary: null,
+    yearsPassed: 0,
+    nextDays: 0
+  };
+
+  // 计算周年纪念（如果是重复纪念日）
+  if (item.repeat && diffDays < 0) {
+    var years = Math.floor(Math.abs(diffDays) / 365);
+    // 粗略计算下一个周年日期
+    var nextAnniv = new Date(origDate);
+    nextAnniv.setFullYear(now.getFullYear());
+    if (nextAnniv < now) {
+      nextAnniv.setFullYear(now.getFullYear() + 1);
+    }
+    var nextDiff = Math.round((nextAnniv - now) / (1000 * 60 * 60 * 24));
+    result.yearsPassed = Math.floor((now - origDate) / (365.25 * 24 * 60 * 60 * 1000));
+    result.nextAnniversary = nextAnniv;
+    result.nextDays = nextDiff;
+  }
+
+  return result;
+}
+
 function createCountdownCard(item, now) {
   var card = document.createElement('div');
   card.className = 'countdown-card fade-in';
 
-  var targetDate = new Date(item.date + 'T00:00:00');
-  var diffMs = targetDate - now;
-  var diffDays = Math.round(diffMs / (1000 * 60 * 60 * 24));
-
+  var info = calcAnniversary(item, now);
   var urgencyClass = 'normal';
-  var dayText = '';
-  if (diffDays < 0) {
-    urgencyClass = 'past';
-    dayText = Math.abs(diffDays);
-  } else if (diffDays === 0) {
+
+  if (info.isToday) {
     urgencyClass = 'urgent';
-    dayText = '今天';
-  } else if (diffDays <= 7) {
+  } else if (info.isFuture && info.displayDays <= 7) {
     urgencyClass = 'soon';
-    dayText = diffDays;
-  } else {
-    dayText = diffDays;
+  } else if (info.isPast) {
+    urgencyClass = 'past';
   }
   card.classList.add(urgencyClass);
 
   var dateDisplay = item.date ? new Date(item.date + 'T00:00:00').toLocaleDateString('zh-CN', {year:'numeric',month:'long',day:'numeric',weekday:'long'}) : '';
 
-  var numberHtml;
-  if (diffDays === 0) {
-    numberHtml = '<span class="countdown-number" style="font-size:28px;">就是今天</span>';
-  } else if (diffDays < 0) {
-    numberHtml = '<span class="countdown-number">' + dayText + '</span><span class="countdown-unit">天前</span>';
+  // 主体数字显示
+  var numberHtml = '';
+  if (info.isToday) {
+    if (item.repeat && info.yearsPassed > 0) {
+      numberHtml = '<span class="countdown-number" style="font-size:28px;">第' + (info.yearsPassed + 1) + '个周年</span>';
+    } else {
+      numberHtml = '<span class="countdown-number" style="font-size:28px;">就是今天</span>';
+    }
+  } else if (info.isFuture) {
+    numberHtml = '<span class="countdown-number">' + info.displayDays + '</span><span class="countdown-unit">天后</span>';
   } else {
-    numberHtml = '<span class="countdown-number">' + dayText + '</span><span class="countdown-unit">天后</span>';
+    // 过去的日期
+    if (item.repeat) {
+      // 重复纪念日：显示已过天数 + 周年数 + 距下次周年天数
+      numberHtml = '<span class="countdown-number">' + info.displayDays + '</span><span class="countdown-unit">天</span>';
+      if (info.yearsPassed > 0) {
+        numberHtml += '<div style="font-size:13px;color:var(--text-muted);margin-top:6px;">已第 <b style="color:var(--accent);">' + info.yearsPassed + '</b> 周年 · 下次还有 <b style="color:var(--accent);">' + info.nextDays + '</b> 天</div>';
+      }
+    } else {
+      // 普通过去日期：只显示已过天数
+      numberHtml = '<span class="countdown-number">' + info.displayDays + '</span><span class="countdown-unit">天前</span>';
+    }
   }
 
+  // 重复标记
+  var repeatBadge = item.repeat ? '<span style="font-size:10px;padding:2px 8px;border-radius:10px;background:rgba(139,92,246,0.1);color:#8b5cf6;font-weight:600;margin-left:6px;">🔁 每年</span>' : '';
+
   card.innerHTML =
-    '<div class="countdown-icon">' + (item.icon || '📅') + '</div>' +
-    '<div class="countdown-title">' + esc(item.title) + '</div>' +
+    '<div class="countdown-icon">' + (item.icon || '💝') + '</div>' +
+    '<div class="countdown-title">' + esc(item.title) + repeatBadge + '</div>' +
     '<div class="countdown-date">' + dateDisplay + '</div>' +
     '<div>' + numberHtml + '</div>' +
     '<div class="countdown-actions">' +
@@ -1266,6 +1347,8 @@ function openCountdownModal(editId) {
     iconHtml += '<span class="nm-chip' + cls + '" onclick="selectCountdownIcon(this,\'' + COUNTDOWN_ICONS[i] + '\')">' + COUNTDOWN_ICONS[i] + '</span>';
   }
 
+  var repeatChecked = item ? !!item.repeat : false;
+
   var modal = document.getElementById('note-modal');
   if (!modal) {
     modal = document.createElement('div');
@@ -1277,13 +1360,14 @@ function openCountdownModal(editId) {
   modal.innerHTML =
     '<div class="nm-dialog">' +
       '<div class="nm-header">' +
-        '<h3>' + (countdownEditId ? '编辑倒计时' : '添加倒计时') + '</h3>' +
+        '<h3>' + (countdownEditId ? '编辑纪念日' : '添加纪念日') + '</h3>' +
         '<button class="nm-close" onclick="closeNoteModal()">&times;</button>' +
       '</div>' +
       '<div class="nm-body">' +
         '<div class="nm-field"><label class="nm-label">名称</label><input class="nm-input" id="cd-title" value="' + (item ? esc(item.title) : '') + '" placeholder="如：女儿生日"></div>' +
         '<div class="nm-field"><label class="nm-label">日期</label><input class="nm-input" id="cd-date" type="date" value="' + (item ? item.date || '' : '') + '"></div>' +
         '<div class="nm-field"><label class="nm-label">图标</label><div class="nm-chips">' + iconHtml + '</div><input type="hidden" id="cd-icon" value="' + (item ? item.icon || COUNTDOWN_ICONS[0] : COUNTDOWN_ICONS[0]) + '"></div>' +
+        '<div class="nm-field"><label class="nm-label">重复</label><div style="display:flex;align-items:center;gap:10px"><label class="toggle-switch"><input type="checkbox" id="cd-repeat" ' + (repeatChecked ? 'checked' : '') + '><span class="toggle-slider"></span></label><span style="font-size:13px;color:var(--text-secondary)">每年重复（自动计算周年）</span></div></div>' +
       '</div>' +
       '<div class="nm-footer">' +
         '<button class="nm-btn nm-btn-cancel" onclick="closeNoteModal()">取消</button>' +
@@ -1303,6 +1387,7 @@ function saveCountdown() {
   var title = document.getElementById('cd-title').value.trim();
   var date = document.getElementById('cd-date').value;
   var icon = document.getElementById('cd-icon').value;
+  var repeat = document.getElementById('cd-repeat').checked;
   if (!title) { alert('请输入名称'); return; }
   if (!date) { alert('请选择日期'); return; }
 
@@ -1313,11 +1398,12 @@ function saveCountdown() {
         appData.countdowns[i].title = title;
         appData.countdowns[i].date = date;
         appData.countdowns[i].icon = icon;
+        appData.countdowns[i].repeat = repeat;
         break;
       }
     }
   } else {
-    appData.countdowns.push({ id: genId(), title: title, date: date, icon: icon, createdAt: getTodayStr() });
+    appData.countdowns.push({ id: genId(), title: title, date: date, icon: icon, repeat: repeat, createdAt: getTodayStr() });
   }
   saveData(appData);
   closeNoteModal();
@@ -1331,10 +1417,11 @@ function deleteCountdown(id) {
       if (appData.countdowns[i].id !== id) newArr.push(appData.countdowns[i]);
     }
     appData.countdowns = newArr;
+    recordDeleted(id);
     saveData(appData);
     renderContent();
   };
-  document.getElementById('confirm-text').textContent = '确定删除此倒计时？';
+  document.getElementById('confirm-text').textContent = '确定删除此纪念日？';
   document.getElementById('modal-confirm').classList.add('show');
 }
 
@@ -1631,7 +1718,7 @@ function switchTab(tab) {
     if(items[i].getAttribute('data-tab')===tab) items[i].classList.add('active');
     else items[i].classList.remove('active');
   }
-  var titles = {daily:'今日待办', midterm:'月度周期', longterm:'长期事项', booknotes:'读书笔记', movienotes:'影视笔记', memos:'快捷便签', countdown:'倒计时日', journal:'每日心语'};
+  var titles = {daily:'今日待办', midterm:'月度周期', longterm:'长期事项', booknotes:'读书笔记', movienotes:'影视笔记', memos:'快捷便签', countdown:'纪念日', journal:'每日心语'};
   document.getElementById('main-title').textContent = titles[tab];
   renderContent();
 }
@@ -1689,7 +1776,7 @@ function renderStats() {
   } else if(currentTab === 'memos'){
     el.innerHTML = '<span>便签 <span>'+(appData.memos||[]).length+'</span></span>';
   } else if(currentTab === 'countdown'){
-    el.innerHTML = '<span>倒计时 <span>'+(appData.countdowns||[]).length+'</span></span>';
+    el.innerHTML = '<span>纪念日 <span>'+(appData.countdowns||[]).length+'</span></span>';
   } else if(currentTab === 'journal'){
     var jCount = Object.keys(appData.journal||{}).filter(function(k){var e=appData.journal[k];return e&&(e.content||e.mood);}).length;
     el.innerHTML = '<span>心语记录 <span>'+jCount+'</span> 天</span>';
@@ -2423,8 +2510,18 @@ function deleteNote(type, id) {
     if(appData[key][i].id!==id) newArr.push(appData[key][i]);
   }
   appData[key] = newArr;
+  recordDeleted(id);
   saveData(appData);
   renderContent();
+}
+
+/* ===== 删除辅助：记录已删除id，防止云端合并复活 ===== */
+function recordDeleted(id) {
+  if (!id) return;
+  if (!appData.deletedIds) appData.deletedIds = [];
+  if (appData.deletedIds.indexOf(id) < 0) appData.deletedIds.push(id);
+  // 限制 deletedIds 长度，最多保留500条
+  if (appData.deletedIds.length > 500) appData.deletedIds = appData.deletedIds.slice(-500);
 }
 
 /* ===== 交互：展开/折叠 ===== */
@@ -2621,6 +2718,7 @@ function deleteItem(tab, id) {
       for(var i=0;i<appData[tab].length;i++){ if(appData[tab][i].id!==id) newArr.push(appData[tab][i]); }
       appData[tab] = newArr;
     }
+    recordDeleted(id);
     saveData(appData); renderContent(); renderCalendar();
   };
   document.getElementById('confirm-text').textContent = '确定删除此事项？';
