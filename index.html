@@ -653,6 +653,20 @@ function mergeData(local, cloud) {
 
   var merged = JSON.parse(JSON.stringify(local)); // 以本地为基底
 
+  // 同步已有条目的文本字段（title/desc/cycleLabel/priority等）：
+  // 云端有值且与本地不同时，采用"较新者覆盖"策略
+  function syncItemFields(localItem, cloudItem) {
+    if (!cloudItem) return;
+    // 需要同步的字段列表（不含id/createdAt/completed/status等状态字段）
+    var fields = ['title','desc','priority','cycleLabel','cycleDay','icon','repeat','color','progress','deadline','category','rating','startDate','endDate'];
+    for (var fi = 0; fi < fields.length; fi++) {
+      var f = fields[fi];
+      if (cloudItem[f] !== undefined && cloudItem[f] !== localItem[f]) {
+        localItem[f] = cloudItem[f];
+      }
+    }
+  }
+
   // --- 合并 daily 任务（以id为key）---
   var cloudDailyMap = {};
   for (var i = 0; i < cloud.daily.length; i++) cloudDailyMap[cloud.daily[i].id] = cloud.daily[i];
@@ -672,8 +686,8 @@ function mergeData(local, cloud) {
       if (cloudItem.aiAssist && cloudItem.aiAssist !== item.aiAssist) {
         item.aiAssist = cloudItem.aiAssist;
       }
-      // desc/priority：云端可能被另一设备修改过，本地优先（用户最新操作）
-      // createdAt等元数据保留本地
+      // 同步文本字段
+      syncItemFields(item, cloudItem);
     }
   }
 
@@ -694,6 +708,7 @@ function mergeData(local, cloud) {
       if (ct.completed && !t.completed) t.completed = true;
       // emailReminder：云端有值则同步（用户在另一设备可能刚设置了提醒）
       if (ct.emailReminder !== undefined && ct.emailReminder !== t.emailReminder) t.emailReminder = ct.emailReminder;
+      syncItemFields(t, ct);
     }
   }
   var localTempIds = {};
@@ -710,6 +725,7 @@ function mergeData(local, cloud) {
     var cm = cloudMidMap[m.id];
     if (cm) {
       if (cm.status === 'done' && m.status !== 'done') m.status = 'done';
+      syncItemFields(m, cm);
     }
   }
   var localMidIds = {};
@@ -721,6 +737,12 @@ function mergeData(local, cloud) {
   // --- 合并 longterm（长期事项，以id为key）---
   var cloudLtMap = {};
   for (var i = 0; i < (cloud.longterm||[]).length; i++) cloudLtMap[cloud.longterm[i].id] = cloud.longterm[i];
+  // 先同步已有条目的字段
+  for (var i = 0; i < (merged.longterm||[]).length; i++) {
+    var lt = merged.longterm[i];
+    var clt = cloudLtMap[lt.id];
+    if (clt) syncItemFields(lt, clt);
+  }
   for (var id in cloudLtMap) {
     var found = false;
     for (var i = 0; i < (merged.longterm||[]).length; i++) {
@@ -745,6 +767,13 @@ function mergeData(local, cloud) {
   // --- 合并 bookNotes（读书笔记，以id为key）---
   if (cloud.bookNotes && cloud.bookNotes.length) {
     if (!merged.bookNotes) merged.bookNotes = [];
+    // 同步已有条目的字段
+    var cloudBookMap = {};
+    for (var i = 0; i < cloud.bookNotes.length; i++) cloudBookMap[cloud.bookNotes[i].id] = cloud.bookNotes[i];
+    for (var i = 0; i < merged.bookNotes.length; i++) {
+      var cb = cloudBookMap[merged.bookNotes[i].id];
+      if (cb) syncItemFields(merged.bookNotes[i], cb);
+    }
     var localBookIds = {};
     for (var i = 0; i < merged.bookNotes.length; i++) localBookIds[merged.bookNotes[i].id] = true;
     for (var i = 0; i < cloud.bookNotes.length; i++) {
@@ -755,6 +784,13 @@ function mergeData(local, cloud) {
   // --- 合并 movieNotes（影视笔记，以id为key）---
   if (cloud.movieNotes && cloud.movieNotes.length) {
     if (!merged.movieNotes) merged.movieNotes = [];
+    // 同步已有条目的字段
+    var cloudMovieMap = {};
+    for (var i = 0; i < cloud.movieNotes.length; i++) cloudMovieMap[cloud.movieNotes[i].id] = cloud.movieNotes[i];
+    for (var i = 0; i < merged.movieNotes.length; i++) {
+      var cm = cloudMovieMap[merged.movieNotes[i].id];
+      if (cm) syncItemFields(merged.movieNotes[i], cm);
+    }
     var localMovieIds = {};
     for (var i = 0; i < merged.movieNotes.length; i++) localMovieIds[merged.movieNotes[i].id] = true;
     for (var i = 0; i < cloud.movieNotes.length; i++) {
@@ -765,6 +801,13 @@ function mergeData(local, cloud) {
   // --- 合并 memos（便签，以id为key）---
   if (cloud.memos && cloud.memos.length) {
     if (!merged.memos) merged.memos = [];
+    // 同步已有条目的字段
+    var cloudMemoMap = {};
+    for (var i = 0; i < cloud.memos.length; i++) cloudMemoMap[cloud.memos[i].id] = cloud.memos[i];
+    for (var i = 0; i < merged.memos.length; i++) {
+      var cm = cloudMemoMap[merged.memos[i].id];
+      if (cm) syncItemFields(merged.memos[i], cm);
+    }
     var localMemoIds = {};
     for (var i = 0; i < merged.memos.length; i++) localMemoIds[merged.memos[i].id] = true;
     for (var i = 0; i < cloud.memos.length; i++) {
@@ -775,6 +818,13 @@ function mergeData(local, cloud) {
   // --- 合并 countdowns（倒计时，以id为key）---
   if (cloud.countdowns && cloud.countdowns.length) {
     if (!merged.countdowns) merged.countdowns = [];
+    // 同步已有条目的字段
+    var cloudCdMap = {};
+    for (var i = 0; i < cloud.countdowns.length; i++) cloudCdMap[cloud.countdowns[i].id] = cloud.countdowns[i];
+    for (var i = 0; i < merged.countdowns.length; i++) {
+      var cc = cloudCdMap[merged.countdowns[i].id];
+      if (cc) syncItemFields(merged.countdowns[i], cc);
+    }
     var localCdIds = {};
     for (var i = 0; i < merged.countdowns.length; i++) localCdIds[merged.countdowns[i].id] = true;
     for (var i = 0; i < cloud.countdowns.length; i++) {
