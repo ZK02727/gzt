@@ -17,6 +17,7 @@ body { font-family:"微软雅黑","Microsoft YaHei",sans-serif; font-size:14px; 
 .nav-item { display:flex; align-items:center; padding:14px 20px; cursor:pointer; transition:background .2s; position:relative; }
 .nav-item:hover { background:#263548; }
 .nav-item.active { background:#2b5797; }
+.nav-divider { height:1px; background:#3a4a5e; margin:6px 12px; }
 .nav-icon { font-size:18px; margin-right:12px; width:24px; text-align:center; }
 .nav-label { flex:1; font-size:15px; }
 .nav-badge { background:#e74c3c; color:#fff; font-size:11px; border-radius:10px; padding:2px 8px; min-width:20px; text-align:center; }
@@ -165,6 +166,33 @@ body { font-family:"微软雅黑","Microsoft YaHei",sans-serif; font-size:14px; 
 .kr-item { background:#fff; border:1px solid #eee; border-radius:6px; padding:10px; margin-bottom:8px; }
 .kr-title { font-size:13px; font-weight:500; margin-bottom:6px; }
 
+/* 笔记相关 */
+.note-card { background:#fff; border-radius:8px; margin-bottom:12px; border-left:4px solid #2b5797; box-shadow:0 1px 3px rgba(0,0,0,0.08); }
+.note-card.status-want { border-left-color:#3498db; }
+.note-card.status-doing { border-left-color:#f39c12; }
+.note-card.status-done { border-left-color:#27ae60; }
+.note-header { display:flex; align-items:center; padding:14px; cursor:pointer; gap:10px; }
+.note-title { font-size:15px; font-weight:600; flex:1; }
+.note-meta { display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
+.note-status-tag { font-size:10px; padding:2px 8px; border-radius:10px; color:#fff; white-space:nowrap; }
+.note-status-tag.want { background:#3498db; }
+.note-status-tag.doing { background:#f39c12; }
+.note-status-tag.done { background:#27ae60; }
+.note-category-tag { font-size:10px; padding:2px 6px; border-radius:4px; background:#e8f0fe; color:#2b5797; }
+.note-rating { color:#f39c12; font-size:14px; letter-spacing:1px; }
+.note-detail { display:none; padding:0 14px 14px; border-top:1px solid #f0f0f0; }
+.note-detail.open { display:block; }
+.note-content { white-space:pre-wrap; font-size:13px; color:#444; line-height:1.6; padding:10px; background:#f8f9fa; border-radius:6px; margin:8px 0; }
+.note-info-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:8px; }
+.note-info-item { font-size:12px; color:#666; }
+.note-info-label { color:#999; margin-right:4px; }
+.note-add-btn { background:#2b5797; color:#fff; border:none; padding:10px 20px; border-radius:8px; font-size:14px; cursor:pointer; margin-bottom:16px; }
+.note-add-btn:hover { background:#1e3a5f; }
+.note-empty { text-align:center; padding:60px 20px; color:#999; }
+.note-empty-icon { font-size:48px; margin-bottom:12px; }
+.note-group-title { font-size:13px; color:#888; font-weight:600; margin:16px 0 8px; padding-left:4px; border-bottom:1px solid #eee; padding-bottom:4px; }
+.star { display:inline-block; }
+
 /* 操作按钮 */
 .task-actions { margin-top:10px; display:flex; gap:6px; }
 .btn-sm { padding:4px 10px; border-radius:4px; border:1px solid #ddd; background:#fff; cursor:pointer; font-size:11px; transition:all .2s; }
@@ -244,6 +272,17 @@ body { font-family:"微软雅黑","Microsoft YaHei",sans-serif; font-size:14px; 
       <span class="nav-icon">🎯</span>
       <span class="nav-label">长期事项</span>
       <span class="nav-badge" id="badge-longterm">0</span>
+    </div>
+    <div class="nav-divider"></div>
+    <div class="nav-item" data-tab="booknotes" onclick="switchTab('booknotes')">
+      <span class="nav-icon">📖</span>
+      <span class="nav-label">读书笔记</span>
+      <span class="nav-badge" id="badge-booknotes">0</span>
+    </div>
+    <div class="nav-item" data-tab="movienotes" onclick="switchTab('movienotes')">
+      <span class="nav-icon">🎬</span>
+      <span class="nav-label">影视笔记</span>
+      <span class="nav-badge" id="badge-movienotes">0</span>
     </div>
   </div>
   <div class="sidebar-footer">
@@ -393,7 +432,9 @@ var DEFAULT_DATA = {
   ],
   longterm: [],
   monthlyCompleted: {}, // key: 'YYYY-MM-DD_itemId' -> true
-  lastResetDate: '' // 上次重置日期，用于每日自动重置
+  lastResetDate: '', // 上次重置日期，用于每日自动重置
+  bookNotes: [],  // 读书笔记 {id, title, author, category, rating, status, startDate, finishDate, notes, createdAt}
+  movieNotes: []  // 影视笔记 {id, title, category, rating, status, startDate, finishDate, notes, createdAt}
 };
 
 var STORAGE_KEY = 'workbench_v4'; // 旧版localStorage key（兼容迁移）
@@ -544,6 +585,26 @@ function mergeData(local, cloud) {
   // --- lastResetDate：取较新的日期 ---
   if (cloud.lastResetDate && cloud.lastResetDate > (merged.lastResetDate || '')) {
     merged.lastResetDate = cloud.lastResetDate;
+  }
+
+  // --- 合并 bookNotes（读书笔记，以id为key）---
+  if (cloud.bookNotes && cloud.bookNotes.length) {
+    if (!merged.bookNotes) merged.bookNotes = [];
+    var localBookIds = {};
+    for (var i = 0; i < merged.bookNotes.length; i++) localBookIds[merged.bookNotes[i].id] = true;
+    for (var i = 0; i < cloud.bookNotes.length; i++) {
+      if (!localBookIds[cloud.bookNotes[i].id]) merged.bookNotes.push(cloud.bookNotes[i]);
+    }
+  }
+
+  // --- 合并 movieNotes（影视笔记，以id为key）---
+  if (cloud.movieNotes && cloud.movieNotes.length) {
+    if (!merged.movieNotes) merged.movieNotes = [];
+    var localMovieIds = {};
+    for (var i = 0; i < merged.movieNotes.length; i++) localMovieIds[merged.movieNotes[i].id] = true;
+    for (var i = 0; i < cloud.movieNotes.length; i++) {
+      if (!localMovieIds[cloud.movieNotes[i].id]) merged.movieNotes.push(cloud.movieNotes[i]);
+    }
   }
 
   // --- 时间戳：取较新者，再更新为当前时间 ---
@@ -957,7 +1018,7 @@ function switchTab(tab) {
     if(items[i].getAttribute('data-tab')===tab) items[i].classList.add('active');
     else items[i].classList.remove('active');
   }
-  var titles = {daily:'今日待办', midterm:'月度周期', longterm:'长期事项'};
+  var titles = {daily:'今日待办', midterm:'月度周期', longterm:'长期事项', booknotes:'读书笔记', movienotes:'影视笔记'};
   document.getElementById('main-title').textContent = titles[tab];
   renderContent();
 }
@@ -978,6 +1039,8 @@ function updateBadges() {
   for(var i=0;i<appData.midterm.length;i++){ if(appData.midterm[i].status!=='done') midUnfin++; }
   document.getElementById('badge-midterm').textContent = midUnfin;
   document.getElementById('badge-longterm').textContent = appData.longterm.length;
+  document.getElementById('badge-booknotes').textContent = (appData.bookNotes||[]).length;
+  document.getElementById('badge-movienotes').textContent = (appData.movieNotes||[]).length;
 }
 
 /* ===== 统计信息 ===== */
@@ -999,6 +1062,14 @@ function renderStats() {
     var done = 0;
     for(var i=0;i<appData.midterm.length;i++){ if(appData.midterm[i].status==='done') done++; }
     el.innerHTML = '<span>月度事项 <span>'+total+'</span></span><span>已完成 <span style="color:#27ae60">'+done+'</span></span>';
+  } else if(currentTab === 'booknotes'){
+    var bn = appData.bookNotes||[];
+    var bnDone=0,bnDoing=0; for(var i=0;i<bn.length;i++){ if(bn[i].status==='done') bnDone++; if(bn[i].status==='doing') bnDoing++; }
+    el.innerHTML = '<span>读书 <span>'+bn.length+'</span></span><span>在读 <span style="color:#f39c12">'+bnDoing+'</span></span><span>已读 <span style="color:#27ae60">'+bnDone+'</span></span>';
+  } else if(currentTab === 'movienotes'){
+    var mn = appData.movieNotes||[];
+    var mnDone=0,mnDoing=0; for(var i=0;i<mn.length;i++){ if(mn[i].status==='done') mnDone++; if(mn[i].status==='doing') mnDoing++; }
+    el.innerHTML = '<span>影视 <span>'+mn.length+'</span></span><span>在看 <span style="color:#f39c12">'+mnDoing+'</span></span><span>已看 <span style="color:#27ae60">'+mnDone+'</span></span>';
   } else {
     el.innerHTML = '<span>目标数 <span>'+appData.longterm.length+'</span></span>';
   }
@@ -1010,7 +1081,9 @@ function renderContent() {
   area.innerHTML = '';
   if(currentTab === 'daily') renderDaily(area);
   else if(currentTab === 'midterm') renderMidterm(area);
-  else renderLongterm(area);
+  else if(currentTab === 'longterm') renderLongterm(area);
+  else if(currentTab === 'booknotes') renderBookNotes(area);
+  else if(currentTab === 'movienotes') renderMovieNotes(area);
   updateBadges();
   renderStats();
 }
@@ -1401,6 +1474,272 @@ function renderLongterm(area) {
       '</div>';
     area.appendChild(card);
   }
+}
+
+/* ===== 读书笔记 ===== */
+
+var BOOK_CATEGORIES = ['经管商业','人文社科','科技编程','心理学','哲学','历史','文学小说','自我成长','投资理财','其他'];
+var BOOK_STATUS = {want:'想读', doing:'在读', done:'读完'};
+
+function renderBookNotes(area) {
+  var items = appData.bookNotes || [];
+  area.innerHTML = '';
+
+  var header = document.createElement('div');
+  header.style.cssText = 'display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;';
+  header.innerHTML = '<div style="font-size:13px;color:#888;">共 <b>'+items.length+'</b> 本</div><button class="note-add-btn" onclick="openNoteModal(\'book\')">+ 添加读书笔记</button>';
+  area.appendChild(header);
+
+  if(!items.length){
+    area.innerHTML += '<div class="note-empty"><div class="note-empty-icon">📖</div><p>还没有读书笔记</p><p style="font-size:12px;color:#bbb;margin-top:4px;">点击上方按钮添加第一本书</p></div>';
+    return;
+  }
+
+  // 按状态分组
+  var groups = {doing:[], want:[], done:[]};
+  for(var i=0;i<items.length;i++){
+    var s = items[i].status || 'want';
+    if(!groups[s]) groups[s] = [];
+    groups[s].push(items[i]);
+  }
+
+  var order = ['doing','want','done'];
+  for(var gi=0;gi<order.length;gi++){
+    var g = groups[order[gi]];
+    if(!g || !g.length) continue;
+    var groupTitle = document.createElement('div');
+    groupTitle.className = 'note-group-title';
+    groupTitle.textContent = BOOK_STATUS[order[gi]] + '（' + g.length + '）';
+    area.appendChild(groupTitle);
+    for(var j=0;j<g.length;j++){
+      area.appendChild(createNoteCard(g[j], 'book'));
+    }
+  }
+}
+
+/* ===== 影视笔记 ===== */
+
+var MOVIE_CATEGORIES = ['电影','剧集','综艺','纪录片','动漫','短视频','其他'];
+var MOVIE_STATUS = {want:'想看', doing:'在看', done:'看完'};
+
+function renderMovieNotes(area) {
+  var items = appData.movieNotes || [];
+  area.innerHTML = '';
+
+  var header = document.createElement('div');
+  header.style.cssText = 'display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;';
+  header.innerHTML = '<div style="font-size:13px;color:#888;">共 <b>'+items.length+'</b> 部</div><button class="note-add-btn" onclick="openNoteModal(\'movie\')">+ 添加影视笔记</button>';
+  area.appendChild(header);
+
+  if(!items.length){
+    area.innerHTML += '<div class="note-empty"><div class="note-empty-icon">🎬</div><p>还没有影视笔记</p><p style="font-size:12px;color:#bbb;margin-top:4px;">点击上方按钮添加第一部</p></div>';
+    return;
+  }
+
+  var groups = {doing:[], want:[], done:[]};
+  for(var i=0;i<items.length;i++){
+    var s = items[i].status || 'want';
+    if(!groups[s]) groups[s] = [];
+    groups[s].push(items[i]);
+  }
+
+  var order = ['doing','want','done'];
+  for(var gi=0;gi<order.length;gi++){
+    var g = groups[order[gi]];
+    if(!g || !g.length) continue;
+    var groupTitle = document.createElement('div');
+    groupTitle.className = 'note-group-title';
+    groupTitle.textContent = MOVIE_STATUS[order[gi]] + '（' + g.length + '）';
+    area.appendChild(groupTitle);
+    for(var j=0;j<g.length;j++){
+      area.appendChild(createNoteCard(g[j], 'movie'));
+    }
+  }
+}
+
+function createNoteCard(item, type) {
+  var statusMap = type==='book' ? BOOK_STATUS : MOVIE_STATUS;
+  var categories = type==='book' ? BOOK_CATEGORIES : MOVIE_CATEGORIES;
+  var card = document.createElement('div');
+  card.className = 'note-card status-'+item.status+' fade-in';
+
+  // 星级
+  var rating = item.rating || 0;
+  var starsHtml = '';
+  for(var s=1;s<=5;s++){
+    starsHtml += s<=rating ? '★' : '☆';
+  }
+
+  var authorLine = type==='book' ? (item.author ? ' · '+esc(item.author) : '') : '';
+
+  card.innerHTML =
+    '<div class="note-header" onclick="this.nextElementSibling.classList.toggle(\'open\')">' +
+      '<div style="flex:1">' +
+        '<div class="note-title">'+esc(item.title)+'</div>' +
+        '<div class="note-meta" style="margin-top:4px;">' +
+          '<span class="note-status-tag '+item.status+'">'+(statusMap[item.status]||'未知')+'</span>' +
+          (item.category?'<span class="note-category-tag">'+esc(item.category)+'</span>':'') +
+          '<span class="note-rating">'+starsHtml+'</span>' +
+          '<span style="font-size:11px;color:#999;">'+esc(item.author||'')+'</span>' +
+        '</div>' +
+      '</div>' +
+      '<span class="task-expand">▼</span>' +
+    '</div>' +
+    '<div class="note-detail">' +
+      '<div class="note-info-grid">' +
+        (type==='book' ?
+          '<div class="note-info-item"><span class="note-info-label">作者:</span>'+esc(item.author||'未填写')+'</div>' : '') +
+        '<div class="note-info-item"><span class="note-info-label">分类:</span>'+esc(item.category||'未分类')+'</div>' +
+        '<div class="note-info-item"><span class="note-info-label">评分:</span><span class="note-rating">'+starsHtml+'</span></div>' +
+        '<div class="note-info-item"><span class="note-info-label">状态:</span>'+(statusMap[item.status]||'未知')+'</div>' +
+        (item.startDate?'<div class="note-info-item"><span class="note-info-label">开始:</span>'+esc(item.startDate)+'</div>':'') +
+        (item.finishDate?'<div class="note-info-item"><span class="note-info-label">完成:</span>'+esc(item.finishDate)+'</div>':'') +
+      '</div>' +
+      (item.notes ? '<div class="note-content">'+esc(item.notes)+'</div>' : '<div style="color:#ccc;font-size:12px;padding:8px 0;">暂无笔记</div>') +
+      '<div class="task-actions"><button class="btn-sm" onclick="event.stopPropagation();openNoteModal(\''+type+'\',\''+item.id+'\')">编辑</button><button class="btn-sm btn-danger" onclick="event.stopPropagation();deleteNote(\''+type+'\',\''+item.id+'\')">删除</button></div>' +
+    '</div>';
+  return card;
+}
+
+/* ===== 笔记弹窗 ===== */
+
+var noteModalType = '';
+var noteEditId = null;
+
+function openNoteModal(type, editId) {
+  noteModalType = type;
+  noteEditId = editId || null;
+  var item = null;
+  if(noteEditId){
+    var arr = type==='book' ? appData.bookNotes : appData.movieNotes;
+    for(var i=0;i<arr.length;i++){
+      if(arr[i].id===noteEditId){ item=arr[i]; break; }
+    }
+  }
+
+  var isBook = type==='book';
+  var categories = isBook ? BOOK_CATEGORIES : MOVIE_CATEGORIES;
+  var statusMap = isBook ? BOOK_STATUS : MOVIE_STATUS;
+  var catOptions = '';
+  for(var i=0;i<categories.length;i++){
+    var sel = item&&item.category===categories[i]?' selected':'';
+    catOptions += '<option value="'+categories[i]+'"'+sel+'>'+categories[i]+'</option>';
+  }
+  var statusOptions = '';
+  for(var key in statusMap){
+    var sel = item&&item.status===key?' selected':'';
+    statusOptions += '<option value="'+key+'"'+sel+'>'+statusMap[key]+'</option>';
+  }
+
+  var rating = item?item.rating||0:0;
+  var ratingStars = '';
+  for(var s=1;s<=5;s++){
+    ratingStars += '<span class="star" data-val="'+s+'" onclick="setNoteRating('+s+')" style="cursor:pointer;font-size:24px;color:'+(s<=rating?'#f39c12':'#ddd')+';">★</span>';
+  }
+
+  var title = isBook ? (noteEditId?'编辑读书笔记':'添加读书笔记') : (noteEditId?'编辑影视笔记':'添加影视笔记');
+
+  var modal = document.getElementById('note-modal');
+  if(!modal){
+    modal = document.createElement('div');
+    modal.id = 'note-modal';
+    modal.style.cssText = 'display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center;';
+    document.body.appendChild(modal);
+  }
+  modal.style.display = 'flex';
+  modal.innerHTML =
+    '<div style="background:#fff;border-radius:12px;width:90%;max-width:480px;max-height:85vh;overflow-y:auto;padding:24px;">' +
+      '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">' +
+        '<h3 style="margin:0;font-size:18px;">'+title+'</h3>' +
+        '<button style="background:none;border:none;font-size:20px;cursor:pointer;color:#999;" onclick="closeNoteModal()">&times;</button>' +
+      '</div>' +
+      '<div class="form-group"><label>'+(isBook?'书名':'片名')+'</label><input id="nm-title" value="'+(item?esc(item.title):'')+'" style="width:100%;padding:8px 12px;border:1px solid #ddd;border-radius:6px;font-size:14px;box-sizing:border-box;"></div>' +
+      (isBook ? '<div class="form-group"><label>作者</label><input id="nm-author" value="'+(item?esc(item.author||''):'' )+'" style="width:100%;padding:8px 12px;border:1px solid #ddd;border-radius:6px;font-size:14px;box-sizing:border-box;"></div>' : '') +
+      '<div class="form-group"><label>分类</label><select id="nm-category" style="width:100%;padding:8px 12px;border:1px solid #ddd;border-radius:6px;font-size:14px;box-sizing:border-box;"><option value="">请选择</option>'+catOptions+'</select></div>' +
+      '<div class="form-group"><label>状态</label><select id="nm-status" style="width:100%;padding:8px 12px;border:1px solid #ddd;border-radius:6px;font-size:14px;box-sizing:border-box;">'+statusOptions+'</select></div>' +
+      '<div class="form-group"><label>评分</label><div id="nm-rating-stars" style="margin-top:4px;">'+ratingStars+'</div><input type="hidden" id="nm-rating" value="'+rating+'"></div>' +
+      '<div style="display:flex;gap:10px;"><div class="form-group" style="flex:1;"><label>开始日期</label><input id="nm-startDate" type="date" value="'+(item?item.startDate||'':'')+'" style="width:100%;padding:8px 12px;border:1px solid #ddd;border-radius:6px;font-size:14px;box-sizing:border-box;"></div>' +
+      '<div class="form-group" style="flex:1;"><label>完成日期</label><input id="nm-finishDate" type="date" value="'+(item?item.finishDate||'':'')+'" style="width:100%;padding:8px 12px;border:1px solid #ddd;border-radius:6px;font-size:14px;box-sizing:border-box;"></div></div>' +
+      '<div class="form-group"><label>笔记内容</label><textarea id="nm-notes" rows="6" style="width:100%;padding:8px 12px;border:1px solid #ddd;border-radius:6px;font-size:14px;box-sizing:border-box;resize:vertical;">'+(item?esc(item.notes||''):'' )+'</textarea></div>' +
+      '<div style="display:flex;gap:10px;justify-content:flex-end;margin-top:8px;">' +
+        '<button onclick="closeNoteModal()" style="padding:8px 20px;border:1px solid #ddd;border-radius:6px;background:#fff;cursor:pointer;">取消</button>' +
+        '<button onclick="saveNote()" style="padding:8px 20px;border:none;border-radius:6px;background:#2b5797;color:#fff;cursor:pointer;">保存</button>' +
+      '</div>' +
+    '</div>';
+}
+
+function closeNoteModal() {
+  var modal = document.getElementById('note-modal');
+  if(modal) modal.style.display = 'none';
+  noteEditId = null;
+}
+
+function setNoteRating(val) {
+  document.getElementById('nm-rating').value = val;
+  var stars = document.querySelectorAll('#nm-rating-stars .star');
+  for(var i=0;i<stars.length;i++){
+    stars[i].style.color = (i<val) ? '#f39c12' : '#ddd';
+  }
+}
+
+function saveNote() {
+  var title = document.getElementById('nm-title').value.trim();
+  if(!title){ alert('请输入'+(noteModalType==='book'?'书名':'片名')); return; }
+
+  var obj = {
+    id: noteEditId || genId(),
+    title: title,
+    category: document.getElementById('nm-category').value,
+    status: document.getElementById('nm-status').value,
+    rating: parseInt(document.getElementById('nm-rating').value) || 0,
+    startDate: document.getElementById('nm-startDate').value,
+    finishDate: document.getElementById('nm-finishDate').value,
+    notes: document.getElementById('nm-notes').value,
+    createdAt: noteEditId ? '' : getTodayStr()
+  };
+
+  if(noteModalType==='book'){
+    obj.author = document.getElementById('nm-author') ? document.getElementById('nm-author').value : '';
+    if(!appData.bookNotes) appData.bookNotes = [];
+    if(noteEditId){
+      for(var i=0;i<appData.bookNotes.length;i++){
+        if(appData.bookNotes[i].id===noteEditId){
+          obj.createdAt = appData.bookNotes[i].createdAt;
+          appData.bookNotes[i] = obj; break;
+        }
+      }
+    } else {
+      appData.bookNotes.push(obj);
+    }
+  } else {
+    if(!appData.movieNotes) appData.movieNotes = [];
+    if(noteEditId){
+      for(var i=0;i<appData.movieNotes.length;i++){
+        if(appData.movieNotes[i].id===noteEditId){
+          obj.createdAt = appData.movieNotes[i].createdAt;
+          appData.movieNotes[i] = obj; break;
+        }
+      }
+    } else {
+      appData.movieNotes.push(obj);
+    }
+  }
+
+  saveData(appData);
+  closeNoteModal();
+  renderContent();
+}
+
+function deleteNote(type, id) {
+  if(!confirm('确定删除此笔记？')) return;
+  var key = type==='book' ? 'bookNotes' : 'movieNotes';
+  var newArr = [];
+  for(var i=0;i<appData[key].length;i++){
+    if(appData[key][i].id!==id) newArr.push(appData[key][i]);
+  }
+  appData[key] = newArr;
+  saveData(appData);
+  renderContent();
 }
 
 /* ===== 交互：展开/折叠 ===== */
