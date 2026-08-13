@@ -1733,17 +1733,23 @@ function updateBadges() {
     var key = getTodayStr()+'_'+todayMonthly[i].id;
     if(!appData.monthlyCompleted[key]) dailyUnfin++;
   }
-  document.getElementById('badge-daily').textContent = dailyUnfin;
+function setBadge(id, n) {
+    var el = document.getElementById(id);
+    el.textContent = n;
+    el.style.display = n > 0 ? '' : 'none';
+  }
+  setBadge('badge-daily', dailyUnfin);
 
   var midUnfin = 0;
   for(var i=0;i<appData.midterm.length;i++){ if(appData.midterm[i].status!=='done') midUnfin++; }
-  document.getElementById('badge-midterm').textContent = midUnfin;
-  document.getElementById('badge-longterm').textContent = appData.longterm.length;
-  document.getElementById('badge-booknotes').textContent = (appData.bookNotes||[]).length;
-  document.getElementById('badge-movienotes').textContent = (appData.movieNotes||[]).length;
-  document.getElementById('badge-memos').textContent = (appData.memos||[]).length;
-  document.getElementById('badge-countdown').textContent = (appData.countdowns||[]).length;
-  document.getElementById('badge-journal').textContent = Object.keys(appData.journal||{}).filter(function(k){var e=appData.journal[k];return e&&(e.content||e.mood);}).length;
+  setBadge('badge-midterm', midUnfin);
+  setBadge('badge-longterm', appData.longterm.length);
+  setBadge('badge-booknotes', (appData.bookNotes||[]).length);
+  setBadge('badge-movienotes', (appData.movieNotes||[]).length);
+  setBadge('badge-memos', (appData.memos||[]).length);
+  setBadge('badge-countdown', (appData.countdowns||[]).length);
+  setBadge('badge-journal', Object.keys(appData.journal||{}).filter(function(k){var e=appData.journal[k];return e&&(e.content||e.mood);}).length);
+}
 }
 
 /* ===== 统计信息 ===== */
