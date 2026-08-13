@@ -472,8 +472,10 @@ function mergeData(local, cloud) {
     if (cloudItem) {
       // 完成状态合并：只有同一日期内才合并完成状态（防止跨日重置被云端旧状态覆盖）
       if (sameDay && cloudItem.completed && !item.completed) item.completed = true;
-      // aiAssist：云端有值且本地为空→保留云端；本地有值→保留本地
-      if (cloudItem.aiAssist && !item.aiAssist) item.aiAssist = cloudItem.aiAssist;
+      // aiAssist：AI脚本是唯一写入者，云端有不同值时直接用云端（避免本地旧值覆盖AI新值）
+      if (cloudItem.aiAssist && cloudItem.aiAssist !== item.aiAssist) {
+        item.aiAssist = cloudItem.aiAssist;
+      }
       // desc/priority：云端可能被另一设备修改过，本地优先（用户最新操作）
       // createdAt等元数据保留本地
     }
@@ -494,6 +496,8 @@ function mergeData(local, cloud) {
     var ct = cloudTempMap[t.id];
     if (ct) {
       if (ct.completed && !t.completed) t.completed = true;
+      // emailReminder：云端有值则同步（用户在另一设备可能刚设置了提醒）
+      if (ct.emailReminder !== undefined && ct.emailReminder !== t.emailReminder) t.emailReminder = ct.emailReminder;
     }
   }
   var localTempIds = {};
