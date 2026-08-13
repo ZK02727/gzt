@@ -1733,13 +1733,13 @@ function updateBadges() {
     var key = getTodayStr()+'_'+todayMonthly[i].id;
     if(!appData.monthlyCompleted[key]) dailyUnfin++;
   }
-function setBadge(id, n) {
+  function setBadge(id, n) {
     var el = document.getElementById(id);
     el.textContent = n;
     el.style.display = n > 0 ? '' : 'none';
   }
   setBadge('badge-daily', dailyUnfin);
-
+ 
   var midUnfin = 0;
   for(var i=0;i<appData.midterm.length;i++){ if(appData.midterm[i].status!=='done') midUnfin++; }
   setBadge('badge-midterm', midUnfin);
@@ -1749,7 +1749,6 @@ function setBadge(id, n) {
   setBadge('badge-memos', (appData.memos||[]).length);
   setBadge('badge-countdown', (appData.countdowns||[]).length);
   setBadge('badge-journal', Object.keys(appData.journal||{}).filter(function(k){var e=appData.journal[k];return e&&(e.content||e.mood);}).length);
-}
 }
 
 /* ===== 统计信息 ===== */
