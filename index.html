@@ -323,6 +323,67 @@ body { font-family:"Segoe UI","微软雅黑","Microsoft YaHei",system-ui,sans-se
 .clock-ctrl-btn:hover { background:var(--accent); color:#fff; }
 .clock-input { width:42px; padding:2px 4px; border:1.5px solid #e2e8f0; border-radius:6px; font-size:12px; text-align:center; font-family:'Courier New',monospace; }
 .clock-input-label { font-size:10px; color:var(--text-muted); }
+
+/* ===== 快捷便签 - Bento风格 ===== */
+.memo-toolbar { display:flex; gap:8px; margin-bottom:16px; align-items:center; }
+.memo-input { flex:1; padding:12px 16px; border:1.5px solid #e2e8f0; border-radius:var(--radius-sm); font-size:14px; font-family:inherit; background:#f8fafc; transition:var(--transition); }
+.memo-input:focus { outline:none; border-color:var(--accent); background:#fff; box-shadow:0 0 0 3px rgba(99,102,241,0.1); }
+.memo-color-picker { display:flex; gap:4px; flex-shrink:0; }
+.memo-color-dot { width:24px; height:24px; border-radius:50%; cursor:pointer; border:2px solid transparent; transition:var(--transition); }
+.memo-color-dot.active { border-color:var(--accent); transform:scale(1.15); }
+.memo-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:12px; }
+.memo-card { border-radius:var(--radius-sm); padding:14px 16px; box-shadow:0 2px 8px rgba(0,0,0,0.06); transition:var(--transition); position:relative; min-height:100px; display:flex; flex-direction:column; }
+.memo-card:hover { box-shadow:0 4px 16px rgba(0,0,0,0.12); transform:translateY(-2px); }
+.memo-card.pinned { box-shadow:0 4px 14px rgba(99,102,241,0.2); }
+.memo-card-content { font-size:14px; line-height:1.6; color:var(--text-primary); white-space:pre-wrap; word-break:break-word; flex:1; outline:none; }
+.memo-card-content:focus { background:rgba(255,255,255,0.5); border-radius:6px; padding:2px 4px; margin:-2px -4px; }
+.memo-card-footer { display:flex; align-items:center; justify-content:space-between; margin-top:8px; font-size:11px; color:rgba(0,0,0,0.4); }
+.memo-card-actions { display:flex; gap:2px; opacity:0; transition:opacity .2s; }
+.memo-card:hover .memo-card-actions { opacity:1; }
+.memo-action-btn { background:none; border:none; cursor:pointer; font-size:14px; padding:2px 4px; border-radius:4px; transition:var(--transition); }
+.memo-action-btn:hover { background:rgba(0,0,0,0.1); }
+.memo-empty { text-align:center; padding:60px 20px; color:var(--text-muted); }
+.memo-empty-icon { font-size:48px; margin-bottom:12px; }
+
+/* ===== 倒计时日 - Bento风格 ===== */
+.countdown-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:16px; }
+.countdown-card { background:var(--glass-bg); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); border:1px solid var(--glass-border); border-radius:var(--radius-lg); box-shadow:var(--glass-shadow); padding:20px 24px; transition:var(--transition); position:relative; overflow:hidden; }
+.countdown-card:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(31,38,135,0.18); }
+.countdown-card::before { content:''; position:absolute; top:0; left:0; right:0; height:4px; }
+.countdown-card.urgent::before { background:#ef4444; }
+.countdown-card.soon::before { background:#f59e0b; }
+.countdown-card.normal::before { background:var(--accent); }
+.countdown-card.past::before { background:var(--text-muted); }
+.countdown-icon { font-size:28px; margin-bottom:8px; }
+.countdown-title { font-size:16px; font-weight:700; color:var(--text-primary); margin-bottom:4px; }
+.countdown-date { font-size:12px; color:var(--text-muted); margin-bottom:12px; }
+.countdown-number { font-size:42px; font-weight:800; line-height:1; background:linear-gradient(135deg,#6366f1,#764ba2); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.countdown-card.past .countdown-number { background:none; -webkit-text-fill-color:var(--text-muted); color:var(--text-muted); }
+.countdown-unit { font-size:14px; color:var(--text-secondary); margin-left:4px; }
+.countdown-actions { display:flex; gap:6px; margin-top:12px; }
+.countdown-empty { text-align:center; padding:60px 20px; color:var(--text-muted); }
+.countdown-empty-icon { font-size:48px; margin-bottom:12px; }
+
+/* ===== 每日心语 - Bento风格 ===== */
+.journal-today { background:var(--glass-bg); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); border:1px solid var(--glass-border); border-radius:var(--radius-lg); box-shadow:var(--glass-shadow); padding:24px 32px; margin-bottom:20px; }
+.journal-date-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
+.journal-date-text { font-size:20px; font-weight:700; color:var(--text-primary); }
+.journal-mood-row { display:flex; align-items:center; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
+.journal-mood-label { font-size:14px; color:var(--text-secondary); font-weight:600; margin-right:4px; }
+.journal-mood-picker { display:flex; gap:6px; flex-wrap:wrap; }
+.journal-mood-btn { font-size:28px; cursor:pointer; padding:6px 10px; border-radius:10px; transition:var(--transition); border:2px solid transparent; background:none; line-height:1; }
+.journal-mood-btn:hover { background:var(--accent-light); transform:scale(1.1); }
+.journal-mood-btn.active { border-color:var(--accent); background:var(--accent-light); transform:scale(1.1); }
+.journal-textarea { width:100%; min-height:120px; padding:14px 18px; border:1.5px solid #e2e8f0; border-radius:var(--radius-sm); font-size:15px; font-family:inherit; line-height:1.7; resize:vertical; background:#f8fafc; transition:var(--transition); box-sizing:border-box; }
+.journal-textarea:focus { outline:none; border-color:var(--accent); background:#fff; box-shadow:0 0 0 3px rgba(99,102,241,0.1); }
+.journal-save-bar { display:flex; justify-content:flex-end; margin-top:12px; }
+.journal-history-title { font-size:16px; font-weight:700; color:var(--text-primary); margin:24px 0 12px; padding-bottom:8px; border-bottom:1px solid #e2e8f0; }
+.journal-history-item { background:var(--card-bg); border-radius:var(--radius-sm); padding:14px 18px; margin-bottom:10px; border-left:4px solid var(--accent); transition:var(--transition); }
+.journal-history-item:hover { box-shadow:0 2px 12px rgba(0,0,0,0.06); }
+.journal-history-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:6px; }
+.journal-history-date { font-size:14px; font-weight:600; color:var(--text-primary); }
+.journal-history-mood { font-size:24px; }
+.journal-history-content { font-size:13px; color:var(--text-secondary); line-height:1.6; white-space:pre-wrap; }
 </style>
 </head>
 <body>
@@ -357,6 +418,22 @@ body { font-family:"Segoe UI","微软雅黑","Microsoft YaHei",system-ui,sans-se
       <span class="nav-icon">🎬</span>
       <span class="nav-label">影视笔记</span>
       <span class="nav-badge" id="badge-movienotes">0</span>
+    </div>
+    <div class="nav-divider"></div>
+    <div class="nav-item" data-tab="memos" onclick="switchTab('memos')">
+      <span class="nav-icon">🗒️</span>
+      <span class="nav-label">快捷便签</span>
+      <span class="nav-badge" id="badge-memos">0</span>
+    </div>
+    <div class="nav-item" data-tab="countdown" onclick="switchTab('countdown')">
+      <span class="nav-icon">⏳</span>
+      <span class="nav-label">倒计时日</span>
+      <span class="nav-badge" id="badge-countdown">0</span>
+    </div>
+    <div class="nav-item" data-tab="journal" onclick="switchTab('journal')">
+      <span class="nav-icon">📝</span>
+      <span class="nav-label">每日心语</span>
+      <span class="nav-badge" id="badge-journal">0</span>
     </div>
   </div>
   <div class="sidebar-footer">
@@ -508,7 +585,10 @@ var DEFAULT_DATA = {
   monthlyCompleted: {}, // key: 'YYYY-MM-DD_itemId' -> true
   lastResetDate: '', // 上次重置日期，用于每日自动重置
   bookNotes: [],  // 读书笔记 {id, title, author, category, rating, status, startDate, finishDate, notes, createdAt}
-  movieNotes: []  // 影视笔记 {id, title, category, rating, status, startDate, finishDate, notes, createdAt}
+  movieNotes: [],  // 影视笔记 {id, title, category, rating, status, startDate, finishDate, notes, createdAt}
+  memos: [],       // 快捷便签 {id, content, color, createdAt, pinned}
+  countdowns: [],  // 倒计时日 {id, title, date, icon, createdAt}
+  journal: {}      // 每日心语 {'YYYY-MM-DD': {date, mood, content, savedAt}}
 };
 
 var STORAGE_KEY = 'workbench_v4'; // 旧版localStorage key（兼容迁移）
@@ -678,6 +758,34 @@ function mergeData(local, cloud) {
     for (var i = 0; i < merged.movieNotes.length; i++) localMovieIds[merged.movieNotes[i].id] = true;
     for (var i = 0; i < cloud.movieNotes.length; i++) {
       if (!localMovieIds[cloud.movieNotes[i].id]) merged.movieNotes.push(cloud.movieNotes[i]);
+    }
+  }
+
+  // --- 合并 memos（便签，以id为key）---
+  if (cloud.memos && cloud.memos.length) {
+    if (!merged.memos) merged.memos = [];
+    var localMemoIds = {};
+    for (var i = 0; i < merged.memos.length; i++) localMemoIds[merged.memos[i].id] = true;
+    for (var i = 0; i < cloud.memos.length; i++) {
+      if (!localMemoIds[cloud.memos[i].id]) merged.memos.push(cloud.memos[i]);
+    }
+  }
+
+  // --- 合并 countdowns（倒计时，以id为key）---
+  if (cloud.countdowns && cloud.countdowns.length) {
+    if (!merged.countdowns) merged.countdowns = [];
+    var localCdIds = {};
+    for (var i = 0; i < merged.countdowns.length; i++) localCdIds[merged.countdowns[i].id] = true;
+    for (var i = 0; i < cloud.countdowns.length; i++) {
+      if (!localCdIds[cloud.countdowns[i].id]) merged.countdowns.push(cloud.countdowns[i]);
+    }
+  }
+
+  // --- 合并 journal（心语，以date为key）---
+  if (cloud.journal) {
+    if (!merged.journal) merged.journal = {};
+    for (var dateKey in cloud.journal) {
+      if (!merged.journal[dateKey]) merged.journal[dateKey] = cloud.journal[dateKey];
     }
   }
 
@@ -906,6 +1014,437 @@ function importDataFile() {
   input.click();
 }
 
+/* ============================================================ */
+/* ===== 快捷便签 ===== */
+/* ============================================================ */
+var MEMO_COLORS = [
+  { key:'yellow', bg:'#fef9c3', border:'#fde047' },
+  { key:'green',  bg:'#dcfce7', border:'#86efac' },
+  { key:'blue',   bg:'#dbeafe', border:'#93c5fd' },
+  { key:'pink',   bg:'#fce7f3', border:'#f9a8d4' },
+  { key:'purple', bg:'#ede9fe', border:'#c4b5fd' },
+  { key:'orange', bg:'#fed7aa', border:'#fb923c' },
+  { key:'white',  bg:'#ffffff', border:'#e2e8f0' }
+];
+var memoSelectedColor = 'yellow';
+
+function getMemoColor(key) {
+  for (var i = 0; i < MEMO_COLORS.length; i++) {
+    if (MEMO_COLORS[i].key === key) return MEMO_COLORS[i];
+  }
+  return MEMO_COLORS[0];
+}
+
+function renderMemos(area) {
+  if (!appData.memos) appData.memos = [];
+  area.innerHTML = '';
+
+  // 输入区域
+  var toolbar = document.createElement('div');
+  toolbar.className = 'memo-toolbar fade-in';
+  var colorDotsHtml = '';
+  for (var i = 0; i < MEMO_COLORS.length; i++) {
+    var c = MEMO_COLORS[i];
+    colorDotsHtml += '<span class="memo-color-dot' + (c.key === memoSelectedColor ? ' active' : '') + '" ' +
+      'style="background:' + c.bg + ';border-color:' + (c.key === memoSelectedColor ? 'var(--accent)' : c.border) + ';" ' +
+      'onclick="selectMemoColor(\'' + c.key + '\', this)" title="' + c.key + '"></span>';
+  }
+  toolbar.innerHTML =
+    '<input class="memo-input" id="memo-input" placeholder="随手记一笔灵感、想法、待办碎片..." onkeydown="if(event.key===\'Enter\')addMemo()">' +
+    '<div class="memo-color-picker">' + colorDotsHtml + '</div>' +
+    '<button class="btn-add-sm" style="padding:10px 20px;" onclick="addMemo()">+ 添加</button>';
+  area.appendChild(toolbar);
+
+  if (!appData.memos.length) {
+    area.innerHTML += '<div class="memo-empty"><div class="memo-empty-icon">🗒️</div><p>还没有便签</p><p style="font-size:12px;color:#bbb;margin-top:4px;">输入文字后按Enter或点击添加</p></div>';
+    return;
+  }
+
+  // 置顶的排前面，然后按创建时间倒序
+  var sorted = appData.memos.slice().sort(function(a, b) {
+    if (a.pinned && !b.pinned) return -1;
+    if (!a.pinned && b.pinned) return 1;
+    return (b.createdAt || '').localeCompare(a.createdAt || '');
+  });
+
+  var grid = document.createElement('div');
+  grid.className = 'memo-grid fade-in';
+  for (var i = 0; i < sorted.length; i++) {
+    grid.appendChild(createMemoCard(sorted[i]));
+  }
+  area.appendChild(grid);
+}
+
+function createMemoCard(item) {
+  var c = getMemoColor(item.color || 'yellow');
+  var card = document.createElement('div');
+  card.className = 'memo-card' + (item.pinned ? ' pinned' : '');
+  card.style.background = c.bg;
+  card.style.borderLeft = '4px solid ' + c.border;
+  card.innerHTML =
+    '<div class="memo-card-content" contenteditable="true" onblur="editMemo(\'' + item.id + '\', this.textContent)">' + esc(item.content) + '</div>' +
+    '<div class="memo-card-footer">' +
+      '<span>' + esc(item.createdAt || '') + '</span>' +
+      '<div class="memo-card-actions">' +
+        '<button class="memo-action-btn" onclick="pinMemo(\'' + item.id + '\')" title="' + (item.pinned ? '取消置顶' : '置顶') + '">' + (item.pinned ? '📌' : '📍') + '</button>' +
+        '<button class="memo-action-btn" onclick="deleteMemo(\'' + item.id + '\')" title="删除">🗑</button>' +
+      '</div>' +
+    '</div>';
+  return card;
+}
+
+function selectMemoColor(key, el) {
+  memoSelectedColor = key;
+  var dots = document.querySelectorAll('.memo-color-dot');
+  for (var i = 0; i < dots.length; i++) {
+    dots[i].classList.remove('active');
+    dots[i].style.borderColor = '';
+  }
+  el.classList.add('active');
+  for (var j = 0; j < MEMO_COLORS.length; j++) {
+    if (MEMO_COLORS[j].key === key) { el.style.borderColor = 'var(--accent)'; break; }
+  }
+}
+
+function addMemo() {
+  var input = document.getElementById('memo-input');
+  var content = input.value.trim();
+  if (!content) return;
+  if (!appData.memos) appData.memos = [];
+  appData.memos.push({
+    id: genId(),
+    content: content,
+    color: memoSelectedColor,
+    createdAt: new Date().toLocaleString('zh-CN', {month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}),
+    pinned: false
+  });
+  saveData(appData);
+  input.value = '';
+  renderContent();
+}
+
+function editMemo(id, newContent) {
+  newContent = newContent.trim();
+  for (var i = 0; i < appData.memos.length; i++) {
+    if (appData.memos[i].id === id) {
+      if (newContent) {
+        appData.memos[i].content = newContent;
+      } else {
+        // 内容清空则删除
+        appData.memos.splice(i, 1);
+      }
+      break;
+    }
+  }
+  saveData(appData);
+}
+
+function pinMemo(id) {
+  for (var i = 0; i < appData.memos.length; i++) {
+    if (appData.memos[i].id === id) {
+      appData.memos[i].pinned = !appData.memos[i].pinned;
+      break;
+    }
+  }
+  saveData(appData);
+  renderContent();
+}
+
+function deleteMemo(id) {
+  confirmCallback = function() {
+    if (!appData.memos) return;
+    var newArr = [];
+    for (var i = 0; i < appData.memos.length; i++) {
+      if (appData.memos[i].id !== id) newArr.push(appData.memos[i]);
+    }
+    appData.memos = newArr;
+    saveData(appData);
+    renderContent();
+  };
+  document.getElementById('confirm-text').textContent = '确定删除此便签？';
+  document.getElementById('modal-confirm').classList.add('show');
+}
+
+
+/* ============================================================ */
+/* ===== 倒计时日 ===== */
+/* ============================================================ */
+var COUNTDOWN_ICONS = ['🎉','🎂','📅','💼','✈️','🏖️','🎯','💰','📚','🎄','🎁','⭐','🔖','💡'];
+
+function renderCountdowns(area) {
+  if (!appData.countdowns) appData.countdowns = [];
+  area.innerHTML = '';
+
+  // 添加按钮
+  var header = document.createElement('div');
+  header.style.cssText = 'display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;';
+  header.innerHTML = '<div style="font-size:13px;color:#888;">共 <b>' + appData.countdowns.length + '</b> 个</div><button class="note-add-btn" onclick="openCountdownModal()">+ 添加倒计时</button>';
+  area.appendChild(header);
+
+  if (!appData.countdowns.length) {
+    area.innerHTML += '<div class="countdown-empty"><div class="countdown-empty-icon">⏳</div><p>还没有倒计时</p><p style="font-size:12px;color:#bbb;margin-top:4px;">添加生日、纪念日、截止日等重要日期</p></div>';
+    return;
+  }
+
+  var now = new Date();
+  now.setHours(0, 0, 0, 0);
+
+  // 按距离日期排序
+  var sorted = appData.countdowns.slice().sort(function(a, b) {
+    return (a.date || '').localeCompare(b.date || '');
+  });
+
+  var grid = document.createElement('div');
+  grid.className = 'countdown-grid fade-in';
+  for (var i = 0; i < sorted.length; i++) {
+    grid.appendChild(createCountdownCard(sorted[i], now));
+  }
+  area.appendChild(grid);
+}
+
+function createCountdownCard(item, now) {
+  var card = document.createElement('div');
+  card.className = 'countdown-card fade-in';
+
+  var targetDate = new Date(item.date + 'T00:00:00');
+  var diffMs = targetDate - now;
+  var diffDays = Math.round(diffMs / (1000 * 60 * 60 * 24));
+
+  var urgencyClass = 'normal';
+  var dayText = '';
+  if (diffDays < 0) {
+    urgencyClass = 'past';
+    dayText = Math.abs(diffDays);
+  } else if (diffDays === 0) {
+    urgencyClass = 'urgent';
+    dayText = '今天';
+  } else if (diffDays <= 7) {
+    urgencyClass = 'soon';
+    dayText = diffDays;
+  } else {
+    dayText = diffDays;
+  }
+  card.classList.add(urgencyClass);
+
+  var dateDisplay = item.date ? new Date(item.date + 'T00:00:00').toLocaleDateString('zh-CN', {year:'numeric',month:'long',day:'numeric',weekday:'long'}) : '';
+
+  var numberHtml;
+  if (diffDays === 0) {
+    numberHtml = '<span class="countdown-number" style="font-size:28px;">就是今天</span>';
+  } else if (diffDays < 0) {
+    numberHtml = '<span class="countdown-number">' + dayText + '</span><span class="countdown-unit">天前</span>';
+  } else {
+    numberHtml = '<span class="countdown-number">' + dayText + '</span><span class="countdown-unit">天后</span>';
+  }
+
+  card.innerHTML =
+    '<div class="countdown-icon">' + (item.icon || '📅') + '</div>' +
+    '<div class="countdown-title">' + esc(item.title) + '</div>' +
+    '<div class="countdown-date">' + dateDisplay + '</div>' +
+    '<div>' + numberHtml + '</div>' +
+    '<div class="countdown-actions">' +
+      '<button class="btn-sm" onclick="openCountdownModal(\'' + item.id + '\')">编辑</button>' +
+      '<button class="btn-sm btn-danger" onclick="deleteCountdown(\'' + item.id + '\')">删除</button>' +
+    '</div>';
+  return card;
+}
+
+var countdownEditId = null;
+
+function openCountdownModal(editId) {
+  countdownEditId = editId || null;
+  var item = null;
+  if (countdownEditId) {
+    for (var i = 0; i < appData.countdowns.length; i++) {
+      if (appData.countdowns[i].id === countdownEditId) { item = appData.countdowns[i]; break; }
+    }
+  }
+
+  var iconHtml = '';
+  for (var i = 0; i < COUNTDOWN_ICONS.length; i++) {
+    var cls = (item && item.icon === COUNTDOWN_ICONS[i]) ? ' active' : (!item && i === 0) ? ' active' : '';
+    iconHtml += '<span class="nm-chip' + cls + '" onclick="selectCountdownIcon(this,\'' + COUNTDOWN_ICONS[i] + '\')">' + COUNTDOWN_ICONS[i] + '</span>';
+  }
+
+  var modal = document.getElementById('note-modal');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.id = 'note-modal';
+    modal.className = 'nm-overlay';
+    document.body.appendChild(modal);
+  }
+  modal.className = 'nm-overlay show';
+  modal.innerHTML =
+    '<div class="nm-dialog">' +
+      '<div class="nm-header">' +
+        '<h3>' + (countdownEditId ? '编辑倒计时' : '添加倒计时') + '</h3>' +
+        '<button class="nm-close" onclick="closeNoteModal()">&times;</button>' +
+      '</div>' +
+      '<div class="nm-body">' +
+        '<div class="nm-field"><label class="nm-label">名称</label><input class="nm-input" id="cd-title" value="' + (item ? esc(item.title) : '') + '" placeholder="如：女儿生日"></div>' +
+        '<div class="nm-field"><label class="nm-label">日期</label><input class="nm-input" id="cd-date" type="date" value="' + (item ? item.date || '' : '') + '"></div>' +
+        '<div class="nm-field"><label class="nm-label">图标</label><div class="nm-chips">' + iconHtml + '</div><input type="hidden" id="cd-icon" value="' + (item ? item.icon || COUNTDOWN_ICONS[0] : COUNTDOWN_ICONS[0]) + '"></div>' +
+      '</div>' +
+      '<div class="nm-footer">' +
+        '<button class="nm-btn nm-btn-cancel" onclick="closeNoteModal()">取消</button>' +
+        '<button class="nm-btn nm-btn-save" onclick="saveCountdown()">保存</button>' +
+      '</div>' +
+    '</div>';
+}
+
+function selectCountdownIcon(el, val) {
+  var siblings = el.parentNode.querySelectorAll('.nm-chip');
+  for (var i = 0; i < siblings.length; i++) siblings[i].classList.remove('active');
+  el.classList.add('active');
+  document.getElementById('cd-icon').value = val;
+}
+
+function saveCountdown() {
+  var title = document.getElementById('cd-title').value.trim();
+  var date = document.getElementById('cd-date').value;
+  var icon = document.getElementById('cd-icon').value;
+  if (!title) { alert('请输入名称'); return; }
+  if (!date) { alert('请选择日期'); return; }
+
+  if (!appData.countdowns) appData.countdowns = [];
+  if (countdownEditId) {
+    for (var i = 0; i < appData.countdowns.length; i++) {
+      if (appData.countdowns[i].id === countdownEditId) {
+        appData.countdowns[i].title = title;
+        appData.countdowns[i].date = date;
+        appData.countdowns[i].icon = icon;
+        break;
+      }
+    }
+  } else {
+    appData.countdowns.push({ id: genId(), title: title, date: date, icon: icon, createdAt: getTodayStr() });
+  }
+  saveData(appData);
+  closeNoteModal();
+  renderContent();
+}
+
+function deleteCountdown(id) {
+  confirmCallback = function() {
+    var newArr = [];
+    for (var i = 0; i < appData.countdowns.length; i++) {
+      if (appData.countdowns[i].id !== id) newArr.push(appData.countdowns[i]);
+    }
+    appData.countdowns = newArr;
+    saveData(appData);
+    renderContent();
+  };
+  document.getElementById('confirm-text').textContent = '确定删除此倒计时？';
+  document.getElementById('modal-confirm').classList.add('show');
+}
+
+
+/* ============================================================ */
+/* ===== 每日心语 ===== */
+/* ============================================================ */
+var JOURNAL_MOODS = [
+  { key:'great',     emoji:'😄', label:'超棒' },
+  { key:'good',      emoji:'🙂', label:'不错' },
+  { key:'normal',    emoji:'😐', label:'一般' },
+  { key:'tired',     emoji:'😮‍💨', label:'疲惫' },
+  { key:'stressed',  emoji:'😰', label:'焦虑' },
+  { key:'sad',       emoji:'😢', label:'低落' },
+  { key:'angry',     emoji:'😡', label:'生气' }
+];
+
+function renderJournal(area) {
+  if (!appData.journal) appData.journal = {};
+  area.innerHTML = '';
+
+  var today = getTodayStr();
+  var todayEntry = appData.journal[today] || { date: today, mood: '', content: '' };
+
+  // 今日心语区域
+  var todayBox = document.createElement('div');
+  todayBox.className = 'journal-today fade-in';
+
+  var dateDisplay = new Date().toLocaleDateString('zh-CN', { year:'numeric', month:'long', day:'numeric', weekday:'long' });
+
+  var moodHtml = '';
+  for (var i = 0; i < JOURNAL_MOODS.length; i++) {
+    var m = JOURNAL_MOODS[i];
+    var cls = todayEntry.mood === m.key ? ' active' : '';
+    moodHtml += '<button class="journal-mood-btn' + cls + '" onclick="selectJournalMood(\'' + m.key + '\')" title="' + m.label + '">' + m.emoji + '</button>';
+  }
+
+  todayBox.innerHTML =
+    '<div class="journal-date-header">' +
+      '<span class="journal-date-text">' + dateDisplay + '</span>' +
+    '</div>' +
+    '<div class="journal-mood-row">' +
+      '<span class="journal-mood-label">今天心情：</span>' +
+      '<div class="journal-mood-picker">' + moodHtml + '</div>' +
+      '<input type="hidden" id="journal-mood" value="' + (todayEntry.mood || '') + '">' +
+    '</div>' +
+    '<textarea class="journal-textarea" id="journal-content" placeholder="今天发生了什么？记录一下想法、感悟、收获..." oninput="autoSaveJournal()">' + esc(todayEntry.content || '') + '</textarea>' +
+    '<div class="journal-save-bar">' +
+      '<button class="btn-add-sm" style="padding:8px 20px;font-size:13px;" onclick="saveJournal()">💾 保存</button>' +
+    '</div>';
+
+  area.appendChild(todayBox);
+
+  // 历史记录
+  var dates = Object.keys(appData.journal).sort().reverse();
+  if (dates.length > 0) {
+    var historyTitle = document.createElement('div');
+    historyTitle.className = 'journal-history-title';
+    historyTitle.textContent = '历史心语';
+    area.appendChild(historyTitle);
+
+    for (var d = 0; d < dates.length; d++) {
+      var dateKey = dates[d];
+      var entry = appData.journal[dateKey];
+      if (!entry || (!entry.content && !entry.mood)) continue;
+
+      var moodEmoji = '';
+      for (var j = 0; j < JOURNAL_MOODS.length; j++) {
+        if (JOURNAL_MOODS[j].key === entry.mood) { moodEmoji = JOURNAL_MOODS[j].emoji; break; }
+      }
+
+      var dateText = new Date(dateKey + 'T00:00:00').toLocaleDateString('zh-CN', { year:'numeric', month:'long', day:'numeric', weekday:'long' });
+
+      var item = document.createElement('div');
+      item.className = 'journal-history-item fade-in';
+      item.innerHTML =
+        '<div class="journal-history-header">' +
+          '<span class="journal-history-date">' + esc(dateText) + '</span>' +
+          '<span class="journal-history-mood">' + moodEmoji + '</span>' +
+        '</div>' +
+        (entry.content ? '<div class="journal-history-content">' + esc(entry.content) + '</div>' : '');
+      area.appendChild(item);
+    }
+  }
+}
+
+function selectJournalMood(key) {
+  document.getElementById('journal-mood').value = key;
+  var btns = document.querySelectorAll('.journal-mood-btn');
+  for (var i = 0; i < btns.length; i++) btns[i].classList.remove('active');
+  event.currentTarget.classList.add('active');
+  autoSaveJournal();
+}
+
+var _journalSaveTimer = null;
+function autoSaveJournal() {
+  if (_journalSaveTimer) clearTimeout(_journalSaveTimer);
+  _journalSaveTimer = setTimeout(saveJournal, 2000);
+}
+
+function saveJournal() {
+  var today = getTodayStr();
+  var mood = document.getElementById('journal-mood').value;
+  var content = document.getElementById('journal-content').value;
+  if (!appData.journal) appData.journal = {};
+  appData.journal[today] = { date: today, mood: mood, content: content, savedAt: new Date().toISOString() };
+  saveData(appData);
+}
+
+
 /* ===== 首次打开拉取云端数据 ===== */
 function initCloudSync() {
   var token = getGitHubToken();
@@ -1092,7 +1631,7 @@ function switchTab(tab) {
     if(items[i].getAttribute('data-tab')===tab) items[i].classList.add('active');
     else items[i].classList.remove('active');
   }
-  var titles = {daily:'今日待办', midterm:'月度周期', longterm:'长期事项', booknotes:'读书笔记', movienotes:'影视笔记'};
+  var titles = {daily:'今日待办', midterm:'月度周期', longterm:'长期事项', booknotes:'读书笔记', movienotes:'影视笔记', memos:'快捷便签', countdown:'倒计时日', journal:'每日心语'};
   document.getElementById('main-title').textContent = titles[tab];
   renderContent();
 }
@@ -1115,6 +1654,9 @@ function updateBadges() {
   document.getElementById('badge-longterm').textContent = appData.longterm.length;
   document.getElementById('badge-booknotes').textContent = (appData.bookNotes||[]).length;
   document.getElementById('badge-movienotes').textContent = (appData.movieNotes||[]).length;
+  document.getElementById('badge-memos').textContent = (appData.memos||[]).length;
+  document.getElementById('badge-countdown').textContent = (appData.countdowns||[]).length;
+  document.getElementById('badge-journal').textContent = Object.keys(appData.journal||{}).filter(function(k){var e=appData.journal[k];return e&&(e.content||e.mood);}).length;
 }
 
 /* ===== 统计信息 ===== */
@@ -1144,6 +1686,13 @@ function renderStats() {
     var mn = appData.movieNotes||[];
     var mnDone=0,mnDoing=0; for(var i=0;i<mn.length;i++){ if(mn[i].status==='done') mnDone++; if(mn[i].status==='doing') mnDoing++; }
     el.innerHTML = '<span>影视 <span>'+mn.length+'</span></span><span>在看 <span style="color:#f59e0b">'+mnDoing+'</span></span><span>已看 <span style="color:#22c55e">'+mnDone+'</span></span>';
+  } else if(currentTab === 'memos'){
+    el.innerHTML = '<span>便签 <span>'+(appData.memos||[]).length+'</span></span>';
+  } else if(currentTab === 'countdown'){
+    el.innerHTML = '<span>倒计时 <span>'+(appData.countdowns||[]).length+'</span></span>';
+  } else if(currentTab === 'journal'){
+    var jCount = Object.keys(appData.journal||{}).filter(function(k){var e=appData.journal[k];return e&&(e.content||e.mood);}).length;
+    el.innerHTML = '<span>心语记录 <span>'+jCount+'</span> 天</span>';
   } else {
     el.innerHTML = '<span>目标数 <span>'+appData.longterm.length+'</span></span>';
   }
@@ -1158,6 +1707,9 @@ function renderContent() {
   else if(currentTab === 'longterm') renderLongterm(area);
   else if(currentTab === 'booknotes') renderBookNotes(area);
   else if(currentTab === 'movienotes') renderMovieNotes(area);
+  else if(currentTab === 'memos') renderMemos(area);
+  else if(currentTab === 'countdown') renderCountdowns(area);
+  else if(currentTab === 'journal') renderJournal(area);
   updateBadges();
   renderStats();
 }
