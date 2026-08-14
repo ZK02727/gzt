@@ -1998,6 +1998,12 @@ function createDailyCard(item, colType) {
       '<audio class="media-player" id="audio-'+item.id+'" controls preload="none" style="width:100%;max-width:400px;border-radius:8px;margin-top:6px;" ' +
       'onended="onVideoEnd(\''+item.id+'\')">' +
       '<source src="'+mediaUrl+'" type="audio/mpeg">浏览器不支持音频播放</audio>' +
+      '<div style="margin-top:6px;">' +
+        '<label style="display:inline-flex;align-items:center;gap:4px;cursor:pointer;font-size:12px;color:#6366f1;padding:4px 8px;border:1px solid #6366f1;border-radius:6px;">' +
+          '<input type="file" accept="audio/*,video/mp4" style="display:none;" onchange="loadLocalMedia(this,\''+item.id+'\')">' +
+          '选择本地音频文件</label>' +
+        '<span style="font-size:11px;color:#999;margin-left:6px;">优先读取本地文件，更流畅</span>' +
+      '</div>' +
       '<div id="video-status-'+item.id+'" style="font-size:12px;color:#999;margin-top:4px;"></div></div>';
   }
 
@@ -2102,7 +2108,20 @@ function createDailyCard(item, colType) {
 
 function onVideoEnd(itemId) {
   var statusEl = document.getElementById('video-status-'+itemId);
-  if(statusEl) statusEl.innerHTML = '<span style="color:#22c55e;font-weight:600;">✓ 视频播放完成，请确认完成此任务</span>';
+  if(statusEl) statusEl.innerHTML = '<span style="color:#22c55e;font-weight:600;">✓ 音频播放完成，请确认完成此任务</span>';
+}
+
+// 本地文件加载：用户选择本地音频/视频文件，直接用blob URL播放，避免网络卡顿
+function loadLocalMedia(input, itemId) {
+  var file = input.files && input.files[0];
+  if (!file) return;
+  var audio = document.getElementById('audio-' + itemId);
+  if (!audio) return;
+  var url = URL.createObjectURL(file);
+  audio.src = url;
+  audio.load();
+  var statusEl = document.getElementById('video-status-' + itemId);
+  if (statusEl) statusEl.innerHTML = '<span style="color:#22c55e;">已加载本地文件: ' + file.name + '</span>';
 }
 
 // 网球视频懒加载：点击按钮才加载B站iframe
