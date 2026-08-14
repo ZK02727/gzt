@@ -658,7 +658,7 @@ function mergeData(local, cloud) {
   function syncItemFields(localItem, cloudItem) {
     if (!cloudItem) return;
     // 需要同步的字段列表（不含id/createdAt/completed/status等状态字段）
-    var fields = ['title','desc','priority','cycleLabel','cycleDay','icon','repeat','color','progress','deadline','category','rating','startDate','endDate'];
+    var fields = ['title','desc','priority','cycleLabel','cycleDay','icon','repeat','color','progress','deadline','category','rating','startDate','endDate','mediaFile'];
     for (var fi = 0; fi < fields.length; fi++) {
       var f = fields[fi];
       if (cloudItem[f] !== undefined && cloudItem[f] !== localItem[f]) {
