@@ -568,7 +568,7 @@ var DEFAULT_DATA = {
     { id:'d16', title:'一字肩和拉伸练习', desc:'', priority:'routine', category:'training', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'' },
     { id:'d17', title:'腹肌训练', desc:'', priority:'routine', category:'training', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'' },
     { id:'d18', title:'吃鱼油等补剂', desc:'', priority:'routine', category:'health', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'' },
-    { id:'d19', title:'呼吸训练', desc:'跟随音频进行呼吸训练', priority:'routine', category:'health', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'', mediaFile:'breathing-training.mp4', mediaType:'audio' },
+    { id:'d19', title:'呼吸训练', desc:'跟随音频进行呼吸训练', priority:'routine', category:'health', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'', mediaFile:'audio/breathing-training.mp3' },
     { id:'d20', title:'冥想10分钟', desc:'', priority:'routine', category:'health', completed:false, createdAt:'', aiAssist:'', isTemp:false, tempDeadline:'' }
   ],
   tempTasks: [],
@@ -1997,7 +1997,7 @@ function createDailyCard(item, colType) {
     mediaHtml = '<div class="detail-section"><div class="detail-label">训练音频</div>' +
       '<audio class="media-player" id="audio-'+item.id+'" controls preload="none" style="width:100%;max-width:400px;border-radius:8px;margin-top:6px;" ' +
       'onended="onVideoEnd(\''+item.id+'\')">' +
-      '<source src="'+mediaUrl+'" type="video/mp4">浏览器不支持音频播放</audio>' +
+      '<source src="'+mediaUrl+'" type="audio/mpeg">浏览器不支持音频播放</audio>' +
       '<div id="video-status-'+item.id+'" style="font-size:12px;color:#999;margin-top:4px;"></div></div>';
   }
 
