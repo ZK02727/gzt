@@ -1988,14 +1988,12 @@ function createDailyCard(item, colType) {
   if(item.mediaFile) {
     var mediaUrl = item.mediaFile;
     if(mediaUrl.indexOf('://')===-1) {
-      var pageHost = window.location.hostname;
-      if(pageHost && pageHost.indexOf('github.io')!==-1) {
-        var repoName = window.location.pathname.split('/')[1] || 'gzt';
-        mediaUrl = '/' + repoName + '/' + mediaUrl;
-      }
+      // 优先使用 jsDelivr CDN（国内有节点，比 GitHub Pages 快很多）
+      var fileName = mediaUrl.replace(/^audio\//, '');
+      mediaUrl = 'https://cdn.jsdelivr.net/gh/ZK02727/gzt@latest/audio/' + fileName;
     }
     mediaHtml = '<div class="detail-section"><div class="detail-label">训练音频</div>' +
-      '<audio class="media-player" id="audio-'+item.id+'" controls preload="none" style="width:100%;max-width:400px;border-radius:8px;margin-top:6px;" ' +
+      '<audio class="media-player" id="audio-'+item.id+'" controls preload="metadata" style="width:100%;max-width:400px;border-radius:8px;margin-top:6px;" ' +
       'onended="onVideoEnd(\''+item.id+'\')">' +
       '<source src="'+mediaUrl+'" type="audio/mpeg">浏览器不支持音频播放</audio>' +
       '<div style="margin-top:6px;">' +
@@ -2011,14 +2009,8 @@ function createDailyCard(item, colType) {
   var meditationHtml = '';
   var isMeditationTask = item.title && item.title.indexOf('冥想') !== -1;
   if(isMeditationTask) {
-    var baseUrl = '';
-    var pageHost2 = window.location.hostname;
-    if(pageHost2 && pageHost2.indexOf('github.io')!==-1) {
-      var repoName2 = window.location.pathname.split('/')[1] || 'gzt';
-      baseUrl = '/' + repoName2 + '/audio/';
-    } else {
-      baseUrl = 'audio/';
-    }
+    // 优先使用 jsDelivr CDN（国内有节点，比 GitHub Pages 快很多）
+    var baseUrl = 'https://cdn.jsdelivr.net/gh/ZK02727/gzt@latest/audio/';
     meditationHtml = '<div class="detail-section" style="margin-top:8px;">' +
       '<div class="detail-label" style="margin-bottom:8px;">冥想引导音频（中文引导 · B站高播放资源）</div>' +
       '<div class="meditation-tracks">' +
@@ -2027,7 +2019,7 @@ function createDailyCard(item, colType) {
             '<span class="meditation-track-name">呼吸观照 · 觉察呼吸</span>' +
             '<span class="meditation-track-dur">9:44</span>' +
           '</div>' +
-          '<audio id="med-audio-1" controls preload="none" style="width:100%;height:32px;margin-top:4px;">' +
+          '<audio id="med-audio-1" controls preload="metadata" style="width:100%;height:32px;margin-top:4px;">' +
             '<source src="'+baseUrl+'meditation_breathing.mp3" type="audio/mpeg">' +
           '</audio>' +
           '<div style="margin-top:4px;">' +
@@ -2041,7 +2033,7 @@ function createDailyCard(item, colType) {
             '<span class="meditation-track-name">身体扫描 · 睡前放松</span>' +
             '<span class="meditation-track-dur">19:50</span>' +
           '</div>' +
-          '<audio id="med-audio-2" controls preload="none" style="width:100%;height:32px;margin-top:4px;">' +
+          '<audio id="med-audio-2" controls preload="metadata" style="width:100%;height:32px;margin-top:4px;">' +
             '<source src="'+baseUrl+'meditation_body_scan.mp3" type="audio/mpeg">' +
           '</audio>' +
           '<div style="margin-top:4px;">' +
@@ -2055,7 +2047,7 @@ function createDailyCard(item, colType) {
             '<span class="meditation-track-name">慈心冥想 · 给予善意</span>' +
             '<span class="meditation-track-dur">9:59</span>' +
           '</div>' +
-          '<audio id="med-audio-3" controls preload="none" style="width:100%;height:32px;margin-top:4px;">' +
+          '<audio id="med-audio-3" controls preload="metadata" style="width:100%;height:32px;margin-top:4px;">' +
             '<source src="'+baseUrl+'meditation_loving_kindness.mp3" type="audio/mpeg">' +
           '</audio>' +
           '<div style="margin-top:4px;">' +
