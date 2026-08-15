@@ -2020,37 +2020,52 @@ function createDailyCard(item, colType) {
       baseUrl = 'audio/';
     }
     meditationHtml = '<div class="detail-section" style="margin-top:8px;">' +
-      '<div class="detail-label" style="margin-bottom:8px;">冥想引导音频（IMC Insight Meditation Center）</div>' +
+      '<div class="detail-label" style="margin-bottom:8px;">冥想引导音频（中文引导 · B站高播放资源）</div>' +
       '<div class="meditation-tracks">' +
         '<div class="meditation-track">' +
           '<div class="meditation-track-info">' +
-            '<span class="meditation-track-name">呼吸观照</span>' +
-            '<span class="meditation-track-dur">5:14</span>' +
+            '<span class="meditation-track-name">呼吸观照 · 觉察呼吸</span>' +
+            '<span class="meditation-track-dur">9:44</span>' +
           '</div>' +
-          '<audio controls preload="none" style="width:100%;height:32px;margin-top:4px;">' +
-            '<source src="'+baseUrl+'meditation_5min.mp3" type="audio/mpeg">' +
+          '<audio id="med-audio-1" controls preload="none" style="width:100%;height:32px;margin-top:4px;">' +
+            '<source src="'+baseUrl+'meditation_breathing.mp3" type="audio/mpeg">' +
           '</audio>' +
+          '<div style="margin-top:4px;">' +
+            '<label style="display:inline-flex;align-items:center;gap:4px;cursor:pointer;font-size:11px;color:#6366f1;padding:2px 6px;border:1px solid #6366f1;border-radius:6px;">' +
+              '<input type="file" accept="audio/*" style="display:none;" onchange="loadLocalMeditation(this,1)">' +
+              '本地文件</label>' +
+          '</div>' +
         '</div>' +
         '<div class="meditation-track" style="margin-top:10px;">' +
           '<div class="meditation-track-info">' +
-            '<span class="meditation-track-name">身体扫描</span>' +
-            '<span class="meditation-track-dur">25:05</span>' +
+            '<span class="meditation-track-name">身体扫描 · 睡前放松</span>' +
+            '<span class="meditation-track-dur">19:50</span>' +
           '</div>' +
-          '<audio controls preload="none" style="width:100%;height:32px;margin-top:4px;">' +
-            '<source src="'+baseUrl+'meditation_25min.mp3" type="audio/mpeg">' +
+          '<audio id="med-audio-2" controls preload="none" style="width:100%;height:32px;margin-top:4px;">' +
+            '<source src="'+baseUrl+'meditation_body_scan.mp3" type="audio/mpeg">' +
           '</audio>' +
+          '<div style="margin-top:4px;">' +
+            '<label style="display:inline-flex;align-items:center;gap:4px;cursor:pointer;font-size:11px;color:#6366f1;padding:2px 6px;border:1px solid #6366f1;border-radius:6px;">' +
+              '<input type="file" accept="audio/*" style="display:none;" onchange="loadLocalMeditation(this,2)">' +
+              '本地文件</label>' +
+          '</div>' +
         '</div>' +
         '<div class="meditation-track" style="margin-top:10px;">' +
           '<div class="meditation-track-info">' +
-            '<span class="meditation-track-name">慈心冥想</span>' +
-            '<span class="meditation-track-dur">28:04</span>' +
+            '<span class="meditation-track-name">慈心冥想 · 给予善意</span>' +
+            '<span class="meditation-track-dur">9:59</span>' +
           '</div>' +
-          '<audio controls preload="none" style="width:100%;height:32px;margin-top:4px;">' +
-            '<source src="'+baseUrl+'meditation_28min.mp3" type="audio/mpeg">' +
+          '<audio id="med-audio-3" controls preload="none" style="width:100%;height:32px;margin-top:4px;">' +
+            '<source src="'+baseUrl+'meditation_loving_kindness.mp3" type="audio/mpeg">' +
           '</audio>' +
+          '<div style="margin-top:4px;">' +
+            '<label style="display:inline-flex;align-items:center;gap:4px;cursor:pointer;font-size:11px;color:#6366f1;padding:2px 6px;border:1px solid #6366f1;border-radius:6px;">' +
+              '<input type="file" accept="audio/*" style="display:none;" onchange="loadLocalMeditation(this,3)">' +
+              '本地文件</label>' +
+          '</div>' +
         '</div>' +
       '</div>' +
-      '<div style="font-size:11px;color:#999;margin-top:6px;">音频来源：Insight Meditation Center (AudioDharma.org)，Creative Commons 授权</div>' +
+      '<div style="font-size:11px;color:#999;margin-top:6px;">音频来源：B站冥想引导 · 安大雄/FLOW冥想 · 点击"本地文件"可加载离线音频避免卡顿</div>' +
     '</div>';
   }
 
@@ -2109,6 +2124,17 @@ function createDailyCard(item, colType) {
 function onVideoEnd(itemId) {
   var statusEl = document.getElementById('video-status-'+itemId);
   if(statusEl) statusEl.innerHTML = '<span style="color:#22c55e;font-weight:600;">✓ 音频播放完成，请确认完成此任务</span>';
+}
+
+// 冥想音频本地文件加载
+function loadLocalMeditation(input, trackNum) {
+  var file = input.files && input.files[0];
+  if (!file) return;
+  var audio = document.getElementById('med-audio-' + trackNum);
+  if (!audio) return;
+  var url = URL.createObjectURL(file);
+  audio.src = url;
+  audio.load();
 }
 
 // 本地文件加载：用户选择本地音频/视频文件，直接用blob URL播放，避免网络卡顿
