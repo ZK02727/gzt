@@ -1292,11 +1292,15 @@ function renderCountdowns(area) {
       var workdayNoteHtml = h.workday
         ? '<div style="font-size:11px;color:#f59e0b;margin-top:4px;">⚠️ ' + h.workday + '</div>'
         : '';
+      var noteHtml = h.note
+        ? '<div style="font-size:11px;color:var(--text-muted);margin-top:3px;">' + h.note + '</div>'
+        : '';
 
       card.innerHTML =
         '<div class="countdown-icon">' + h.icon + '</div>' +
         '<div class="countdown-title">' + h.name + (h.tag ? ' <span style="font-size:10px;padding:2px 6px;border-radius:8px;background:rgba(99,102,241,0.1);color:#6366f1;font-weight:600;">' + h.tag + '</span>' : '') + '</div>' +
         '<div class="countdown-date">' + dateStr + '</div>' +
+        noteHtml +
         '<div>' + numberHtml + '</div>' +
         holidayInfoHtml + workdayNoteHtml;
       holGrid.appendChild(card);
@@ -1339,22 +1343,33 @@ function renderCountdowns(area) {
 /* 近期国内外节日数据（含2026年国务院放假安排） */
 function getUpcomingHolidays() {
   return [
-    // 国内法定节假日
-    { name:'中秋节', date:'2026-09-25', icon:'🥮', tag:'法定假日', holiday:'9月25日(周五)~27日(周日) 放假3天', workday:'' },
-    { name:'国庆节', date:'2026-10-01', icon:'🇨🇳', tag:'法定假日', holiday:'10月1日(周四)~7日(周三) 放假7天', workday:'' },
-    { name:'重阳节', date:'2026-10-19', icon:'🌳', tag:'传统节日', holiday:'', workday:'' },
+    // ===== 2026年下半年 =====
+    { name:'七夕节', date:'2026-08-19', icon:'🪐', tag:'传统节日', holiday:'', workday:'', note:'农历七月初七 · 中国情人节' },
+    { name:'中元节', date:'2026-08-27', icon:'🕯️', tag:'传统节日', holiday:'', workday:'', note:'农历七月十五 · 祭祖' },
+    { name:'教师节', date:'2026-09-10', icon:'🍎', tag:'节日', holiday:'', workday:'', note:'感念师恩' },
+    { name:'中秋节', date:'2026-09-25', icon:'🥮', tag:'法定假日', holiday:'9月25日(周五)~27日(周日) 放假3天', workday:'', note:'农历八月十五 · 团圆' },
+    { name:'国庆节', date:'2026-10-01', icon:'🇨🇳', tag:'法定假日', holiday:'10月1日(周四)~7日(周三) 放假7天', workday:'9月20日(周日)、10月10日(周六)上班', note:'国庆黄金周' },
+    { name:'重阳节', date:'2026-10-18', icon:'🌳', tag:'传统节日', holiday:'', workday:'', note:'农历九月初九 · 敬老登高' },
     { name:'万圣节', date:'2026-10-31', icon:'🎃', tag:'国际节日', holiday:'', workday:'' },
     { name:'感恩节', date:'2026-11-26', icon:'🦃', tag:'国际节日', holiday:'', workday:'' },
     { name:'冬至', date:'2026-12-22', icon:'❄️', tag:'节气', holiday:'', workday:'' },
     { name:'平安夜', date:'2026-12-24', icon:'🔔', tag:'国际节日', holiday:'', workday:'' },
     { name:'圣诞节', date:'2026-12-25', icon:'🎄', tag:'国际节日', holiday:'', workday:'' },
-    { name:'元旦', date:'2027-01-01', icon:'🎊', tag:'法定假日', holiday:'1月1日~3日 放假3天', workday:'1月4日(周日)上班' },
-    { name:'春节', date:'2027-02-07', icon:'🧧', tag:'法定假日', holiday:'2月7日(除夕)~15日 放假9天', workday:'2月6日(周六)、2月20日(周六)上班' },
+    // ===== 2027年上半年 =====
+    { name:'元旦', date:'2027-01-01', icon:'🎊', tag:'法定假日', holiday:'1月1日(周五)~3日(周日) 放假3天', workday:'' },
+    { name:'腊八节', date:'2027-01-15', icon:'🥣', tag:'传统节日', holiday:'', workday:'', note:'农历腊月初八 · 喝腊八粥' },
+    { name:'小年', date:'2027-01-30', icon:'🧹', tag:'传统节日', holiday:'', workday:'', note:'农历腊月廿三 · 祭灶扫尘' },
+    { name:'除夕', date:'2027-02-05', icon:'🧨', tag:'传统节日', holiday:'', workday:'', note:'农历腊月廿九 · 守岁年夜饭' },
+    { name:'春节', date:'2027-02-06', icon:'🧧', tag:'法定假日', holiday:'2月5日(除夕)~12日 放假8天(预估)', workday:'2月13日(周六)上班(预估)', note:'农历正月初一 · 丁未羊年' },
     { name:'情人节', date:'2027-02-14', icon:'🌹', tag:'国际节日', holiday:'', workday:'' },
-    { name:'清明节', date:'2027-04-05', icon:'🌿', tag:'法定假日', holiday:'4月3日~5日 放假3天', workday:'' },
-    { name:'劳动节', date:'2027-05-01', icon:'👷', tag:'法定假日', holiday:'5月1日~5日 放假5天', workday:'' },
+    { name:'元宵节', date:'2027-02-20', icon:'🏮', tag:'传统节日', holiday:'', workday:'', note:'农历正月十五 · 赏花灯吃汤圆' },
+    { name:'龙抬头', date:'2027-03-09', icon:'🐉', tag:'传统节日', holiday:'', workday:'', note:'农历二月初二 · 春耕节' },
+    { name:'妇女节', date:'2027-03-08', icon:'💐', tag:'节日', holiday:'', workday:'' },
+    { name:'清明节', date:'2027-04-05', icon:'🌿', tag:'法定假日', holiday:'4月3日(周六)~5日(周一) 放假3天', workday:'' },
+    { name:'劳动节', date:'2027-05-01', icon:'👷', tag:'法定假日', holiday:'5月1日(周六)~5日(周三) 放假5天', workday:'5月8日(周六)上班(预估)' },
     { name:'母亲节', date:'2027-05-09', icon:'👩', tag:'国际节日', holiday:'', workday:'' },
-    { name:'端午节', date:'2027-05-31', icon:'🐉', tag:'法定假日', holiday:'5月30日(周日)~6月1日(周二) 放假3天', workday:'' },
+    { name:'端午节', date:'2027-05-31', icon:'🐉', tag:'法定假日', holiday:'5月30日(周日)~6月1日(周二) 放假3天', workday:'', note:'农历五月初五 · 赛龙舟' },
+    { name:'儿童节', date:'2027-06-01', icon:'🎈', tag:'节日', holiday:'' },
     { name:'父亲节', date:'2027-06-20', icon:'👨', tag:'国际节日', holiday:'', workday:'' },
   ];
 }
