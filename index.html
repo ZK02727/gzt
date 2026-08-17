@@ -1255,24 +1255,73 @@ function renderCountdowns(area) {
   if (!appData.countdowns) appData.countdowns = [];
   area.innerHTML = '';
 
-  // 添加按钮
-  var header = document.createElement('div');
-  header.style.cssText = 'display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;';
-  header.innerHTML = '<div style="font-size:13px;color:#888;">共 <b>' + appData.countdowns.length + '</b> 个</div><button class="note-add-btn" onclick="openCountdownModal()">+ 添加纪念日</button>';
-  area.appendChild(header);
+  // ===== 近期节日倒计时 =====
+  var holidays = getUpcomingHolidays();
+  if (holidays.length > 0) {
+    var holHeader = document.createElement('div');
+    holHeader.style.cssText = 'display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;';
+    holHeader.innerHTML = '<div style="font-size:15px;font-weight:700;color:var(--text-primary);">📅 近期节日 & 放假安排</div><div style="font-size:12px;color:var(--text-muted);">数据来源：国务院办公厅2026年通知</div>';
+    area.appendChild(holHeader);
+
+    var holGrid = document.createElement('div');
+    holGrid.className = 'countdown-grid fade-in';
+    var now = new Date();
+    now.setHours(0, 0, 0, 0);
+
+    for (var hi = 0; hi < holidays.length; hi++) {
+      var h = holidays[hi];
+      var days = Math.round((new Date(h.date + 'T00:00:00') - now) / (1000 * 60 * 60 * 24));
+      if (days < 0) continue; // 跳过已过去的
+      var card = document.createElement('div');
+      card.className = 'countdown-card fade-in';
+      if (days === 0) card.classList.add('urgent');
+      else if (days <= 14) card.classList.add('soon');
+      else card.classList.add('normal');
+
+      var dateObj = new Date(h.date + 'T00:00:00');
+      var dateStr = dateObj.toLocaleDateString('zh-CN', {month:'long',day:'numeric',weekday:'short'});
+
+      var numberHtml = days === 0
+        ? '<span class="countdown-number" style="font-size:24px;">就是今天</span>'
+        : '<span class="countdown-number">' + days + '</span><span class="countdown-unit">天后</span>';
+
+      // 放假信息
+      var holidayInfoHtml = h.holiday
+        ? '<div style="font-size:12px;color:#22c55e;font-weight:600;margin-top:8px;padding:3px 8px;background:rgba(34,197,94,0.08);border-radius:6px;display:inline-block;">🏖️ ' + h.holiday + '</div>'
+        : '';
+      var workdayNoteHtml = h.workday
+        ? '<div style="font-size:11px;color:#f59e0b;margin-top:4px;">⚠️ ' + h.workday + '</div>'
+        : '';
+
+      card.innerHTML =
+        '<div class="countdown-icon">' + h.icon + '</div>' +
+        '<div class="countdown-title">' + h.name + (h.tag ? ' <span style="font-size:10px;padding:2px 6px;border-radius:8px;background:rgba(99,102,241,0.1);color:#6366f1;font-weight:600;">' + h.tag + '</span>' : '') + '</div>' +
+        '<div class="countdown-date">' + dateStr + '</div>' +
+        '<div>' + numberHtml + '</div>' +
+        holidayInfoHtml + workdayNoteHtml;
+      holGrid.appendChild(card);
+    }
+    area.appendChild(holGrid);
+  }
+
+  // ===== 个人纪念日 =====
+  var divider = document.createElement('div');
+  divider.style.cssText = 'margin:24px 0 12px;display:flex;align-items:center;gap:10px;';
+  divider.innerHTML = '<div style="font-size:15px;font-weight:700;color:var(--text-primary);">💝 我的纪念日</div><div style="flex:1;height:1px;background:var(--glass-border);"></div><button class="note-add-btn" onclick="openCountdownModal()">+ 添加</button>';
+  area.appendChild(divider);
 
   if (!appData.countdowns.length) {
     area.innerHTML += '<div class="countdown-empty"><div class="countdown-empty-icon">💝</div><p>还没有纪念日</p><p style="font-size:12px;color:#bbb;margin-top:4px;">添加生日、恋爱纪念日、孩子出生日等重要日期</p></div>';
     return;
   }
 
-  var now = new Date();
-  now.setHours(0, 0, 0, 0);
+  var now2 = new Date();
+  now2.setHours(0, 0, 0, 0);
 
   // 排序：将来的排前面（按天数升序），过去的排后面（按天数降序）
   var sorted = appData.countdowns.slice().sort(function(a, b) {
-    var aInfo = calcAnniversary(a, now);
-    var bInfo = calcAnniversary(b, now);
+    var aInfo = calcAnniversary(a, now2);
+    var bInfo = calcAnniversary(b, now2);
     if (aInfo.isFuture && !bInfo.isFuture) return -1;
     if (!aInfo.isFuture && bInfo.isFuture) return 1;
     if (aInfo.isFuture) return aInfo.displayDays - bInfo.displayDays;
@@ -1282,9 +1331,32 @@ function renderCountdowns(area) {
   var grid = document.createElement('div');
   grid.className = 'countdown-grid fade-in';
   for (var i = 0; i < sorted.length; i++) {
-    grid.appendChild(createCountdownCard(sorted[i], now));
+    grid.appendChild(createCountdownCard(sorted[i], now2));
   }
   area.appendChild(grid);
+}
+
+/* 近期国内外节日数据（含2026年国务院放假安排） */
+function getUpcomingHolidays() {
+  return [
+    // 国内法定节假日
+    { name:'中秋节', date:'2026-09-25', icon:'🥮', tag:'法定假日', holiday:'9月25日(周五)~27日(周日) 放假3天', workday:'' },
+    { name:'国庆节', date:'2026-10-01', icon:'🇨🇳', tag:'法定假日', holiday:'10月1日(周四)~7日(周三) 放假7天', workday:'' },
+    { name:'重阳节', date:'2026-10-19', icon:'🌳', tag:'传统节日', holiday:'', workday:'' },
+    { name:'万圣节', date:'2026-10-31', icon:'🎃', tag:'国际节日', holiday:'', workday:'' },
+    { name:'感恩节', date:'2026-11-26', icon:'🦃', tag:'国际节日', holiday:'', workday:'' },
+    { name:'冬至', date:'2026-12-22', icon:'❄️', tag:'节气', holiday:'', workday:'' },
+    { name:'平安夜', date:'2026-12-24', icon:'🔔', tag:'国际节日', holiday:'', workday:'' },
+    { name:'圣诞节', date:'2026-12-25', icon:'🎄', tag:'国际节日', holiday:'', workday:'' },
+    { name:'元旦', date:'2027-01-01', icon:'🎊', tag:'法定假日', holiday:'1月1日~3日 放假3天', workday:'1月4日(周日)上班' },
+    { name:'春节', date:'2027-02-07', icon:'🧧', tag:'法定假日', holiday:'2月7日(除夕)~15日 放假9天', workday:'2月6日(周六)、2月20日(周六)上班' },
+    { name:'情人节', date:'2027-02-14', icon:'🌹', tag:'国际节日', holiday:'', workday:'' },
+    { name:'清明节', date:'2027-04-05', icon:'🌿', tag:'法定假日', holiday:'4月3日~5日 放假3天', workday:'' },
+    { name:'劳动节', date:'2027-05-01', icon:'👷', tag:'法定假日', holiday:'5月1日~5日 放假5天', workday:'' },
+    { name:'母亲节', date:'2027-05-09', icon:'👩', tag:'国际节日', holiday:'', workday:'' },
+    { name:'端午节', date:'2027-05-31', icon:'🐉', tag:'法定假日', holiday:'5月30日(周日)~6月1日(周二) 放假3天', workday:'' },
+    { name:'父亲节', date:'2027-06-20', icon:'👨', tag:'国际节日', holiday:'', workday:'' },
+  ];
 }
 
 /* 计算纪念日的显示信息 */
@@ -1797,7 +1869,8 @@ function updateBadges() {
   setBadge('badge-booknotes', (appData.bookNotes||[]).length);
   setBadge('badge-movienotes', (appData.movieNotes||[]).length);
   setBadge('badge-memos', (appData.memos||[]).length);
-  setBadge('badge-countdown', (appData.countdowns||[]).length);
+  // 纪念日不显示数量徽标
+  document.getElementById('badge-countdown').style.display = 'none';
   setBadge('badge-journal', Object.keys(appData.journal||{}).filter(function(k){var e=appData.journal[k];return e&&(e.content||e.mood);}).length);
 }
 
@@ -1831,7 +1904,7 @@ function renderStats() {
   } else if(currentTab === 'memos'){
     el.innerHTML = '<span>便签 <span>'+(appData.memos||[]).length+'</span></span>';
   } else if(currentTab === 'countdown'){
-    el.innerHTML = '<span>纪念日 <span>'+(appData.countdowns||[]).length+'</span></span>';
+    el.innerHTML = '<span>纪念日 <span>'+(appData.countdowns||[]).length+'</span> · 节日倒计时</span>';
   } else if(currentTab === 'journal'){
     var jCount = Object.keys(appData.journal||{}).filter(function(k){var e=appData.journal[k];return e&&(e.content||e.mood);}).length;
     el.innerHTML = '<span>心语记录 <span>'+jCount+'</span> 天</span>';
