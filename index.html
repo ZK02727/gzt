@@ -613,7 +613,8 @@ var cloudSyncing = false;
 var lastCloudSync = null;
 
 function getGitHubToken() {
-  return localStorage.getItem(LS_TOKEN_KEY) || '';
+  // 兼容旧key：早期版本用 github_token，新版用 workbench_github_token
+  return localStorage.getItem(LS_TOKEN_KEY) || localStorage.getItem('github_token') || '';
 }
 
 function setGitHubToken(token) {
@@ -1675,22 +1676,18 @@ function initCloudSync() {
   var localTime = appData._lastModified || localStorage.getItem('workbench_save_time') || '';
 
   if (!token) {
-    // 没有Token：仅当本地没有有效数据时才从Gist拉取；绝不推送（没Token也推不了）
-    var hasRealData = localTime || (appData.daily && appData.daily.some(function(d){ return d.completed; }));
-    if (!hasRealData) {
-      updateSyncStatus('cloud-loading');
-      loadFromGist(function(cloudData, err) {
-        if (cloudData && cloudData.daily && cloudData.daily.length > 0) {
-          appData = cloudData;
-          localStorage.setItem(LS_CACHE_KEY, JSON.stringify(appData));
-          renderContent();
-          renderCalendar();
-        }
-        updateSyncStatus('cloud-no-token');
-      });
-    } else {
+    // 没有Token：仍从Gist拉取云端数据（Gist公开可读），用智能合并保留本地数据
+    // 拉取后不推送（没Token推不了），避免本地旧缓存掩盖AI每日更新的打新/知乎内容
+    updateSyncStatus('cloud-loading');
+    loadFromGist(function(cloudData, err) {
+      if (cloudData && cloudData.daily && cloudData.daily.length > 0) {
+        appData = mergeData(appData, cloudData);
+        localStorage.setItem(LS_CACHE_KEY, JSON.stringify(appData));
+        renderContent();
+        renderCalendar();
+      }
       updateSyncStatus('cloud-no-token');
-    }
+    });
     return;
   }
 
