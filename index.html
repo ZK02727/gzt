@@ -331,11 +331,12 @@ body { font-family:"Segoe UI","微软雅黑","Microsoft YaHei",system-ui,sans-se
 .memo-color-picker { display:flex; gap:4px; flex-shrink:0; }
 .memo-color-dot { width:24px; height:24px; border-radius:50%; cursor:pointer; border:2px solid transparent; transition:var(--transition); }
 .memo-color-dot.active { border-color:var(--accent); transform:scale(1.15); }
-.memo-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:12px; }
-.memo-card { border-radius:var(--radius-sm); padding:14px 16px; box-shadow:0 2px 8px rgba(0,0,0,0.06); transition:var(--transition); position:relative; min-height:100px; display:flex; flex-direction:column; }
+/* 便签采用瀑布流布局：每张便签随内容多少自动调整高度，形成错落有致的便签墙 */
+.memo-grid { columns: 4 220px; column-gap: 12px; }
+.memo-card { border-radius:var(--radius-sm); padding:14px 16px; box-shadow:0 2px 8px rgba(0,0,0,0.06); transition:var(--transition); position:relative; display:inline-block; width:100%; margin-bottom:12px; break-inside:avoid; }
 .memo-card:hover { box-shadow:0 4px 16px rgba(0,0,0,0.12); transform:translateY(-2px); }
 .memo-card.pinned { box-shadow:0 4px 14px rgba(99,102,241,0.2); }
-.memo-card-content { font-size:14px; line-height:1.6; color:var(--text-primary); white-space:pre-wrap; word-break:break-word; flex:1; outline:none; }
+.memo-card-content { font-size:14px; line-height:1.6; color:var(--text-primary); white-space:pre-wrap; word-break:break-word; outline:none; }
 .memo-card-content:focus { background:rgba(255,255,255,0.5); border-radius:6px; padding:2px 4px; margin:-2px -4px; }
 .memo-card-footer { display:flex; align-items:center; justify-content:space-between; margin-top:8px; font-size:11px; color:rgba(0,0,0,0.4); }
 .memo-card-actions { display:flex; gap:2px; opacity:0; transition:opacity .2s; }
